@@ -28,7 +28,7 @@ class Launcher {
 
             System.out.println("Launching a whole in-process platform..." + pMain);
             mc = rt.createMainContainer(pMain);
-            
+
             AgentController receiverAgent = mc.createNewAgent("Waiter", ReceiverAgent.class.getName(), new Object[]{});
             receiverAgent.start();
 

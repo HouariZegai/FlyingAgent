@@ -62,4 +62,5 @@ public class GetAvailableLocationsBehaviour extends SimpleAchieveREInitiator {
             e.printStackTrace();
         }
     }
+
 }
