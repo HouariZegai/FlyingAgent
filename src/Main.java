@@ -8,7 +8,7 @@ import java.util.*;
 
 public class Main {
 
-    public static void mainOne(String[] args) {
+    public static void main(String[] args) {
 
         InetAddress ip;
         try {
@@ -75,29 +75,12 @@ public class Main {
                 System.out.println("Total space (bytes): " + root.getTotalSpace());
                 System.out.println("Is drive: " + fsv.isDrive(root));
                 System.out.println("Is floppy: " + fsv.isFloppyDrive(root));
+                System.out.println("Is file: " + fsv.isFileSystem(root));
+                System.out.println("Is file: " + fsv.isFileSystemRoot(root));
                 System.out.println("Free space (bytes): " + root.getFreeSpace());
                 System.out.println("Usable space (bytes): " + root.getUsableSpace());
             }
 
-
-            Runtime runtime = Runtime.getRuntime();
-            Process process = runtime.exec("systeminfo");
-            BufferedReader systemInformationReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-
-            while ((line = systemInformationReader.readLine()) != null) {
-                stringBuilder.append(line);
-                stringBuilder.append(System.lineSeparator());
-            }
-
-            System.out.println("Fina One : " + stringBuilder.toString().trim());
-
-
-        } catch (UnknownHostException | SocketException e) {
-
-            e.printStackTrace();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -106,7 +89,7 @@ public class Main {
 
     }
 
-    public static void main(String args[]) throws SocketException {
+    public static void mainTwo(String args[]) throws SocketException {
         Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
         for (NetworkInterface netint : Collections.list(nets)) {
             displayInterfaceInformation(netint);
