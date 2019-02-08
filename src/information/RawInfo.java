@@ -28,10 +28,6 @@ public class RawInfo {
         return rawString;
     }
 
-    public void setRawString(String rawString) {
-        this.rawString = rawString;
-    }
-
     @Override
     public String toString() {
         return rawString;

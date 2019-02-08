@@ -1,16 +1,19 @@
 package information;
 
-public class CpuInfo {
+import com.google.gson.Gson;
+
+public class CPUInformation extends Information {
 
     private String processorId;
     private String processorArchitecture;
     private String numberCores;
 
-    public CpuInfo() {
+    public CPUInformation() {
         processorId = System.getenv("PROCESSOR_IDENTIFIER");
         processorArchitecture = System.getenv("PROCESSOR_ARCHITECTURE");
         numberCores = System.getenv("NUMBER_OF_PROCESSORS");
     }
+
 
     public String getProcessorId() {
         return processorId;
@@ -26,7 +29,7 @@ public class CpuInfo {
 
     @Override
     public String toString() {
-        return "CpuInfo{" +
+        return "CPUInformation{" +
                 "processorId='" + processorId + '\'' +
                 ", processorArchitecture='" + processorArchitecture + '\'' +
                 ", numberCores='" + numberCores + '\'' +

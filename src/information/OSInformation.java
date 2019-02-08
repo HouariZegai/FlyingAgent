@@ -1,6 +1,6 @@
 package information;
 
-public class OperatingSystemInfo {
+public class OSInformation extends Information {
 
     private String osName;
     private String osVersion;
@@ -8,7 +8,7 @@ public class OperatingSystemInfo {
     private String userName;
     private String computerName;
 
-    public OperatingSystemInfo() {
+    public OSInformation() {
         osName = System.getProperty("os.name");
         osVersion = System.getProperty("os.version");
         osArchitecture = System.getProperty("os.arch");
@@ -18,7 +18,7 @@ public class OperatingSystemInfo {
 
     @Override
     public String toString() {
-        return "OperatingSystemInfo{" +
+        return "OSInformation{" +
                 "osName='" + osName + '\'' +
                 ", osVersion='" + osVersion + '\'' +
                 ", osArchitecture='" + osArchitecture + '\'' +

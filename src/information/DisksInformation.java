@@ -4,11 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisksInfo {
+public class DisksInformation extends Information {
 
     private List<Disk> disks;
 
-    public DisksInfo() {
+    public DisksInformation() {
         disks = new ArrayList<>();
 
         File[] roots = File.listRoots();
@@ -30,7 +30,7 @@ public class DisksInfo {
 
     @Override
     public String toString() {
-        return "DisksInfo{" +
+        return "DisksInformation{" +
                 "disks=" + disks +
                 '}';
     }

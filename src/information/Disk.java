@@ -1,6 +1,6 @@
 package information;
 
-public class Disk {
+public class Disk extends Information {
 
     private String name;
     private long totalSpace, freeSpace, usableSpace;

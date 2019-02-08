@@ -4,11 +4,11 @@ import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
 
-public class MemoryInfo {
+public class MemoryInformation extends Information {
 
     private long freePhysicalMemory, physicalMemorySize, inUseMemorySize;
 
-    public MemoryInfo() {
+    public MemoryInformation() {
         OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         physicalMemorySize = os.getTotalPhysicalMemorySize();
         freePhysicalMemory = os.getFreePhysicalMemorySize();
@@ -29,7 +29,7 @@ public class MemoryInfo {
 
     @Override
     public String toString() {
-        return "MemoryInfo{" +
+        return "MemoryInformation{" +
                 "freePhysicalMemory=" + freePhysicalMemory +
                 ", physicalMemorySize=" + physicalMemorySize +
                 ", inUseMemorySize=" + inUseMemorySize +
