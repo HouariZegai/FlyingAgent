@@ -8,7 +8,7 @@ public class CPUInformation extends Information {
     private String processorArchitecture;
     private String numberCores;
 
-    public CPUInformation() {
+    CPUInformation() {
         processorId = System.getenv("PROCESSOR_IDENTIFIER");
         processorArchitecture = System.getenv("PROCESSOR_ARCHITECTURE");
         numberCores = System.getenv("NUMBER_OF_PROCESSORS");

@@ -8,7 +8,7 @@ public class MemoryInformation extends Information {
 
     private long freePhysicalMemory, physicalMemorySize, inUseMemorySize;
 
-    public MemoryInformation() {
+    MemoryInformation() {
         OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
         physicalMemorySize = os.getTotalPhysicalMemorySize();
         freePhysicalMemory = os.getFreePhysicalMemorySize();
