@@ -31,4 +31,9 @@ public class RawInfo {
     public void setRawString(String rawString) {
         this.rawString = rawString;
     }
+
+    @Override
+    public String toString() {
+        return rawString;
+    }
 }

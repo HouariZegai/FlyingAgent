@@ -26,4 +26,13 @@ public class MemoryInfo {
     public long getInUseMemorySize() {
         return inUseMemorySize;
     }
+
+    @Override
+    public String toString() {
+        return "MemoryInfo{" +
+                "freePhysicalMemory=" + freePhysicalMemory +
+                ", physicalMemorySize=" + physicalMemorySize +
+                ", inUseMemorySize=" + inUseMemorySize +
+                '}';
+    }
 }

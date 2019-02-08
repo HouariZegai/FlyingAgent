@@ -28,4 +28,10 @@ public class DisksInfo {
         return disks;
     }
 
+    @Override
+    public String toString() {
+        return "DisksInfo{" +
+                "disks=" + disks +
+                '}';
+    }
 }

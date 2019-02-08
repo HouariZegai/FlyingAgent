@@ -35,4 +35,14 @@ public class Disk {
     public long getUsableSpace() {
         return usableSpace;
     }
+
+    @Override
+    public String toString() {
+        return "Disk{" +
+                "name='" + name + '\'' +
+                ", totalSpace=" + humanReadableByteCount(totalSpace, true) +
+                ", freeSpace=" + humanReadableByteCount(freeSpace, true) +
+                ", usableSpace=" + humanReadableByteCount(usableSpace, true) +
+                '}';
+    }
 }
