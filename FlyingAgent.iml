@@ -10,5 +10,6 @@
     <orderEntry type="library" name="jade" level="project" />
     <orderEntry type="library" name="jfoenix-8.0.1" level="project" />
     <orderEntry type="library" name="json-20170516" level="project" />
+    <orderEntry type="library" name="oshi-core-3.13.0" level="project" />
   </component>
 </module>
