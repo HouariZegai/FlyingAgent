@@ -4,26 +4,30 @@ import com.sun.management.OperatingSystemMXBean;
 
 import java.lang.management.ManagementFactory;
 
+import static information.Utils.humanReadableByteCount;
+
 public class MemoryInformation extends Information {
 
-    private long freePhysicalMemory, physicalMemorySize, inUseMemorySize;
+    private String freePhysicalMemory;
+    private String physicalMemorySize;
+    private String inUseMemorySize;
 
     MemoryInformation() {
         OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-        physicalMemorySize = os.getTotalPhysicalMemorySize();
-        freePhysicalMemory = os.getFreePhysicalMemorySize();
-        inUseMemorySize = physicalMemorySize - freePhysicalMemory;
+        physicalMemorySize = humanReadableByteCount(os.getTotalPhysicalMemorySize());
+        freePhysicalMemory = humanReadableByteCount(os.getFreePhysicalMemorySize());
+        inUseMemorySize = humanReadableByteCount(os.getTotalPhysicalMemorySize() - os.getFreePhysicalMemorySize());
     }
 
-    public long getFreePhysicalMemory() {
+    public String getFreePhysicalMemory() {
         return freePhysicalMemory;
     }
 
-    public long getPhysicalMemorySize() {
+    public String getPhysicalMemorySize() {
         return physicalMemorySize;
     }
 
-    public long getInUseMemorySize() {
+    public String getInUseMemorySize() {
         return inUseMemorySize;
     }
 
