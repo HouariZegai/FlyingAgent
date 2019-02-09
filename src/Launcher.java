@@ -1,3 +1,4 @@
+import agents.LocationAgent;
 import agents.MobileAgent;
 import agents.ReceiverAgent;
 import jade.core.Profile;
@@ -33,10 +34,13 @@ class Launcher {
             receiverAgent.start();
 
             AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
-            rma.start();
+            //rma.start();
 
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
+
+            AgentController locationAgent = mc.createNewAgent("Hi", LocationAgent.class.getName(), new Object[]{});
+            locationAgent.start();
 
         } catch (Exception e) {
             e.printStackTrace();
