@@ -8,35 +8,23 @@ import static information.Utils.humanReadableByteCount;
 
 public class MemoryInformation extends Information {
 
-    private String freePhysicalMemory;
-    private String physicalMemorySize;
-    private String inUseMemorySize;
+    private long freePhysicalMemory;
+    private long physicalMemorySize;
+    private long inUseMemorySize;
 
     MemoryInformation() {
         OperatingSystemMXBean os = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-        physicalMemorySize = humanReadableByteCount(os.getTotalPhysicalMemorySize());
-        freePhysicalMemory = humanReadableByteCount(os.getFreePhysicalMemorySize());
-        inUseMemorySize = humanReadableByteCount(os.getTotalPhysicalMemorySize() - os.getFreePhysicalMemorySize());
-    }
-
-    public String getFreePhysicalMemory() {
-        return freePhysicalMemory;
-    }
-
-    public String getPhysicalMemorySize() {
-        return physicalMemorySize;
-    }
-
-    public String getInUseMemorySize() {
-        return inUseMemorySize;
+        physicalMemorySize = (os.getTotalPhysicalMemorySize());
+        freePhysicalMemory = (os.getFreePhysicalMemorySize());
+        inUseMemorySize = (physicalMemorySize - freePhysicalMemory);
     }
 
     @Override
     public String toString() {
         return "MemoryInformation{" +
-                "freePhysicalMemory=" + freePhysicalMemory +
-                ", physicalMemorySize=" + physicalMemorySize +
-                ", inUseMemorySize=" + inUseMemorySize +
+                "freePhysicalMemory=" + humanReadableByteCount(freePhysicalMemory) +
+                ", physicalMemorySize=" + humanReadableByteCount(physicalMemorySize) +
+                ", inUseMemorySize=" + humanReadableByteCount(inUseMemorySize) +
                 '}';
     }
 }
