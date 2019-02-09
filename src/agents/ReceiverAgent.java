@@ -6,6 +6,8 @@ import jade.lang.acl.ACLMessage;
 
 public class ReceiverAgent extends Agent {
 
+    public static final String NAME = "WaiterAgent";
+
     @Override
     protected void setup() {
         addBehaviour(new ReceivingBehavior());

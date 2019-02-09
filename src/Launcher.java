@@ -29,8 +29,11 @@ class Launcher {
             System.out.println("Launching a whole in-process platform..." + pMain);
             mc = rt.createMainContainer(pMain);
 
-            AgentController receiverAgent = mc.createNewAgent("Waiter", ReceiverAgent.class.getName(), new Object[]{});
+            AgentController receiverAgent = mc.createNewAgent(ReceiverAgent.NAME, ReceiverAgent.class.getName(), new Object[]{});
             receiverAgent.start();
+
+            AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
+            rma.start();
 
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
