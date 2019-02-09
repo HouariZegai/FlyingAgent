@@ -1,3 +1,5 @@
+import javafx.application.Application;
+
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -5,8 +7,11 @@ import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 
 import agents.MobileAgent;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Launcher {
+public class Launcher extends Application {
 
     static AgentContainer mc;
     Runtime rt;
@@ -45,5 +50,15 @@ public class Launcher {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle("Flying Agent");
+        stage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

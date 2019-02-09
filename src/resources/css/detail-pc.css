@@ -1,0 +1,57 @@
+* {
+    -fx-font-family: tahoma;
+}
+
+.root {
+    -fx-background-color: #FFF;
+    -fx-pref-width: 900px;
+    -fx-pref-height: 600px;
+}
+
+.title {
+    -fx-font-size: 32px;
+    -fx-text-fill: linear-gradient(from 0 0 to 100px 100px, #00aacf, cyan)
+}
+
+/* Start Cards */
+
+.cards {
+    -fx-padding: 10px 20px 20px 20px;
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 0);
+    -fx-background-radius: 5
+}
+
+.cards-title {
+    -fx-font-size: 20px;
+    -fx-text-fill: #333;
+}
+
+.cards-key {
+    -fx-font-size: 17px;
+
+}
+
+.cards-value {
+    -fx-font-size: 17px;
+
+}
+
+/* End Cards */
+
+/* Start close button */
+
+.btn-close {
+    -fx-background-radius: 15;
+    -fx-text-fill: rgba(0, 0, 0, 0);
+    -fx-background-color: #FF3D22;
+    -fx-pref-width: 23px;
+}
+
+.btn-close:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #EE3D22;
+    -jfx-button-type: RAISED
+}
+
+/* End close button */
