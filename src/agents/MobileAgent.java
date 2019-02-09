@@ -1,20 +1,17 @@
 package agents;
 
 import information.AllInformation;
-import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.Location;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.domain.FIPANames;
-import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
 public class MobileAgent extends Agent {
 
-    private AID stableAgent = new AID(ReceiverAgent.NAME, AID.ISLOCALNAME);
+    private AID stableAgent = new AID(MainAgent.NAME, AID.ISLOCALNAME);
 
     @Override
     protected void setup() {
@@ -36,7 +33,7 @@ public class MobileAgent extends Agent {
 
     public class ServeMovingMessages extends CyclicBehaviour {
 
-        private MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.CFP);
+        private MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.QUERY_IF);
 
         @Override
         public void action() {

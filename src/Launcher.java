@@ -1,6 +1,5 @@
-import agents.LocationAgent;
 import agents.MobileAgent;
-import agents.ReceiverAgent;
+import agents.MainAgent;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -30,7 +29,7 @@ class Launcher {
             System.out.println("Launching a whole in-process platform..." + pMain);
             mc = rt.createMainContainer(pMain);
 
-            AgentController receiverAgent = mc.createNewAgent(ReceiverAgent.NAME, ReceiverAgent.class.getName(), new Object[]{});
+            AgentController receiverAgent = mc.createNewAgent(MainAgent.NAME, MainAgent.class.getName(), new Object[]{});
             receiverAgent.start();
 
             AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
@@ -39,8 +38,6 @@ class Launcher {
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
 
-            AgentController locationAgent = mc.createNewAgent("Hi", LocationAgent.class.getName(), new Object[]{});
-            locationAgent.start();
 
         } catch (Exception e) {
             e.printStackTrace();

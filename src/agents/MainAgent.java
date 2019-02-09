@@ -1,24 +1,20 @@
 package agents;
 
+import behaviours.GetLocationsBehaviour;
+import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.OneShotBehaviour;
-import jade.domain.DFService;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
-import jade.domain.FIPAAgentManagement.ServiceDescription;
-import jade.domain.FIPAException;
+import jade.domain.FIPANames;
+import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
+import jade.util.leap.List;
 
 
-public class ReceiverAgent extends Agent {
+public class MainAgent extends Agent {
 
     public static final String NAME = "WaiterAgent";
     private List locationList;
@@ -27,20 +23,17 @@ public class ReceiverAgent extends Agent {
     @Override
     protected void setup() {
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
+        getContentManager().registerOntology(MobilityOntology.getInstance());
 
-        addBehaviour(new GetLocationsBehavior());
-        addBehaviour(new OneReceiveBehavior());
+        addBehaviour(new GetLocationsBehaviour(this));
+        //addBehaviour(new OneReceiveBehavior());
     }
 
 
     public void updateLocations(List items) {
         System.out.println("from receiver " + (items));
-        ACLMessage message = new ACLMessage(ACLMessage.CFP);
+        /*ACLMessage message = new ACLMessage(ACLMessage.CFP);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
         try {
             message.setContentObject((Serializable) items.get(0));
@@ -48,7 +41,7 @@ public class ReceiverAgent extends Agent {
             e.printStackTrace();
         }
         send(message);
-        this.locationList = items;
+        this.locationList = items;*/
     }
 
     public List getLocationList() {
@@ -73,35 +66,6 @@ public class ReceiverAgent extends Agent {
                 //addBehaviour(new AskMoreBehavior());
             } else {
                 block();
-            }
-        }
-
-        private void handleMessage(String jsonResponse) {
-            System.out.println(jsonResponse);
-        }
-    }
-
-    class GetLocationsBehavior extends OneShotBehaviour {
-
-        @Override
-        public void action() {
-            ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-
-            DFAgentDescription agentDescription = new DFAgentDescription();
-            ServiceDescription serviceDescription = new ServiceDescription();
-            serviceDescription.setType(LocationAgent.TYPE);
-            serviceDescription.setName(LocationAgent.NAME);
-            try {
-                DFAgentDescription[] result = DFService.search(myAgent, agentDescription);
-                if (result.length == 1) {
-                    message.addReceiver(result[0].getName());
-                    send(message);
-                    System.out.println("1. Receiver message sent");
-                } else {
-                    System.out.println("Could not reach Location agent");
-                }
-            } catch (FIPAException e) {
-                e.printStackTrace();
             }
         }
 
