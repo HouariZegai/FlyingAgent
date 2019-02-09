@@ -1,5 +1,6 @@
 package behaviours;
 
+import agents.LocationAgent;
 import agents.ReceiverAgent;
 import jade.content.onto.basic.Action;
 import jade.content.onto.basic.Result;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class GetAvailableLocationsBehaviour extends SimpleAchieveREInitiator {
 
-    public GetAvailableLocationsBehaviour(ReceiverAgent a) {
+    public GetAvailableLocationsBehaviour(LocationAgent a) {
         // call the constructor of FipaRequestInitiatorBehaviour
         super(a, new ACLMessage(ACLMessage.REQUEST));
         ACLMessage request = (ACLMessage) getDataStore().get(REQUEST_KEY);
@@ -57,7 +58,7 @@ public class GetAvailableLocationsBehaviour extends SimpleAchieveREInitiator {
         try {
             Result results = (Result) myAgent.getContentManager().extractContent(inform);
             System.out.println("From behaviour " + results.getItems().toString());
-            ((ReceiverAgent) myAgent).updateLocations((List) results.getItems());
+            ((LocationAgent) myAgent).setLocations(results.getItems());
         } catch (Exception e) {
             e.printStackTrace();
         }
