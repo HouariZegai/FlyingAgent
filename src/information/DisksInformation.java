@@ -8,7 +8,7 @@ public class DisksInformation extends Information {
 
     private List<Disk> disks;
 
-    public DisksInformation() {
+    DisksInformation() {
         disks = new ArrayList<>();
 
         File[] roots = File.listRoots();
@@ -17,8 +17,7 @@ public class DisksInformation extends Information {
             disks.add(
                     new Disk(root.getAbsolutePath(),
                             root.getTotalSpace(),
-                            root.getFreeSpace(),
-                            root.getUsableSpace())
+                            root.getFreeSpace())
             );
         }
 

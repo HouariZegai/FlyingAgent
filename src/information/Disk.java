@@ -1,48 +1,45 @@
 package information;
 
+import static information.Utils.humanReadableByteCount;
+
 public class Disk extends Information {
 
     private String name;
-    private long totalSpace, freeSpace, usableSpace;
+    private String totalSpace;
+    private String freeSpace;
+    private String usableSpace;
 
-    Disk(String name, long totalSpace, long freeSpace, long usableSpace) {
+    Disk(String name, long totalSpace, long freeSpace) {
         this.name = name;
-        this.totalSpace = totalSpace;
-        this.freeSpace = freeSpace;
-        this.usableSpace = usableSpace;
+        this.totalSpace = humanReadableByteCount(totalSpace);
+        this.freeSpace = humanReadableByteCount(freeSpace);
+        this.usableSpace = humanReadableByteCount(totalSpace - freeSpace);
     }
 
-    public static String humanReadableByteCount(long bytes, boolean si) {
-        int unit = si ? 1000 : 1024;
-        if (bytes < unit) return bytes + " B";
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
-        return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    public String getTotalSpace() {
+        return totalSpace;
+    }
+
+    public String getFreeSpace() {
+        return freeSpace;
+    }
+
+    public String getUsableSpace() {
+        return usableSpace;
     }
 
     public String getName() {
         return name;
     }
 
-    public long getTotalSpace() {
-        return totalSpace;
-    }
-
-    public long getFreeSpace() {
-        return freeSpace;
-    }
-
-    public long getUsableSpace() {
-        return usableSpace;
-    }
 
     @Override
     public String toString() {
         return "Disk{" +
                 "name='" + name + '\'' +
-                ", totalSpace=" + humanReadableByteCount(totalSpace, true) +
-                ", freeSpace=" + humanReadableByteCount(freeSpace, true) +
-                ", usableSpace=" + humanReadableByteCount(usableSpace, true) +
+                ", totalSpace=" + (totalSpace) +
+                ", freeSpace=" + (freeSpace) +
+                ", usableSpace=" + (usableSpace) +
                 '}';
     }
 }
