@@ -1,14 +1,18 @@
-import agents.MobileAgent;
 import agents.MainAgent;
+import agents.MobileAgent;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
+import jade.gui.GuiAgent;
+import jade.gui.GuiEvent;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 
+import java.util.Scanner;
+
 class Launcher {
 
-    private static final String MAIN_CONTAINER_HOST_IP = "192.168.72.51";
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.137.188";
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;
@@ -43,4 +47,6 @@ class Launcher {
             e.printStackTrace();
         }
     }
+
+
 }
