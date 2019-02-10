@@ -15,6 +15,7 @@ public class MobileAgent extends Agent {
 
     @Override
     protected void setup() {
+
         addBehaviour(new ServeMovingMessages());
     }
 
@@ -26,10 +27,13 @@ public class MobileAgent extends Agent {
     @Override
     protected void afterMove() {
         ACLMessage message = new ACLMessage(ACLMessage.INFORM);
+        System.out.println(AllInformation.getInstance().toJson());
         message.setContent(AllInformation.getInstance().toJson());
         message.addReceiver(stableAgent);
         send(message);
+        System.out.println("Message Snet");
     }
+
 
     public class ServeMovingMessages extends CyclicBehaviour {
 
@@ -42,6 +46,7 @@ public class MobileAgent extends Agent {
                 try {
                     Location location = (Location) message.getContentObject();
                     System.out.println(location.toString());
+                    doMove(location);
                 } catch (UnreadableException e) {
                     e.printStackTrace();
                 }

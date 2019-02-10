@@ -8,7 +8,7 @@ import jade.wrapper.AgentController;
 
 class Launcher {
 
-    private static final String MAIN_CONTAINER_HOST_IP = "192.168.1.34";
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.72.51";
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;
