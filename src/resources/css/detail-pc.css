@@ -10,7 +10,7 @@
 
 .title {
     -fx-font-size: 32px;
-    -fx-text-fill: linear-gradient(from 0 0 to 100px 100px, #00aacf, cyan)
+    -fx-text-fill: linear-gradient(from 0 0 to 100px 100px, #6bbc76, #02C852)
 }
 
 /* Start Cards */
@@ -18,23 +18,23 @@
 .cards {
     -fx-padding: 10px 20px 20px 20px;
     -fx-background-color: #FFF;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 6, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 6, 0, 0, 0);
     -fx-background-radius: 5
 }
 
 .cards-title {
     -fx-font-size: 20px;
-    -fx-text-fill: #333;
+    -fx-text-fill: #6bbc76;
 }
 
 .cards-key {
     -fx-font-size: 17px;
-
+    -fx-text-fill: #65617d;
 }
 
 .cards-value {
     -fx-font-size: 17px;
-
+    -fx-text-fill: #333;
 }
 
 /* End Cards */
@@ -55,3 +55,13 @@
 }
 
 /* End close button */
+
+/* ScrollPane */
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}

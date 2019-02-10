@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="TOP_CENTER" styleClass="cards" stylesheets="@../../css/models/disk-info.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <PieChart fx:id="pieData" labelsVisible="false" legendSide="BOTTOM" prefHeight="230.0" prefWidth="250.0" />
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label styleClass="cards-key" text="Total space:" />
+            <Label fx:id="lblTotalSpace" styleClass="cards-value" text="00GB" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

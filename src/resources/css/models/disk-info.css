@@ -1,0 +1,41 @@
+* {
+    -fx-font-family: Tahoma;
+}
+
+.cards {
+    -fx-padding: 5px 0px 5px 0px;
+    -fx-background-color: #FFF;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 6, 0, 0, 0);
+    -fx-background-radius: 5
+}
+
+.cards-title {
+    -fx-font-size: 20px;
+    -fx-text-fill: #6bbc76;
+}
+
+.cards-title-desc {
+    -fx-text-fill: #65617d;
+    -fx-font-size: 20px;
+}
+
+.cards-key {
+    -fx-text-fill: #65617d;
+    -fx-font-size: 17px;
+}
+
+.cards-value {
+    -fx-text-fill: #333;
+    -fx-font-size: 17px;
+}
+
+.chart-pie {
+    -fx-pie-color: #FF3547;
+    -fx-background-color: radial-gradient(radius 100%, derive(-fx-pie-color,20%), derive(-fx-pie-color,-10%));
+    -fx-background-insets: 1;
+}
+
+.default-color0.chart-pie { -fx-pie-color: #FF3547; }
+.default-color1.chart-pie { -fx-pie-color: #4285f4; }
+.default-color2.chart-pie { -fx-pie-color: #02C852; }
+.default-color3.chart-pie { -fx-pie-color: #AA66CC; }
