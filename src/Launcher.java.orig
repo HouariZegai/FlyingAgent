@@ -3,12 +3,12 @@ import controllers.HomeController;
 import jade.domain.FIPAException;
 import javafx.application.Application;
 
-=======
-import agents.LocationAgent;
-import agents.MobileAgent;
->>>>>>> Changing a lot of things and trying different approaches
 import agents.ReceiverAgent;
 
+=======
+import agents.MobileAgent;
+import agents.MainAgent;
+>>>>>>> Returning Back to 2 agents
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -82,16 +82,6 @@ public class Launcher extends Application {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-=======
-            System.out.println("Launching a whole in-process platform..." + pMain);
-            mc = rt.createMainContainer(pMain);
-
-            AgentController receiverAgent = mc.createNewAgent(ReceiverAgent.NAME, ReceiverAgent.class.getName(), new Object[]{});
-            receiverAgent.start();
-
-            AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
-            //rma.start();
->>>>>>> Changing a lot of things and trying different approaches
 
         stage.setTitle("Flying Agent");
         stage.show();
@@ -103,17 +93,22 @@ public class Launcher extends Application {
             }
         });
     }
+=======
+            System.out.println("Launching a whole in-process platform..." + pMain);
+            mc = rt.createMainContainer(pMain);
 
-<<<<<<< HEAD
+            AgentController receiverAgent = mc.createNewAgent(MainAgent.NAME, MainAgent.class.getName(), new Object[]{});
+            receiverAgent.start();
+
+            AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
+            //rma.start();
+
+            AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
+            mobileAgent.start();
+
+>>>>>>> Returning Back to 2 agents
+
     public static void main(String[] args) {
         launch(args);
-=======
-            AgentController locationAgent = mc.createNewAgent("Hi", LocationAgent.class.getName(), new Object[]{});
-            locationAgent.start();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
->>>>>>> Changing a lot of things and trying different approaches
     }
 }

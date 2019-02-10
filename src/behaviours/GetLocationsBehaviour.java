@@ -1,7 +1,6 @@
 package behaviours;
 
-import agents.LocationAgent;
-import agents.ReceiverAgent;
+import agents.MainAgent;
 import jade.content.onto.basic.Action;
 import jade.content.onto.basic.Result;
 import jade.domain.FIPANames;
@@ -10,12 +9,10 @@ import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.proto.SimpleAchieveREInitiator;
 
-import java.util.List;
 
+public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
 
-public class GetAvailableLocationsBehaviour extends SimpleAchieveREInitiator {
-
-    public GetAvailableLocationsBehaviour(LocationAgent a) {
+    public GetLocationsBehaviour(MainAgent a) {
         // call the constructor of FipaRequestInitiatorBehaviour
         super(a, new ACLMessage(ACLMessage.REQUEST));
         ACLMessage request = (ACLMessage) getDataStore().get(REQUEST_KEY);
@@ -58,7 +55,7 @@ public class GetAvailableLocationsBehaviour extends SimpleAchieveREInitiator {
         try {
             Result results = (Result) myAgent.getContentManager().extractContent(inform);
             System.out.println("From behaviour " + results.getItems().toString());
-            ((LocationAgent) myAgent).setLocations(results.getItems());
+            ((MainAgent) myAgent).updateLocations(results.getItems());
         } catch (Exception e) {
             e.printStackTrace();
         }
