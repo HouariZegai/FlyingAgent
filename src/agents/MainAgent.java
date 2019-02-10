@@ -5,13 +5,14 @@ import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.Behaviour;
-import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
 import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.lang.acl.UnreadableException;
 import jade.util.leap.List;
+
+import java.io.IOException;
+import java.io.Serializable;
 
 
 public class MainAgent extends Agent {
@@ -26,47 +27,59 @@ public class MainAgent extends Agent {
         getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
         getContentManager().registerOntology(MobilityOntology.getInstance());
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         addBehaviour(new GetLocationsBehaviour(this));
-        //addBehaviour(new OneReceiveBehavior());
+
+
     }
+
+
 
 
     public void updateLocations(List items) {
         System.out.println("from receiver " + (items));
-        /*ACLMessage message = new ACLMessage(ACLMessage.CFP);
+        ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+        addBehaviour(new OneReceiveBehavior());
         try {
             message.setContentObject((Serializable) items.get(0));
         } catch (IOException e) {
             e.printStackTrace();
         }
         send(message);
-        this.locationList = items;*/
+        this.locationList = items;
     }
 
     public List getLocationList() {
         return locationList;
     }
 
-    class OneReceiveBehavior extends CyclicBehaviour {
+    class OneReceiveBehavior extends Behaviour {
 
         MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
+        int status = 0;
 
         @Override
         public void action() {
             ACLMessage message = receive(template);
             if (message != null) {
-                try {
-                    System.out.println("From Receiver" + message.getContentObject().toString());
-                } catch (UnreadableException e) {
-                    e.printStackTrace();
-                }
-
+                System.out.println("From Receiver" + message.getContent());
+                status = 1;
                 //mobileAgent = message.getSender();
                 //addBehaviour(new AskMoreBehavior());
             } else {
                 block();
             }
+        }
+
+        @Override
+        public boolean done() {
+            return status == 1;
         }
 
         private void handleMessage(String jsonResponse) {
