@@ -1,3 +1,4 @@
+import jade.domain.FIPAException;
 import javafx.application.Application;
 
 import jade.core.Profile;
@@ -7,9 +8,12 @@ import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 
 import agents.MobileAgent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Launcher extends Application {
 
@@ -53,9 +57,23 @@ public class Launcher extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/resources/views/DetailPC.fxml"));
+            stage.setScene(new Scene(root));
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
         stage.setTitle("Flying Agent");
         stage.show();
+        stage.setOnCloseRequest(e -> {
+            try {
+                mc.kill();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     public static void main(String[] args) {
