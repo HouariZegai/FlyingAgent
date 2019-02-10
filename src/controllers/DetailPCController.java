@@ -1,6 +1,5 @@
 package controllers;
 
-import java.io.IOException;
 import java.net.URL;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -176,41 +175,46 @@ public class DetailPCController implements Initializable {
 //        }
 
         /* This data just for testing */
-        Disk disk = new Disk("C:\\", 96779665408L, 15609087488L, 95210577920L);
-        addDiskBox(disk);
-        addDiskBox(disk);
-        addDiskBox(disk);
+//        Disk disk = new Disk("C:\\", 96779665408L, 15609087488L, 95210577920L);
+//        addDiskBox(disk);
+//        addDiskBox(disk);
+//        addDiskBox(disk);
     }
 
-    private void addDiskBox(Disk disk) {
-        try {
-            Parent parentDisk = FXMLLoader.load(getClass().getResource("/resources/views/models/DiskInfo.fxml"));
-            //Label lblName = (Label) parentDisk.lookup("#lblName");
-            Label lblTotalSpace = (Label) parentDisk.lookup("#lblTotalSpace");
-            PieChart pieData = (PieChart) parentDisk.lookup("#pieData");
-
-            pieData.setTitle(disk.getName());
-            lblTotalSpace.setText(byteToGB(disk.getTotalSpace()) + "GB");
-
-            // Data of pie chart
-            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-            data.add(new PieChart.Data("Usable", byteToGB(disk.getUsableSpace())));
-            data.add(new PieChart.Data("Free", byteToGB(disk.getFreeSpace())));
-
-            pieData.setData(data);
-            pieData.getData().forEach(d ->
-                    d.nameProperty().bind(Bindings.concat(d.getName(), " ", d.pieValueProperty(), " GB"))
-            );
-            boxContainerDisks.getChildren().add(parentDisk);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-    }
+//    private void addDiskBox(Disk disk) {
+//        try {
+//            Parent parentDisk = FXMLLoader.load(getClass().getResource("/resources/views/models/DiskInfo.fxml"));
+//            //Label lblName = (Label) parentDisk.lookup("#lblName");
+//            Label lblTotalSpace = (Label) parentDisk.lookup("#lblTotalSpace");
+//            PieChart pieData = (PieChart) parentDisk.lookup("#pieData");
+//
+//            pieData.setTitle(disk.getName());
+//            lblTotalSpace.setText(byteToGB(disk.getTotalSpace()) + "GB");
+//
+//            // Data of pie chart
+//            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+//            data.add(new PieChart.Data("Usable", byteToGB(disk.getUsableSpace())));
+//            data.add(new PieChart.Data("Free", byteToGB(disk.getFreeSpace())));
+//
+//            pieData.setData(data);
+//            pieData.getData().forEach(d ->
+//                    d.nameProperty().bind(Bindings.concat(d.getName(), " ", d.pieValueProperty(), " GB"))
+//            );
+//            boxContainerDisks.getChildren().add(parentDisk);
+//        } catch (IOException ioe) {
+//            ioe.printStackTrace();
+//        }
+//    }
 
     /* End disks info */
 
     private double byteToGB(long byteSize) {
         return Double.valueOf(new DecimalFormat("##.##").format(byteSize / 1e9));
+    }
+
+    @FXML
+    private void onClose() {
+        HomeController.dialogDetailPC.close();
     }
 
 }

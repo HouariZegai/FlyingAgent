@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="root" prefHeight="680.0" prefWidth="1200.0" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
+   <children>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" StackPane.alignment="CENTER">
+         <children>
+            <StackPane>
+               <children>
+                  <Label styleClass="title" text="Available containers" StackPane.alignment="CENTER_LEFT" />
+                  <JFXButton onAction="#onRefresh" styleClass="btn" text="Refresh" StackPane.alignment="CENTER_RIGHT" />
+               </children>
+            </StackPane>
+            <JFXListView fx:id="listLocation" prefHeight="431.0" prefWidth="419.0" />
+         </children>
+      </VBox>
+   </children>
+</StackPane>

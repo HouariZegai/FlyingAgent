@@ -3,9 +3,7 @@
 }
 
 .root {
-    -fx-background-color: #FFF;
-    -fx-pref-width: 900px;
-    -fx-pref-height: 600px;
+    -fx-background-color: #FFF
 }
 
 .title {

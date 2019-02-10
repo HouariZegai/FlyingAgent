@@ -1,0 +1,23 @@
+* {
+    -fx-font-family: Tahoma;
+}
+
+.root {
+    -fx-background-color: #FFF
+}
+
+.title {
+    -fx-font-size: 20px;
+    -fx-text-fill: #65617d
+}
+
+.btn {
+    -fx-font-size: 20px;
+    -fx-pref-width: 130px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 5;
+    -fx-background-color: #6bbc76;
+    -fx-text-fill: #FFF;
+    -jfx-button-type: RAISED;
+    -fx-cursor: hand;
+}

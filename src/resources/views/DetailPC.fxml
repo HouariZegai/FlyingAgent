@@ -14,12 +14,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="30.0" stylesheets="@../css/detail-pc.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailPCController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="30.0" stylesheets="@../css/detail-pc.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DetailPCController">
    <children>
       <StackPane>
          <children>
             <Label styleClass="title" text="Detail PC" StackPane.alignment="TOP_CENTER" />
-            <JFXButton styleClass="btn-close" text=" " StackPane.alignment="CENTER_RIGHT" />
+            <JFXButton onAction="#onClose" styleClass="btn-close" text=" " StackPane.alignment="CENTER_RIGHT" />
          </children>
          <VBox.margin>
             <Insets right="10.0" top="10.0" />
