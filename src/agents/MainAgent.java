@@ -4,9 +4,13 @@ import behaviours.GetLocationsBehaviour;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;
+import jade.core.Location;
 import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
 import jade.domain.mobility.MobilityOntology;
+import jade.gui.GuiAgent;
+import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.util.leap.List;
@@ -15,11 +19,20 @@ import java.io.IOException;
 import java.io.Serializable;
 
 
-public class MainAgent extends Agent {
+public class MainAgent extends GuiAgent {
 
     public static final String NAME = "WaiterAgent";
+    public static GuiAgent agentInstance;
     private List locationList;
+    private GetLocationsBehaviour locationsBehaviour;
+    private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
     private AID mobileAgent;
+
+
+    public void hello() {
+        System.out.println("Hello world");
+        Agent a = this;
+    }
 
     @Override
     protected void setup() {
@@ -27,59 +40,87 @@ public class MainAgent extends Agent {
         getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
         getContentManager().registerOntology(MobilityOntology.getInstance());
 
+        locationsBehaviour = new GetLocationsBehaviour(this);
+
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        addBehaviour(new GetLocationsBehaviour(this));
-
-
+        agentInstance = this;
+        addBehaviour(locationsBehaviour);
     }
 
+    public void refreshLocation() {
+        removeBehaviour(oneReceiveBehavior);
+        addBehaviour(locationsBehaviour);
+    }
 
+    public void askForMoving(Location location) {
+        ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
+        message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+        addBehaviour(oneReceiveBehavior);
+        try {
+            message.setContentObject(location);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        send(message);
+    }
 
+    public void askMoreInfo() {
+        addBehaviour(new AskMoreBehavior());
+    }
 
     public void updateLocations(List items) {
         System.out.println("from receiver " + (items));
+        this.locationList = items;
         ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
-        addBehaviour(new OneReceiveBehavior());
+        addBehaviour(oneReceiveBehavior);
         try {
             message.setContentObject((Serializable) items.get(0));
         } catch (IOException e) {
             e.printStackTrace();
         }
         send(message);
-        this.locationList = items;
     }
 
     public List getLocationList() {
         return locationList;
     }
 
-    class OneReceiveBehavior extends Behaviour {
+    public void askForMoving(int n) {
+        ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
+        message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+        addBehaviour(oneReceiveBehavior);
+        try {
+            message.setContentObject((Serializable) locationList.get(n));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        send(message);
+    }
+
+    @Override
+    protected void onGuiEvent(GuiEvent guiEvent) {
+        System.out.println("Event Gotten. " + guiEvent.getType());
+    }
+
+    class OneReceiveBehavior extends CyclicBehaviour {
 
         MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
-        int status = 0;
 
         @Override
         public void action() {
             ACLMessage message = receive(template);
             if (message != null) {
                 System.out.println("From Receiver" + message.getContent());
-                status = 1;
-                //mobileAgent = message.getSender();
-                //addBehaviour(new AskMoreBehavior());
+                mobileAgent = message.getSender();
             } else {
                 block();
             }
-        }
-
-        @Override
-        public boolean done() {
-            return status == 1;
         }
 
         private void handleMessage(String jsonResponse) {

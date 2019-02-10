@@ -13,6 +13,7 @@ import jade.proto.SimpleAchieveREInitiator;
 public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
 
     public GetLocationsBehaviour(MainAgent a) {
+
         // call the constructor of FipaRequestInitiatorBehaviour
         super(a, new ACLMessage(ACLMessage.REQUEST));
         ACLMessage request = (ACLMessage) getDataStore().get(REQUEST_KEY);

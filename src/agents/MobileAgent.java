@@ -31,7 +31,6 @@ public class MobileAgent extends Agent {
         message.setContent(AllInformation.getInstance().toJson());
         message.addReceiver(stableAgent);
         send(message);
-        System.out.println("Message Snet");
     }
 
 

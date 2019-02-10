@@ -6,15 +6,18 @@ import javafx.application.Application;
 import agents.ReceiverAgent;
 
 =======
-import agents.MobileAgent;
 import agents.MainAgent;
->>>>>>> Returning Back to 2 agents
+import agents.MobileAgent;
+>>>>>>> CHaning A lot in agents
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
+import jade.gui.GuiAgent;
+import jade.gui.GuiEvent;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 
+<<<<<<< HEAD
 import agents.MobileAgent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,8 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Launcher extends Application {
+=======
+import java.util.Scanner;
 
-    private static final String MAIN_CONTAINER_HOST_IP = "192.168.1.34";
+class Launcher {
+>>>>>>> CHaning A lot in agents
+
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.137.188";
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;
@@ -78,7 +86,6 @@ public class Launcher extends Application {
             data.add("Chenine");
             homeController.updateLocation(data);
 
-<<<<<<< HEAD
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
@@ -93,22 +100,10 @@ public class Launcher extends Application {
             }
         });
     }
-=======
-            System.out.println("Launching a whole in-process platform..." + pMain);
-            mc = rt.createMainContainer(pMain);
-
-            AgentController receiverAgent = mc.createNewAgent(MainAgent.NAME, MainAgent.class.getName(), new Object[]{});
-            receiverAgent.start();
-
-            AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
-            //rma.start();
-
-            AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
-            mobileAgent.start();
-
->>>>>>> Returning Back to 2 agents
 
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }
