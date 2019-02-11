@@ -4,8 +4,6 @@ import controllers.HomeController;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
-import jade.gui.GuiAgent;
-import jade.gui.GuiEvent;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
@@ -21,7 +19,7 @@ import java.util.List;
 
 public class Launcher extends Application {
 
-    private static final String MAIN_CONTAINER_HOST_IP = "10.42.0.67";
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.1.35";
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;

@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import models.Message;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,8 +48,9 @@ public class HomeController implements Initializable {
 
     @FXML
     private void onRefresh() {
+        Message message = new Message(null, Message.REFRESH_REQUEST);
         try {
-            mainController.putO2AObject(2, AgentController.ASYNC);
+            mainController.putO2AObject(message, AgentController.ASYNC);
         } catch (StaleProxyException e) {
             e.printStackTrace();
         }

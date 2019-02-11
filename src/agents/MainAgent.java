@@ -16,6 +16,7 @@ import jade.lang.acl.MessageTemplate;
 import jade.util.leap.Iterator;
 import jade.util.leap.List;
 import javafx.application.Platform;
+import models.Message;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -25,9 +26,6 @@ import java.util.ArrayList;
 public class MainAgent extends Agent {
 
     public static final String NAME = "WaiterAgent";
-
-    public static final int REFRESH_ACTION = 12332;
-    public static final int MOVE_ACTION = 1232;
     public static GuiAgent agentInstance;
     private static HomeController homeControllerA;
     private List locationList;
@@ -35,27 +33,28 @@ public class MainAgent extends Agent {
     private AID mobileAgent;
     private CyclicBehaviour myBehaviour = new CyclicBehaviour(this) {
 
-
         public void action() {
-            System.out.println("Message Received");
-            Object info = myAgent.getO2AObject();
-            if (info != null) {
-                System.out.println("Message Received was not null");
-                // do something with Event
-                int passed = (int) info;
-                if (passed == 2) {
-                    System.out.println("Message Received was 2");
-                    refreshLocation();
-                }
+            Object object = myAgent.getO2AObject();
+            if (object instanceof Message) {
+                handleO2Object((Message) object);
             } else {
                 block();
             }
         }
     };
 
-
     public static void setController(HomeController homeController) {
         homeControllerA = homeController;
+    }
+
+    private void handleO2Object(Message message) {
+        switch (message.getRequestType()) {
+            case Message.REFRESH_REQUEST:
+                refreshLocation();
+                break;
+            case Message.MOVE_REQUEST:
+                break;
+        }
     }
 
     @Override
@@ -79,7 +78,6 @@ public class MainAgent extends Agent {
         removeBehaviour(oneReceiveBehavior);
         removeBehaviour(myBehaviour);
         addBehaviour(new GetLocationsBehaviour(this));
-
     }
 
 
