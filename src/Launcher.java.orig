@@ -1,6 +1,9 @@
 import agents.MainAgent;
 import agents.MobileAgent;
+<<<<<<< HEAD
 import controllers.HomeController;
+=======
+>>>>>>> e3e8730eb3877d3c9d66afc53d45753f5e772aa5
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -15,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+<<<<<<< HEAD
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +26,13 @@ import java.util.List;
 public class Launcher extends Application {
 
     private static final String MAIN_CONTAINER_HOST_IP = "10.42.0.67";
+=======
+import java.util.Scanner;
+
+class Launcher {
+
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.137.188";
+>>>>>>> e3e8730eb3877d3c9d66afc53d45753f5e772aa5
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;
@@ -97,10 +108,17 @@ public class Launcher extends Application {
 
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
+<<<<<<< HEAD
             homeController.setMainController(receiverAgent);
             MainAgent.setController(homeController);
         } catch (IOException | StaleProxyException ioe) {
             ioe.printStackTrace();
+=======
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+>>>>>>> e3e8730eb3877d3c9d66afc53d45753f5e772aa5
         }
 
 
