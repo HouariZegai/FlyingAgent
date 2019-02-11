@@ -3,6 +3,7 @@ package controllers;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
+import javafx.beans.value.ChangeListener;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,7 +43,13 @@ public class HomeController implements Initializable {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-
+        dialogDetailPC.setOnDialogClosed(e -> {
+            listLocation.getSelectionModel().clearSelection();
+        });
+        listLocation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            listLocation.setExpanded(true);
+            listLocation.depthProperty().set(3);
+        });
     }
 
     public void updateLocation(List<String> locations) {
@@ -55,13 +62,9 @@ public class HomeController implements Initializable {
 
     @FXML
     private void onRefresh() {
-        if(listLocation.isExpanded()) {
-           listLocation.setExpanded(false);
-            listLocation.depthProperty().set(0);
-        } else {
-            listLocation.setExpanded(true);
-           listLocation.depthProperty().set(1);
-        }
+        listLocation.getSelectionModel().clearSelection();
+        listLocation.setExpanded(false);
+        listLocation.depthProperty().set(1);
     }
 
     @FXML

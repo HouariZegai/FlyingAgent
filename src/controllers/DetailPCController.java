@@ -20,6 +20,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -80,11 +81,12 @@ public class DetailPCController implements Initializable {
 //        lblOSUsername.setText(osInfo.getUserName());
 //        lblOSComputerName.setText(osInfo.getComputerName());
         /* Just for testing */
+        iconOs.setImage(new Image("/resources/images/os/linux.png"));
         lblOSName.setText("Linux");
         lblOSVersion.setText("16.04");
         lblOSArchi.setText("32bit");
         lblOSUsername.setText("Houari");
-        lblOSComputerName.setText("DELL_Houar");
+        lblOSComputerName.setText("DELL-Houar");
 
     }
 
@@ -99,6 +101,7 @@ public class DetailPCController implements Initializable {
 //        lblCPUNumCores.setText(cpuInfo.getNumberCores());
 
         /* Just for testing */
+        iconCpu.setImage(new Image("/resources/images/cpu/intel.png"));
         lblCPUId.setText("Intel i3-4004U 2.16GHZ");
         lblCPUArchi.setText("64bit");
         lblCPUNumCores.setText("2");
@@ -136,15 +139,15 @@ public class DetailPCController implements Initializable {
 
     private void initNetworkTable() {
         colName = new JFXTreeTableColumn<>("Name");
-        colName.setPrefWidth(200d);
+        colName.setPrefWidth(400d);
         colName.setCellValueFactory((TreeTableColumn.CellDataFeatures<NetworkTable, String> param) -> param.getValue().getValue().nameProperty());
 
         colIP = new JFXTreeTableColumn<>("IP");
-        colIP.setPrefWidth(120d);
+        colIP.setPrefWidth(207d);
         colIP.setCellValueFactory((TreeTableColumn.CellDataFeatures<NetworkTable, String> param) -> param.getValue().getValue().ipProperty());
 
         colMAC = new JFXTreeTableColumn<>("MAC");
-        colMAC.setPrefWidth(110d);
+        colMAC.setPrefWidth(207d);
         colMAC.setCellValueFactory((TreeTableColumn.CellDataFeatures<NetworkTable, String> param) -> param.getValue().getValue().macProperty());
 
         tableNetwork.getColumns().addAll(colName, colIP, colMAC);

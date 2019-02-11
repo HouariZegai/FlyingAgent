@@ -7,6 +7,11 @@
 }
 
 .title {
+    -fx-font-size: 24px;
+    -fx-text-fill: #6bbc76
+}
+
+.sub-title {
     -fx-font-size: 20px;
     -fx-text-fill: #65617d
 }

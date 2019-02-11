@@ -2,28 +2,48 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
 <StackPane fx:id="root" prefHeight="680.0" prefWidth="1200.0" stylesheets="@../css/home.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.HomeController">
    <children>
-      <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" StackPane.alignment="CENTER">
+      <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="5.0" StackPane.alignment="TOP_CENTER">
+         <children>
+            <ImageView fitHeight="117.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/icon-app.png" />
+               </image>
+            </ImageView>
+            <Label styleClass="title" text="Flying Agents" />
+         </children>
+         <StackPane.margin>
+            <Insets top="20.0" />
+         </StackPane.margin>
+      </HBox>
+      <VBox maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" StackPane.alignment="BOTTOM_CENTER">
          <children>
             <StackPane>
                <children>
-                  <Label styleClass="title" text="Available containers" StackPane.alignment="CENTER_LEFT" />
+                  <Label styleClass="sub-title" text="Available containers" StackPane.alignment="CENTER_LEFT" />
                   <JFXButton onAction="#onRefresh" styleClass="btn" text="Refresh" StackPane.alignment="CENTER_RIGHT" />
                </children>
             </StackPane>
-            <JFXListView fx:id="listLocation" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="431.0" prefWidth="419.0" verticalGap="10.0" />
+            <JFXListView fx:id="listLocation" depth="1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="431.0" prefWidth="419.0" verticalGap="10.0" />
             <StackPane>
                <children>
-                  <Label styleClass="title" text="View details" StackPane.alignment="CENTER_LEFT" />
+                  <Label styleClass="sub-title" text="View details" StackPane.alignment="CENTER_LEFT" />
                   <JFXButton onAction="#onDetail" styleClass="btn" text="Details" StackPane.alignment="CENTER_RIGHT" />
                </children>
             </StackPane>
          </children>
+         <StackPane.margin>
+            <Insets bottom="20.0" />
+         </StackPane.margin>
       </VBox>
    </children>
 </StackPane>

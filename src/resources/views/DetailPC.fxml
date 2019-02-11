@@ -54,11 +54,7 @@
                               <Label styleClass="cards-key" text="Computer Name" GridPane.rowIndex="4" />
                               <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
                                  <children>
-                                    <ImageView fx:id="iconOs" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/os/win.png" />
-                                       </image>
-                                    </ImageView>
+                                    <ImageView fx:id="iconOs" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
                                     <Label fx:id="lblOSName" styleClass="cards-value" text="Windows" />
                                  </children>
                               </HBox>
@@ -113,10 +109,7 @@
                               <Label styleClass="cards-key" text="Number cores" GridPane.rowIndex="2" />
                               <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1">
                                  <children>
-                                    <ImageView fx:id="iconCpu" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/cpu/intel.png" />
-                                       </image></ImageView>
+                                    <ImageView fx:id="iconCpu" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
                                     <Label fx:id="lblCPUId" styleClass="cards-value" text="Intel64 Family 6 Model 58 Stepping 9, GenuineIntel" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
@@ -138,7 +131,7 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <JFXTreeTableView fx:id="tableNetwork" prefHeight="200.0" prefWidth="433.0" />
+                        <JFXTreeTableView fx:id="tableNetwork" prefHeight="200.0" prefWidth="820.0" />
                      </children>
                   </VBox>
                   <VBox maxHeight="-Infinity" prefHeight="340.0" prefWidth="860.0" spacing="10.0" style="-fx-padding: 10px 5px 0px 10px;" styleClass="cards">
