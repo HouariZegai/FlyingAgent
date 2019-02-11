@@ -2,9 +2,13 @@ package controllers;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.JFXSnackbar;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -19,14 +23,15 @@ public class HomeController implements Initializable {
     private StackPane root;
 
     @FXML
-    private JFXListView<String> listLocation;
+    private JFXListView<Label> listLocation;
 
     public static JFXDialog dialogDetailPC;
 
-    private DetailPCController detailPCController;
+    private JFXSnackbar toastMsg;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        toastMsg = new JFXSnackbar(root);
 
         FXMLLoader detailsLoader = new FXMLLoader(getClass().getResource("/resources/views/DetailPC.fxml"));
         DetailPCController detailPCController = detailsLoader.getController();
@@ -37,21 +42,35 @@ public class HomeController implements Initializable {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+
     }
 
     public void updateLocation(List<String> locations) {
         listLocation.getItems().clear();
         if(locations != null)
-            listLocation.getItems().addAll(locations);
+            for(String location : locations) {
+                listLocation.getItems().add(new Label(location));
+            }
     }
 
     @FXML
     private void onRefresh() {
-        onShowDetailPC();
+        if(listLocation.isExpanded()) {
+           listLocation.setExpanded(false);
+            listLocation.depthProperty().set(0);
+        } else {
+            listLocation.setExpanded(true);
+           listLocation.depthProperty().set(1);
+        }
     }
 
-    private void onShowDetailPC() {
-        //detailPCController.initialize(null, null);
+    @FXML
+    private void onDetail() {
+        if(listLocation.getSelectionModel().getSelectedItem() == null) {
+            toastMsg.show("Please Select Container of view detail !", 3000);
+            return;
+        }
+
         dialogDetailPC.show();
     }
 }

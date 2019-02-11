@@ -20,6 +20,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -33,11 +34,14 @@ public class DetailPCController implements Initializable {
     /* OS information */
     @FXML
     private Label lblOSName, lblOSVersion, lblOSArchi, lblOSUsername, lblOSComputerName;
+    @FXML
+    private ImageView iconOs;
 
     /* CPU information */
     @FXML
     private Label lblCPUId, lblCPUArchi, lblCPUNumCores;
-
+    @FXML
+    private ImageView iconCpu;
 
     /* Memory information */
     @FXML

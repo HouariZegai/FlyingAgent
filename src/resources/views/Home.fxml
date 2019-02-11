@@ -16,7 +16,13 @@
                   <JFXButton onAction="#onRefresh" styleClass="btn" text="Refresh" StackPane.alignment="CENTER_RIGHT" />
                </children>
             </StackPane>
-            <JFXListView fx:id="listLocation" prefHeight="431.0" prefWidth="419.0" />
+            <JFXListView fx:id="listLocation" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="431.0" prefWidth="419.0" verticalGap="10.0" />
+            <StackPane>
+               <children>
+                  <Label styleClass="title" text="View details" StackPane.alignment="CENTER_LEFT" />
+                  <JFXButton onAction="#onDetail" styleClass="btn" text="Details" StackPane.alignment="CENTER_RIGHT" />
+               </children>
+            </StackPane>
          </children>
       </VBox>
    </children>

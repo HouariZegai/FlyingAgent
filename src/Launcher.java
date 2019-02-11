@@ -81,7 +81,7 @@ public class Launcher extends Application {
         stage.show();
         stage.setOnCloseRequest(e -> {
             try {
-                mc.kill();
+                //mc.kill();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
