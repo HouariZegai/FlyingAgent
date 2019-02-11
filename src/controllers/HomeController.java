@@ -2,6 +2,8 @@ package controllers;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
+import jade.util.leap.Iterator;
+import jade.util.leap.List;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 import javafx.fxml.FXML;
@@ -13,7 +15,9 @@ import models.Message;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
@@ -25,6 +29,8 @@ public class HomeController implements Initializable {
     @FXML
     private JFXListView<String> listLocation;
     private DetailPCController detailPCController;
+    private List locationsJade;
+    private java.util.List<String> stringLocationList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,15 +46,32 @@ public class HomeController implements Initializable {
         }
     }
 
-    public void updateLocation(List<String> locations) {
+    public void updateLocation(List locations) {
+        this.locationsJade = locations;
+        Iterator ite = locationsJade.iterator();
+        stringLocationList = new ArrayList<>();
+        while (ite.hasNext()) {
+            stringLocationList.add(ite.next().toString());
+        }
         listLocation.getItems().clear();
-        if (locations != null)
-            listLocation.getItems().addAll(locations);
+        listLocation.getItems().addAll(stringLocationList);
     }
 
     @FXML
     private void onRefresh() {
         Message message = new Message(null, Message.REFRESH_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onMove() {
+        Map<String, Object> map = new HashMap<>();
+        map.put(Message.KEY_LOCATION, locationsJade.get(listLocation.getSelectionModel().getSelectedIndex()));
+        Message message = new Message(map, Message.MOVE_REQUEST);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);
         } catch (StaleProxyException e) {

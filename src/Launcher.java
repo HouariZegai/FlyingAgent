@@ -67,14 +67,8 @@ public class Launcher extends Application {
             stage.setScene(new Scene(root));
 
             HomeController homeController = loader.getController();
-            List<String> data = new ArrayList<>();
-            data.add("Houari");
-            data.add("Younes");
-            data.add("Ismail");
-            data.add("Chenine");
-            homeController.updateLocation(data);
 
-            //            // Get a hold on JADE runtime
+            // Get a hold on JADE runtime
             Runtime rt = Runtime.instance();
 
             // Exit the JVM when there are no more containers around

@@ -15,8 +15,10 @@ public class Message {
     private int requestType;
 
     public Message(@Nullable Map<String, Object> parameters, int requestType) {
-        this.parameters = parameters;
+        if (requestType == MOVE_REQUEST && (parameters == null || parameters.size() == 0))
+            throw new IllegalStateException("Parameters map must be not null or of size 0");
         this.requestType = requestType;
+        this.parameters = parameters;
     }
 
     public Map<String, Object> getParameters() {

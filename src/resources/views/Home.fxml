@@ -13,8 +13,10 @@
             <StackPane>
                <children>
                   <Label styleClass="title" text="Available containers" StackPane.alignment="CENTER_LEFT" />
-                  <JFXButton onAction="#onRefresh" styleClass="btn" text="Refresh" StackPane.alignment="CENTER_RIGHT" />
+                  <JFXButton onAction="#onRefresh" styleClass="btn" text="Refresh" StackPane.alignment="CENTER" />
+                  <JFXButton onAction="#onMove" styleClass="btn" text="Test Move" StackPane.alignment="CENTER_RIGHT" />
                </children>
+
             </StackPane>
             <JFXListView fx:id="listLocation" prefHeight="431.0" prefWidth="419.0" />
          </children>

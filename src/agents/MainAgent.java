@@ -13,14 +13,12 @@ import jade.domain.mobility.MobilityOntology;
 import jade.gui.GuiAgent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
-import jade.util.leap.Iterator;
 import jade.util.leap.List;
 import javafx.application.Platform;
 import models.Message;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 
 public class MainAgent extends Agent {
@@ -53,6 +51,7 @@ public class MainAgent extends Agent {
                 refreshLocation();
                 break;
             case Message.MOVE_REQUEST:
+                askForMoving((Location) message.getParameters().get(Message.KEY_LOCATION));
                 break;
         }
     }
@@ -81,9 +80,10 @@ public class MainAgent extends Agent {
     }
 
 
-    public void askForMoving(Location location) {
+    private void askForMoving(Location location) {
         ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+        addBehaviour(myBehaviour);
         addBehaviour(oneReceiveBehavior);
         try {
             message.setContentObject(location);
@@ -98,29 +98,12 @@ public class MainAgent extends Agent {
     }
 
     public void updateLocations(List items) {
-
-        Iterator ite = items.iterator();
-        java.util.List<String> ab = new ArrayList<>();
-        while (ite.hasNext()) {
-            ab.add(ite.next().toString());
-        }
         if (homeControllerA != null) {
-            Platform.runLater(() -> homeControllerA.updateLocation(ab));
+            Platform.runLater(() -> homeControllerA.updateLocation(items));
         }
-
         System.out.println("from receiver " + (items));
         this.locationList = items;
-        ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
-        message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
         addBehaviour(myBehaviour);
-        addBehaviour(oneReceiveBehavior);
-
-        try {
-            message.setContentObject((Serializable) items.get(0));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        send(message);
     }
 
     public List getLocationList() {
