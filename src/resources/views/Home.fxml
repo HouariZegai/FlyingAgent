@@ -15,6 +15,7 @@
                   <Label styleClass="title" text="Available containers" StackPane.alignment="CENTER_LEFT" />
                   <JFXButton onAction="#onRefresh" styleClass="btn" text="Refresh" StackPane.alignment="CENTER" />
                   <JFXButton onAction="#onMove" styleClass="btn" text="Test Move" StackPane.alignment="CENTER_RIGHT" />
+                  <JFXButton onAction="#onAsk" styleClass="btn" text="Ask More" StackPane.alignment="BOTTOM_LEFT" />
                </children>
 
             </StackPane>

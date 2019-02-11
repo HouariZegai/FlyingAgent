@@ -53,6 +53,9 @@ public class MainAgent extends Agent {
             case Message.MOVE_REQUEST:
                 askForMoving((Location) message.getParameters().get(Message.KEY_LOCATION));
                 break;
+            case Message.ASK_REQUEST:
+                askMoreInfo();
+                break;
         }
     }
 

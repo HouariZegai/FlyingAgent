@@ -68,6 +68,16 @@ public class HomeController implements Initializable {
     }
 
     @FXML
+    private void onAsk() {
+        Message message = new Message(null, Message.ASK_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     private void onMove() {
         Map<String, Object> map = new HashMap<>();
         map.put(Message.KEY_LOCATION, locationsJade.get(listLocation.getSelectionModel().getSelectedIndex()));

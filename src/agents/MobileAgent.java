@@ -1,6 +1,7 @@
 package agents;
 
 import information.AllInformation;
+import information.RawInformation;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.Location;
@@ -36,19 +37,33 @@ public class MobileAgent extends Agent {
 
     public class ServeMovingMessages extends CyclicBehaviour {
 
-        private MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.QUERY_IF);
+        private MessageTemplate template = MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.QUERY_IF),
+                MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
 
         @Override
         public void action() {
             ACLMessage message = receive(template);
             if (message != null) {
-                try {
-                    Location location = (Location) message.getContentObject();
-                    System.out.println(location.toString());
-                    doMove(location);
-                } catch (UnreadableException e) {
-                    e.printStackTrace();
+                switch (message.getPerformative()) {
+                    case ACLMessage.QUERY_IF:
+                        try {
+                            Location location = (Location) message.getContentObject();
+                            System.out.println(location.toString());
+                            doMove(location);
+                        } catch (UnreadableException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case ACLMessage.REQUEST:
+                        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+                        String moreInfo = new RawInformation().toString();
+                        System.out.println(moreInfo);
+                        msg.setContent(moreInfo);
+                        msg.addReceiver(stableAgent);
+                        send(msg);
+                        break;
                 }
+
             } else block();
         }
     }
