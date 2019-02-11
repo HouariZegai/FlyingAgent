@@ -10,7 +10,6 @@ import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.FIPANames;
 import jade.domain.mobility.MobilityOntology;
-import jade.gui.GuiAgent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.util.leap.List;
@@ -18,31 +17,47 @@ import javafx.application.Platform;
 import models.Message;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 
 public class MainAgent extends Agent {
 
     public static final String NAME = "WaiterAgent";
-    public static GuiAgent agentInstance;
     private static HomeController homeControllerA;
-    private List locationList;
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
-    private AID mobileAgent;
-    private CyclicBehaviour myBehaviour = new CyclicBehaviour(this) {
-
-        public void action() {
-            Object object = myAgent.getO2AObject();
-            if (object instanceof Message) {
-                handleO2Object((Message) object);
-            } else {
-                block();
-            }
-        }
-    };
+    private AgentObjectBehavior myBehaviour = new AgentObjectBehavior();
+    private AID mobileAgent = new AID(MobileAgent.NAME, AID.ISLOCALNAME);
 
     public static void setController(HomeController homeController) {
         homeControllerA = homeController;
+    }
+
+    @Override
+    protected void setup() {
+
+        setEnabledO2ACommunication(true, 0);
+        getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
+        getContentManager().registerOntology(MobilityOntology.getInstance());
+
+        addBehaviour(new GetLocationsBehaviour(this));
+    }
+
+    private void refreshLocation() {
+        removeBehaviour(oneReceiveBehavior);
+        removeBehaviour(myBehaviour);
+        addBehaviour(new GetLocationsBehaviour(this));
+    }
+
+    private void askForMoving(Location location) {
+        ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
+        message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+        addBehaviour(myBehaviour);
+        addBehaviour(oneReceiveBehavior);
+        try {
+            message.setContentObject(location);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        send(message);
     }
 
     private void handleO2Object(Message message) {
@@ -59,44 +74,7 @@ public class MainAgent extends Agent {
         }
     }
 
-    @Override
-    protected void setup() {
-
-        setEnabledO2ACommunication(true, 0);
-        getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
-        getContentManager().registerOntology(MobilityOntology.getInstance());
-
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        addBehaviour(new GetLocationsBehaviour(this));
-    }
-
-    private void refreshLocation() {
-        removeBehaviour(oneReceiveBehavior);
-        removeBehaviour(myBehaviour);
-        addBehaviour(new GetLocationsBehaviour(this));
-    }
-
-
-    private void askForMoving(Location location) {
-        ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
-        message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
-        addBehaviour(myBehaviour);
-        addBehaviour(oneReceiveBehavior);
-        try {
-            message.setContentObject(location);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        send(message);
-    }
-
-    public void askMoreInfo() {
+    private void askMoreInfo() {
         addBehaviour(new AskMoreBehavior());
     }
 
@@ -105,32 +83,12 @@ public class MainAgent extends Agent {
             Platform.runLater(() -> homeControllerA.updateLocation(items));
         }
         System.out.println("from receiver " + (items));
-        this.locationList = items;
         addBehaviour(myBehaviour);
     }
 
-    public List getLocationList() {
-        return locationList;
-    }
-
-    public void askForMoving(int n) {
-        ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
-        message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
-        addBehaviour(oneReceiveBehavior);
-        try {
-            message.setContentObject((Serializable) locationList.get(n));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        send(message);
-    }
-
-
-    class OneReceiveBehavior extends CyclicBehaviour {
-
+    private class OneReceiveBehavior extends CyclicBehaviour {
 
         MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
-
 
         @Override
         public void action() {
@@ -145,6 +103,18 @@ public class MainAgent extends Agent {
 
         private void handleMessage(String jsonResponse) {
             System.out.println(jsonResponse);
+        }
+    }
+
+    private class AgentObjectBehavior extends CyclicBehaviour {
+        @Override
+        public void action() {
+            Object object = myAgent.getO2AObject();
+            if (object instanceof Message) {
+                handleO2Object((Message) object);
+            } else {
+                block();
+            }
         }
     }
 
@@ -187,6 +157,5 @@ public class MainAgent extends Agent {
         public boolean done() {
             return status == DONE;
         }
-
     }
 }

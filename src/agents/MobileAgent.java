@@ -12,11 +12,11 @@ import jade.lang.acl.UnreadableException;
 
 public class MobileAgent extends Agent {
 
+    public static final String NAME = "MobileAgent";
     private AID stableAgent = new AID(MainAgent.NAME, AID.ISLOCALNAME);
 
     @Override
     protected void setup() {
-
         addBehaviour(new ServeMovingMessages());
     }
 
@@ -27,6 +27,10 @@ public class MobileAgent extends Agent {
 
     @Override
     protected void afterMove() {
+        sendBasicInformation();
+    }
+
+    private void sendBasicInformation() {
         ACLMessage message = new ACLMessage(ACLMessage.INFORM);
         System.out.println(AllInformation.getInstance().toJson());
         message.setContent(AllInformation.getInstance().toJson());
@@ -34,6 +38,24 @@ public class MobileAgent extends Agent {
         send(message);
     }
 
+    private void handleMovingRequest(ACLMessage message) {
+        try {
+            Location location = (Location) message.getContentObject();
+            System.out.println(location.toString());
+            doMove(location);
+        } catch (UnreadableException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleRawInfo() {
+        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+        String moreInfo = new RawInformation().toString();
+        System.out.println(moreInfo);
+        msg.setContent(moreInfo);
+        msg.addReceiver(stableAgent);
+        send(msg);
+    }
 
     public class ServeMovingMessages extends CyclicBehaviour {
 
@@ -46,21 +68,10 @@ public class MobileAgent extends Agent {
             if (message != null) {
                 switch (message.getPerformative()) {
                     case ACLMessage.QUERY_IF:
-                        try {
-                            Location location = (Location) message.getContentObject();
-                            System.out.println(location.toString());
-                            doMove(location);
-                        } catch (UnreadableException e) {
-                            e.printStackTrace();
-                        }
+                        handleMovingRequest(message);
                         break;
                     case ACLMessage.REQUEST:
-                        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-                        String moreInfo = new RawInformation().toString();
-                        System.out.println(moreInfo);
-                        msg.setContent(moreInfo);
-                        msg.addReceiver(stableAgent);
-                        send(msg);
+                        handleRawInfo();
                         break;
                 }
 
