@@ -1,9 +1,9 @@
 package agents;
 
 import behaviours.GetLocationsBehaviour;
+import controllers.HomeController;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
-import jade.core.Agent;
 import jade.core.Location;
 import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
@@ -13,34 +13,60 @@ import jade.gui.GuiAgent;
 import jade.gui.GuiEvent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.util.leap.Iterator;
 import jade.util.leap.List;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 
 public class MainAgent extends GuiAgent {
 
     public static final String NAME = "WaiterAgent";
-    public static GuiAgent agentInstance;
+    public static final int REFRESH_ACTION = 12332;
+    public static final int MOVE_ACTION = 1232;
+
+
+    private static HomeController homeControllerA;
     private List locationList;
-    private GetLocationsBehaviour locationsBehaviour;
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
     private AID mobileAgent;
+    private CyclicBehaviour myBehaviour = new CyclicBehaviour(this) {
 
+        @Override
+        public int onEnd() {
+            System.out.println(" O2P Object Behaviour End");
+            return super.onEnd();
+        }
 
-    public void hello() {
-        System.out.println("Hello world");
-        Agent a = this;
+        public void action() {
+            System.out.println("Message Received");
+            Object info = myAgent.getO2AObject();
+            if (info != null) {
+                System.out.println("Message Received was not null");
+                // do something with Event
+                int passed = (int) info;
+                if (passed == 2) {
+                    System.out.println("Message Received was 2");
+                    refreshLocation();
+                }
+            } else {
+                block();
+            }
+        }
+    };
+
+    public static void setController(HomeController homeController) {
+        homeControllerA = homeController;
     }
 
     @Override
     protected void setup() {
-
+        setEnabledO2ACommunication(true, 0);
         getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
         getContentManager().registerOntology(MobilityOntology.getInstance());
-
-        locationsBehaviour = new GetLocationsBehaviour(this);
 
         try {
             Thread.sleep(5000);
@@ -48,13 +74,13 @@ public class MainAgent extends GuiAgent {
             e.printStackTrace();
         }
 
-        agentInstance = this;
-        addBehaviour(locationsBehaviour);
+        addBehaviour(new GetLocationsBehaviour(this));
     }
 
-    public void refreshLocation() {
+    private void refreshLocation() {
         removeBehaviour(oneReceiveBehavior);
-        addBehaviour(locationsBehaviour);
+        removeBehaviour(myBehaviour);
+        addBehaviour(new GetLocationsBehaviour(this));
     }
 
     public void askForMoving(Location location) {
@@ -74,11 +100,19 @@ public class MainAgent extends GuiAgent {
     }
 
     public void updateLocations(List items) {
+        Iterator ite = items.iterator();
+        java.util.List<String> ab = new ArrayList<>();
+        while (ite.hasNext()) {
+            ab.add(ite.next().toString());
+        }
+        if (homeControllerA != null) {
+            Platform.runLater(() -> homeControllerA.updateLocation(ab));
+        }
         System.out.println("from receiver " + (items));
         this.locationList = items;
         ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
-        addBehaviour(oneReceiveBehavior);
+        addBehaviour(myBehaviour);
         try {
             message.setContentObject((Serializable) items.get(0));
         } catch (IOException e) {
@@ -109,8 +143,13 @@ public class MainAgent extends GuiAgent {
     }
 
     class OneReceiveBehavior extends CyclicBehaviour {
-
         MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
+
+        @Override
+        public int onEnd() {
+            System.out.println("OneReceive Behaviour End");
+            return super.onEnd();
+        }
 
         @Override
         public void action() {
@@ -166,6 +205,12 @@ public class MainAgent extends GuiAgent {
         @Override
         public boolean done() {
             return status == DONE;
+        }
+
+        @Override
+        public int onEnd() {
+            System.out.println(this.getClass().getName() + " Behaviour End");
+            return super.onEnd();
         }
     }
 }

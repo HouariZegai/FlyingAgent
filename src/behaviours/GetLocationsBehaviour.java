@@ -16,6 +16,7 @@ public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
 
         // call the constructor of FipaRequestInitiatorBehaviour
         super(a, new ACLMessage(ACLMessage.REQUEST));
+
         ACLMessage request = (ACLMessage) getDataStore().get(REQUEST_KEY);
         // fills all parameters of the request ACLMessage
         request.clearAllReceiver();
@@ -32,6 +33,7 @@ public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
         } catch (Exception fe) {
             fe.printStackTrace();
         }
+        System.out.println("GetLocationBehaviour action started");
         reset(request);
     }
 
