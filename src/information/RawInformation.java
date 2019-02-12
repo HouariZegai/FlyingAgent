@@ -8,7 +8,7 @@ public class RawInformation {
 
     private String rawString;
 
-    RawInformation() {
+    public RawInformation() {
         Runtime runtime = Runtime.getRuntime();
         Process process = null;
         try {

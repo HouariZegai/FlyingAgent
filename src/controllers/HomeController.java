@@ -3,32 +3,40 @@ package controllers;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
-import javafx.beans.value.ChangeListener;
-import javafx.event.EventType;
+import jade.util.leap.Iterator;
+import jade.util.leap.List;
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import models.Message;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
+    public static JFXDialog dialogDetailPC;
     @FXML
     private StackPane root;
+    private AgentController mainController;
 
     @FXML
     private JFXListView<Label> listLocation;
-
-    public static JFXDialog dialogDetailPC;
-
     private JFXSnackbar toastMsg;
+
+    private DetailPCController detailPCController;
+    private List locationsJade;
+    private java.util.List<String> stringLocationList;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -52,12 +60,19 @@ public class HomeController implements Initializable {
         });
     }
 
-    public void updateLocation(List<String> locations) {
+    public void updateLocation(List locations) {
+        this.locationsJade = locations;
+        Iterator ite = locationsJade.iterator();
+        stringLocationList = new ArrayList<>();
+        while (ite.hasNext()) {
+            stringLocationList.add(ite.next().toString());
+        }
         listLocation.getItems().clear();
-        if(locations != null)
-            for(String location : locations) {
-                listLocation.getItems().add(new Label(location));
-            }
+
+        for (String location : stringLocationList) {
+            listLocation.getItems().add(new Label(location));
+        }
+
     }
 
     @FXML
@@ -65,15 +80,49 @@ public class HomeController implements Initializable {
         listLocation.getSelectionModel().clearSelection();
         listLocation.setExpanded(false);
         listLocation.depthProperty().set(1);
+
+        Message message = new Message(null, Message.REFRESH_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onAsk() {
+        Message message = new Message(null, Message.ASK_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onMove() {
+        Map<String, Object> map = new HashMap<>();
+        map.put(Message.KEY_LOCATION, locationsJade.get(listLocation.getSelectionModel().getSelectedIndex()));
+        Message message = new Message(map, Message.MOVE_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @FXML
     private void onDetail() {
-        if(listLocation.getSelectionModel().getSelectedItem() == null) {
+        if (listLocation.getSelectionModel().getSelectedItem() == null) {
             toastMsg.show("Please Select Container of view detail !", 3000);
             return;
         }
 
         dialogDetailPC.show();
+    }
+
+    public void setMainController(AgentController mainController) {
+        this.mainController = mainController;
     }
 }
