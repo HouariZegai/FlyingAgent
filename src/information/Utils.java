@@ -1,8 +1,8 @@
 package information;
 
-final class Utils {
+public final class Utils {
 
-    static String humanReadableByteCount(long bytes) {
+    public static String humanReadableByteCount(long bytes) {
         int unit = 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));

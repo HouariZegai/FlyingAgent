@@ -19,6 +19,18 @@ public class MemoryInformation extends Information {
         inUseMemorySize = (physicalMemorySize - freePhysicalMemory);
     }
 
+    public long getFreePhysicalMemory() {
+        return freePhysicalMemory;
+    }
+
+    public long getPhysicalMemorySize() {
+        return physicalMemorySize;
+    }
+
+    public long getInUseMemorySize() {
+        return inUseMemorySize;
+    }
+
     @Override
     public String toString() {
         return "MemoryInformation{" +

@@ -29,4 +29,16 @@ public class Disk extends Information {
                 ", usableSpace=" + humanReadableByteCount(usableSpace) +
                 '}';
     }
+
+    public long getTotalSpace() {
+        return totalSpace;
+    }
+
+    public long getFreeSpace() {
+        return freeSpace;
+    }
+
+    public long getUsableSpace() {
+        return usableSpace;
+    }
 }

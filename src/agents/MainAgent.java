@@ -1,7 +1,10 @@
 package agents;
 
 import behaviours.GetLocationsBehaviour;
+import com.google.gson.Gson;
+import controllers.DetailPCController;
 import controllers.HomeController;
+import information.AllInformation;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;
@@ -23,12 +26,19 @@ public class MainAgent extends Agent {
 
     public static final String NAME = "WaiterAgent";
     private static HomeController homeControllerA;
+    private static DetailPCController detailPCControllerA;
+
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
     private AgentObjectBehavior myBehaviour = new AgentObjectBehavior();
     private AID mobileAgent = new AID(MobileAgent.NAME, AID.ISLOCALNAME);
 
-    public static void setController(HomeController homeController) {
+    public static void setHomeController(HomeController homeController) {
         homeControllerA = homeController;
+    }
+
+    public static void setDetailController(DetailPCController detailPCController) {
+        detailPCControllerA = detailPCController;
+        System.out.println("The Controller initilized");
     }
 
     @Override
@@ -95,6 +105,11 @@ public class MainAgent extends Agent {
             ACLMessage message = receive(template);
             if (message != null) {
                 System.out.println("From Receiver" + message.getContent());
+                AllInformation all = new Gson().fromJson(message.getContent(), AllInformation.class);
+                System.out.println("all information is " + all.toString());
+                if (homeControllerA != null) {
+                    Platform.runLater(() -> homeControllerA.updateDetail(all));
+                }
                 mobileAgent = message.getSender();
             } else {
                 block();

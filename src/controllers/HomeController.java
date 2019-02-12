@@ -1,8 +1,10 @@
 package controllers;
 
+import agents.MainAgent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
+import information.AllInformation;
 import jade.util.leap.Iterator;
 import jade.util.leap.List;
 import jade.wrapper.AgentController;
@@ -43,14 +45,14 @@ public class HomeController implements Initializable {
         toastMsg = new JFXSnackbar(root);
 
         FXMLLoader detailsLoader = new FXMLLoader(getClass().getResource("/resources/views/DetailPC.fxml"));
-        DetailPCController detailPCController = detailsLoader.getController();
-
         try {
             VBox detailsPCPane = detailsLoader.load();
             dialogDetailPC = new JFXDialog(root, detailsPCPane, JFXDialog.DialogTransition.CENTER);
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
+        detailPCController = detailsLoader.getController();
+        MainAgent.setDetailController(detailPCController);
         dialogDetailPC.setOnDialogClosed(e -> {
             listLocation.getSelectionModel().clearSelection();
         });
@@ -118,11 +120,24 @@ public class HomeController implements Initializable {
             toastMsg.show("Please Select Container of view detail !", 3000);
             return;
         }
+        Map<String, Object> map = new HashMap<>();
+        map.put(Message.KEY_LOCATION, locationsJade.get(listLocation.getSelectionModel().getSelectedIndex()));
+        Message message = new Message(map, Message.MOVE_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
 
-        dialogDetailPC.show();
+
     }
 
     public void setMainController(AgentController mainController) {
         this.mainController = mainController;
+    }
+
+    public void updateDetail(AllInformation all) {
+        detailPCController.updateScreen(all);
+        dialogDetailPC.show();
     }
 }
