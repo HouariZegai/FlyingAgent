@@ -67,10 +67,6 @@ public class DetailPCController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-        //initOS(); // Init OS info
-        //initCPU(); // Init CPU info
-        //initMemoryChart(); // Init memory info
-
         /* Init network info (table) */
         initNetworkTable();
 
@@ -91,20 +87,18 @@ public class DetailPCController implements Initializable {
     /* Start CPU Info */
 
     private void initOS(OSInformation osInfo) {
-        System.out.println(osInfo.toString());
+        if(osInfo.getOsName().toLowerCase().contains("windows"))
+            iconOs.setImage(new Image("/resources/images/os/win.png"));
+        else if(osInfo.getOsName().toLowerCase().contains("linux") || osInfo.getOsName().toLowerCase().contains("unix"))
+                iconOs.setImage(new Image("/resources/images/os/win.png"));
+        if(osInfo.getOsName().toLowerCase().contains("mac") || osInfo.getOsName().toLowerCase().contains("apple"))
+            iconOs.setImage(new Image("/resources/images/os/apple.png"));
+
         lblOSName.setText(osInfo.getOsName());
         lblOSVersion.setText(osInfo.getOsVersion());
         lblOSArchi.setText(osInfo.getOsArchitecture());
         lblOSUsername.setText(osInfo.getUserName());
         lblOSComputerName.setText(osInfo.getComputerName());
-        /* Just for testing */
-        iconOs.setImage(new Image("/resources/images/os/linux.png"));
-//        lblOSName.setText("Linux");
-//        lblOSVersion.setText("16.04");
-//        lblOSArchi.setText("32bit");
-//        lblOSUsername.setText("Houari");
-//        lblOSComputerName.setText("DELL-Houar");
-
     }
 
     /* End CPU Info */
@@ -112,16 +106,14 @@ public class DetailPCController implements Initializable {
     /* Start Memory info */
 
     private void initCPU(CPUInformation cpuInfo) {
+        if(cpuInfo.getProcessorId().toLowerCase().contains("intel"))
+            iconCpu.setImage(new Image("/resources/images/cpu/intel.png"));
+        else if (cpuInfo.getProcessorId().toLowerCase().contains("amd"))
+            iconCpu.setImage(new Image("/resources/images/cpu/amd.png"));
 
         lblCPUId.setText(cpuInfo.getProcessorId());
         lblCPUArchi.setText(cpuInfo.getProcessorArchitecture());
         lblCPUNumCores.setText(cpuInfo.getNumberCores());
-
-        /* Just for testing */
-        iconCpu.setImage(new Image("/resources/images/cpu/intel.png"));
-//        lblCPUId.setText("Intel i3-4004U 2.16GHZ");
-//        lblCPUArchi.setText("64bit");
-//        lblCPUNumCores.setText("2");
 
     }
 

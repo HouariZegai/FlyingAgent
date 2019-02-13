@@ -5,9 +5,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" styleClass="cards" stylesheets="@../../css/models/disk-info.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" styleClass="cards" stylesheets="@../../css/models/disk-info.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <PieChart fx:id="pieData" labelsVisible="false" legendSide="BOTTOM" prefHeight="230.0" prefWidth="250.0" />
+      <PieChart fx:id="pieData" labelsVisible="false" legendSide="BOTTOM" prefHeight="240.0" prefWidth="260.0" />
       <HBox alignment="CENTER" spacing="10.0">
          <children>
             <Label styleClass="cards-key" text="Total space:" />

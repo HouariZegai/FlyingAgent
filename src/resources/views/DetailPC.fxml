@@ -29,7 +29,7 @@
       </StackPane>
       <ScrollPane VBox.vgrow="ALWAYS">
          <content>
-            <FlowPane hgap="20.0" maxWidth="-Infinity" prefHeight="1143.0" prefWidth="800.0" rowValignment="TOP" style="-fx-background-color: #FFF; -fx-border-color: #FFF;" vgap="20.0">
+            <FlowPane hgap="20.0" maxWidth="-Infinity" prefHeight="1163.0" prefWidth="800.0" rowValignment="TOP" style="-fx-background-color: #FFF; -fx-border-color: #FFF;" vgap="20.0">
                <children>
                   <VBox prefHeight="215.0" prefWidth="430.0" spacing="10.0" styleClass="cards">
                      <children>
@@ -55,13 +55,13 @@
                               <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="1">
                                  <children>
                                     <ImageView fx:id="iconOs" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label fx:id="lblOSName" styleClass="cards-value" text="Windows" />
+                                    <Label fx:id="lblOSName" styleClass="cards-value" text="aaa" />
                                  </children>
                               </HBox>
-                              <Label fx:id="lblOSVersion" styleClass="cards-value" text="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label fx:id="lblOSArchi" styleClass="cards-value" text="32bit" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <Label fx:id="lblOSUsername" styleClass="cards-value" text="HouariZEGAI" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                              <Label fx:id="lblOSComputerName" styleClass="cards-value" text="DELL Inspiron" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label fx:id="lblOSVersion" styleClass="cards-value" text="aa" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="lblOSArchi" styleClass="cards-value" text="aaa" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="lblOSUsername" styleClass="cards-value" text="aaaaaaaaa" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label fx:id="lblOSComputerName" styleClass="cards-value" text="aaaa" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                      </children>
@@ -110,11 +110,11 @@
                               <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1">
                                  <children>
                                     <ImageView fx:id="iconCpu" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" />
-                                    <Label fx:id="lblCPUId" styleClass="cards-value" text="Intel64 Family 6 Model 58 Stepping 9, GenuineIntel" HBox.hgrow="ALWAYS" />
+                                    <Label fx:id="lblCPUId" styleClass="cards-value" text="aaa" HBox.hgrow="ALWAYS" />
                                  </children>
                               </HBox>
-                              <Label fx:id="lblCPUArchi" styleClass="cards-value" text="32bit" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <Label fx:id="lblCPUNumCores" styleClass="cards-value" text="4" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label fx:id="lblCPUArchi" styleClass="cards-value" text="aa" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="lblCPUNumCores" styleClass="cards-value" text="a" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children>
@@ -134,9 +134,9 @@
                         <JFXTreeTableView fx:id="tableNetwork" prefHeight="200.0" prefWidth="820.0" />
                      </children>
                   </VBox>
-                  <VBox maxHeight="-Infinity" prefHeight="340.0" prefWidth="860.0" spacing="10.0" style="-fx-padding: 10px 5px 0px 10px;" styleClass="cards">
+                  <VBox maxHeight="-Infinity" prefWidth="860.0" spacing="10.0" style="-fx-padding: 10px 5px 0px 10px;" styleClass="cards">
                      <children>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" spacing="10.0">
                            <children>
                               <Label styleClass="cards-title" text="Disks" />
                               <ImageView fitHeight="52.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
@@ -146,9 +146,9 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <ScrollPane prefHeight="289.0" prefWidth="850.0" style="-fx-background-color: #FFF;" vbarPolicy="NEVER">
+                        <ScrollPane prefHeight="310.0" prefWidth="850.0" style="-fx-background-color: #FFF;" vbarPolicy="NEVER" VBox.vgrow="ALWAYS">
                            <content>
-                              <HBox fx:id="boxContainerDisks" alignment="CENTER" spacing="10.0">
+                              <HBox fx:id="boxContainerDisks" alignment="CENTER" maxHeight="-Infinity" spacing="10.0">
                                  <padding>
                                     <Insets left="10.0" top="10.0" />
                                  </padding></HBox>

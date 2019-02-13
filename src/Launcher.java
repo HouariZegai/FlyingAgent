@@ -14,12 +14,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Launcher extends Application {
 
-    private static final String MAIN_CONTAINER_HOST_IP = "169.254.143.43";
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.43.9";
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;
