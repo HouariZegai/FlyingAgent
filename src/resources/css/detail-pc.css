@@ -37,6 +37,26 @@
 
 /* End Cards */
 
+.btn {
+    -fx-font-size: 20px;
+    -fx-pref-width: 130px;
+    -fx-pref-height: 40px;
+    -fx-background-radius: 5;
+    -fx-background-color: #6bbc76;
+    -jfx-button-type: RAISED;
+    -fx-text-fill: #FFF;
+    -fx-cursor: hand;
+}
+
+.field {
+    -fx-font-size: 20px;
+}
+
+.icon-down:hover {
+    -fx-fill: #6bbc76;
+    -fx-cursor: hand;
+}
+
 /* Start close button */
 
 .btn-close {

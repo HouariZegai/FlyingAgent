@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
@@ -63,7 +64,9 @@ public class DetailPCController implements Initializable {
         return Double.valueOf(new DecimalFormat("##.##").format(bytes / Math.pow(unit, exp)));
     }
 
-    /* Start OS Info */
+    // More infos
+    @FXML
+    private TextArea areaMoreInfo;
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
@@ -221,9 +224,14 @@ public class DetailPCController implements Initializable {
         }
     }
 
-    private double byteToGB(long byteSize) {
-        int exp = (int) (Math.log(byteSize) / Math.log(1024));
-        return Double.valueOf(new DecimalFormat("##.##").format(byteSize / Math.pow(1024, exp)));
+    @FXML
+    private void onMoreInfos() {
+
+    }
+
+    @FXML
+    private void onExport() {
+
     }
 
     @FXML

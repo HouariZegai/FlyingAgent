@@ -2,10 +2,12 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -29,7 +31,7 @@
       </StackPane>
       <ScrollPane VBox.vgrow="ALWAYS">
          <content>
-            <FlowPane hgap="20.0" maxWidth="-Infinity" prefHeight="1163.0" prefWidth="800.0" rowValignment="TOP" style="-fx-background-color: #FFF; -fx-border-color: #FFF;" vgap="20.0">
+            <FlowPane hgap="20.0" maxWidth="-Infinity" prefWidth="800.0" rowValignment="TOP" style="-fx-background-color: #FFF; -fx-border-color: #FFF;" vgap="20.0">
                <children>
                   <VBox prefHeight="215.0" prefWidth="430.0" spacing="10.0" styleClass="cards">
                      <children>
@@ -159,7 +161,21 @@
                         </ScrollPane>
                      </children>
                   </VBox>
+                  <VBox maxHeight="-Infinity" prefWidth="860.0" spacing="10.0" style="-fx-padding: 10px 5px 10px 10px;" styleClass="cards">
+                     <children>
+                        <StackPane>
+                           <children>
+                              <JFXButton onAction="#onMoreInfos" styleClass="btn" text="More infos" StackPane.alignment="BOTTOM_LEFT" />
+                              <MaterialIconView fill="#333333" glyphName="FILE_DOWNLOAD" onMouseClicked="#onExport" size="30" styleClass="icon-down" text="" StackPane.alignment="CENTER_RIGHT" />
+                           </children>
+                        </StackPane>
+                        <TextArea fx:id="areaMoreInfo" editable="false" prefHeight="240.0" promptText="More info..." styleClass="field" />
+                     </children>
+                  </VBox>
                </children>
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
             </FlowPane>
          </content>
          <VBox.margin>
