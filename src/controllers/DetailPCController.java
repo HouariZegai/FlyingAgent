@@ -136,15 +136,17 @@ public class DetailPCController implements Initializable {
         // Data of pie chart
         ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
 
-        data.add(new PieChart.Data("In Use", humanReadableByteCountTwo(memoryInfo.getInUseMemorySize())));
-        data.add(new PieChart.Data("Free", humanReadableByteCountTwo(memoryInfo.getFreePhysicalMemory())));
+        data.add(new PieChart.Data("In Use " + Utils.humanReadableByteCount(memoryInfo.getInUseMemorySize()), Utils.humanReadableByteCountNumber(memoryInfo.getInUseMemorySize())));
+        data.add(new PieChart.Data("Free " + Utils.humanReadableByteCount(memoryInfo.getFreePhysicalMemory()), Utils.humanReadableByteCountNumber(memoryInfo.getFreePhysicalMemory())));
         //data.add(new PieChart.Data("In Use", Utils.humanReadableByteCount(3000000012L)));
         //data.add(new PieChart.Data("Free", Utils.humanReadableByteCount(2200000012L)));
 
 
         pieMemory.setData(data);
-        pieMemory.getData().forEach(d ->
-                d.nameProperty().bind(Bindings.concat(d.getName(), " ", d.pieValueProperty(), " GB"))
+
+        pieMemory.getData().forEach(d -> {
+                    d.nameProperty().bind(Bindings.concat(d.getName()));
+                }
         );
     }
 
@@ -214,8 +216,8 @@ public class DetailPCController implements Initializable {
 
             // Data of pie chart
             ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-            data.add(new PieChart.Data("Usable", humanReadableByteCountTwo(disk.getUsableSpace())));
-            data.add(new PieChart.Data("Free", humanReadableByteCountTwo(disk.getFreeSpace())));
+            data.add(new PieChart.Data("Usable", Utils.humanReadableByteCountNumber(disk.getUsableSpace())));
+            data.add(new PieChart.Data("Free", Utils.humanReadableByteCountNumber(disk.getFreeSpace())));
 
             pieData.setData(data);
             pieData.getData().forEach(d ->

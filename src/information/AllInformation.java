@@ -10,7 +10,7 @@ public class AllInformation extends Information {
     private OSInformation osInformation;
 
 
-    private AllInformation() {
+    public AllInformation() {
         networkInformation = new NetworkInformation();
         cpuInformation = new CPUInformation();
         disksInformation = new DisksInformation();
@@ -33,6 +33,17 @@ public class AllInformation extends Information {
 
     public CPUInformation getCpuInformation() {
         return cpuInformation;
+    }
+
+    @Override
+    public String toString() {
+        return "AllInformation{" +
+                "networkInformation=" + networkInformation +
+                ", cpuInformation=" + cpuInformation +
+                ", disksInformation=" + disksInformation +
+                ", memoryInformation=" + memoryInformation +
+                ", osInformation=" + osInformation +
+                '}';
     }
 
     public DisksInformation getDisksInformation() {

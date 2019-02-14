@@ -1,6 +1,10 @@
+import information.AllInformation;
+
 public class Main {
 
     public static void main(String[] args) {
-        new Launcher();
+        AllInformation information = new AllInformation();
+
+        System.out.println(information.toString());
     }
 }
