@@ -21,7 +21,10 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -231,7 +234,23 @@ public class DetailPCController implements Initializable {
 
     @FXML
     private void onExport() {
+        if(areaMoreInfo.getText() == null || areaMoreInfo.getText().trim().isEmpty())
+            return;
 
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File selectedFile = fileChooser.showSaveDialog(areaMoreInfo.getScene().getWindow());
+        if(selectedFile != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(selectedFile);
+                fileWriter.write(areaMoreInfo.getText().trim());
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML

@@ -110,19 +110,6 @@ public class HomeController implements Initializable {
     }
 
     @FXML
-    private void onMove() {
-        Map<String, Object> map = new HashMap<>();
-        map.put(Message.KEY_LOCATION, locationsJade.get(listLocation.getSelectionModel().getSelectedIndex()));
-        Message message = new Message(map, Message.MOVE_REQUEST);
-        try {
-            mainController.putO2AObject(message, AgentController.ASYNC);
-        } catch (StaleProxyException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
     private void onDetail() {
         if (listLocation.getSelectionModel().getSelectedItem() == null) {
             toastMsg.show("Please Select Container of view detail !", 3000);
