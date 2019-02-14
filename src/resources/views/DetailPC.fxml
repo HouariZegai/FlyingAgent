@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
 <?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
@@ -29,7 +30,7 @@
             <Insets right="10.0" top="10.0" />
          </VBox.margin>
       </StackPane>
-      <ScrollPane VBox.vgrow="ALWAYS">
+      <ScrollPane vvalue="1.0" VBox.vgrow="ALWAYS">
          <content>
             <FlowPane hgap="20.0" maxWidth="-Infinity" prefWidth="800.0" rowValignment="TOP" style="-fx-background-color: #FFF; -fx-border-color: #FFF;" vgap="20.0">
                <children>
@@ -165,7 +166,12 @@
                      <children>
                         <StackPane>
                            <children>
-                              <JFXButton onAction="#onMoreInfos" styleClass="btn" text="More infos" StackPane.alignment="BOTTOM_LEFT" />
+                              <HBox maxWidth="-Infinity" spacing="10.0" StackPane.alignment="BOTTOM_LEFT">
+                                 <children>
+                                    <JFXButton onAction="#onMoreInfo" styleClass="btn" text="More info" />
+                                    <JFXSpinner fx:id="spinnerMoreInfo" prefHeight="35.0" prefWidth="35.0" visible="false" />
+                                 </children>
+                              </HBox>
                               <MaterialIconView fill="#333333" glyphName="FILE_DOWNLOAD" onMouseClicked="#onExport" size="30" styleClass="icon-down" text="" StackPane.alignment="CENTER_RIGHT" />
                            </children>
                         </StackPane>

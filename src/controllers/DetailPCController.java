@@ -1,5 +1,6 @@
 package controllers;
 
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -63,7 +64,9 @@ public class DetailPCController implements Initializable {
     private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
     private AgentController mainController;
 
-    // More infos
+    /* More infos */
+    @FXML
+    private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
 
@@ -85,6 +88,7 @@ public class DetailPCController implements Initializable {
     }
 
     void updateScreen(AllInformation allInformation) {
+        spinnerMoreInfo.setVisible(false);
         initOS(allInformation.getOsInformation());
         initMemoryChart(allInformation.getMemoryInformation());
         initCPU(allInformation.getCpuInformation());
@@ -232,7 +236,8 @@ public class DetailPCController implements Initializable {
     }
 
     @FXML
-    private void onMoreInfos() {
+    private void onMoreInfo() {
+        spinnerMoreInfo.setVisible(true);
         Message message = new Message(null, Message.ASK_REQUEST);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);
@@ -242,6 +247,7 @@ public class DetailPCController implements Initializable {
     }
 
     public void updateMoreInfo(String info) {
+        spinnerMoreInfo.setVisible(false);
         areaMoreInfo.setText(info);
     }
 

@@ -4,6 +4,7 @@ import agents.MainAgent;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
+import com.jfoenix.controls.JFXSpinner;
 import information.AllInformation;
 import jade.util.leap.Iterator;
 import jade.util.leap.List;
@@ -38,10 +39,15 @@ public class HomeController implements Initializable {
 
     @FXML
     private JFXListView<StackPane> listLocation;
+
+    @FXML
+    private JFXSpinner spinnerDetails;
+
     private JFXSnackbar toastMsg;
 
     private DetailPCController detailPCController;
     private List locationsJade;
+
     private java.util.List<String> stringLocationList;
 
 
@@ -115,6 +121,9 @@ public class HomeController implements Initializable {
             toastMsg.show("Please Select Container of view detail !", 3000);
             return;
         }
+
+        spinnerDetails.setVisible(true);
+
         Map<String, Object> map = new HashMap<>();
         map.put(Message.KEY_LOCATION, locationsJade.get(listLocation.getSelectionModel().getSelectedIndex()));
         Message message = new Message(map, Message.MOVE_REQUEST);
@@ -132,6 +141,7 @@ public class HomeController implements Initializable {
 
     public void updateDetail(AllInformation all) {
         detailPCController.updateScreen(all);
+        spinnerDetails.setVisible(false);
         dialogDetailPC.show();
     }
 }

@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -38,7 +39,12 @@
             <StackPane>
                <children>
                   <Label styleClass="sub-title" text="View details" StackPane.alignment="CENTER_LEFT" />
-                  <JFXButton onAction="#onDetail" styleClass="btn" text="Details" StackPane.alignment="CENTER_RIGHT" />
+                  <HBox maxWidth="-Infinity" spacing="10.0" StackPane.alignment="CENTER_RIGHT">
+                     <children>
+                        <JFXSpinner fx:id="spinnerDetails" prefHeight="35.0" prefWidth="35.0" visible="false" />
+                        <JFXButton onAction="#onDetail" styleClass="btn" text="Details" />
+                     </children>
+                  </HBox>
                </children>
             </StackPane>
          </children>
