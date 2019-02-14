@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class Launcher extends Application {
 
-    private static final String MAIN_CONTAINER_HOST_IP = "192.168.43.9";
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.137.129";
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;

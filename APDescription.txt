@@ -1,1 +1,1 @@
-( ap-description  :name "FlyingAgents" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://DESKTOP-PLTHTAH:7778/acc))))
+( ap-description  :name "FlyingAgents" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://DESKTOP-PLTHTAH.mshome.net:7778/acc))))

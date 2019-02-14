@@ -12,7 +12,12 @@ import jade.wrapper.StaleProxyException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.NodeOrientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import models.Message;
@@ -32,7 +37,7 @@ public class HomeController implements Initializable {
     private AgentController mainController;
 
     @FXML
-    private JFXListView<Label> listLocation;
+    private JFXListView<StackPane> listLocation;
     private JFXSnackbar toastMsg;
 
     private DetailPCController detailPCController;
@@ -65,14 +70,17 @@ public class HomeController implements Initializable {
     public void updateLocation(List locations) {
         this.locationsJade = locations;
         Iterator ite = locationsJade.iterator();
-        stringLocationList = new ArrayList<>();
-        while (ite.hasNext()) {
-            stringLocationList.add(ite.next().toString());
-        }
-        listLocation.getItems().clear();
 
-        for (String location : stringLocationList) {
-            listLocation.getItems().add(new Label(location));
+        listLocation.getItems().clear();
+        while (ite.hasNext()) {
+            StackPane stackPane = new StackPane();
+
+            Label lbl = new Label(ite.next().toString());
+            ImageView pcIcon = new ImageView(new Image("/resources/images/pc.png"));
+            stackPane.getChildren().addAll(lbl, pcIcon);
+            stackPane.setAlignment(lbl, Pos.CENTER_LEFT);
+            stackPane.setAlignment(pcIcon, Pos.CENTER_RIGHT);
+            listLocation.getItems().add(stackPane);
         }
 
     }
