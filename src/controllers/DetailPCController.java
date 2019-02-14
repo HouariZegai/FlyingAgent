@@ -199,8 +199,10 @@ public class DetailPCController implements Initializable {
         boxContainerDisks.getChildren().clear();
         List<Disk> disks = disksInformation.getDisks();
         if (disks != null) {
-            for (Disk disk : disks)
-                addDiskBox(disk);
+            for (Disk disk : disks) {
+                if(disk.getTotalSpace() != 0L)
+                    addDiskBox(disk);
+            }
         }
 
         /* This data just for testing */
