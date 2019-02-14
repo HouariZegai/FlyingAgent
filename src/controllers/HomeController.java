@@ -123,12 +123,11 @@ public class HomeController implements Initializable {
         } catch (StaleProxyException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    public void setMainController(AgentController mainController) {
+    public void setMainAgentController(AgentController mainController) {
         this.mainController = mainController;
+        detailPCController.setMainAgentController(mainController);
     }
 
     public void updateDetail(AllInformation all) {

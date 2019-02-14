@@ -6,6 +6,8 @@ import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controllers.table_models.NetworkTable;
 import information.*;
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
+import models.Message;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -58,6 +61,11 @@ public class DetailPCController implements Initializable {
     private HBox boxContainerDisks;
 
     private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
+    private AgentController mainController;
+
+    // More infos
+    @FXML
+    private TextArea areaMoreInfo;
 
     public static Double humanReadableByteCountTwo(long bytes) {
         int unit = 1024;
@@ -66,10 +74,6 @@ public class DetailPCController implements Initializable {
         String pre = "kMGTPE".charAt(exp - 1) + "";
         return Double.valueOf(new DecimalFormat("##.##").format(bytes / Math.pow(unit, exp)));
     }
-
-    // More infos
-    @FXML
-    private TextArea areaMoreInfo;
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
@@ -93,11 +97,11 @@ public class DetailPCController implements Initializable {
     /* Start CPU Info */
 
     private void initOS(OSInformation osInfo) {
-        if(osInfo.getOsName().toLowerCase().contains("windows"))
+        if (osInfo.getOsName().toLowerCase().contains("windows"))
             iconOs.setImage(new Image("/resources/images/os/win.png"));
-        else if(osInfo.getOsName().toLowerCase().contains("linux") || osInfo.getOsName().toLowerCase().contains("unix"))
-                iconOs.setImage(new Image("/resources/images/os/win.png"));
-        if(osInfo.getOsName().toLowerCase().contains("mac") || osInfo.getOsName().toLowerCase().contains("apple"))
+        else if (osInfo.getOsName().toLowerCase().contains("linux") || osInfo.getOsName().toLowerCase().contains("unix"))
+            iconOs.setImage(new Image("/resources/images/os/win.png"));
+        if (osInfo.getOsName().toLowerCase().contains("mac") || osInfo.getOsName().toLowerCase().contains("apple"))
             iconOs.setImage(new Image("/resources/images/os/apple.png"));
 
         lblOSName.setText(osInfo.getOsName());
@@ -112,7 +116,7 @@ public class DetailPCController implements Initializable {
     /* Start Memory info */
 
     private void initCPU(CPUInformation cpuInfo) {
-        if(cpuInfo.getProcessorId().toLowerCase().contains("intel"))
+        if (cpuInfo.getProcessorId().toLowerCase().contains("intel"))
             iconCpu.setImage(new Image("/resources/images/cpu/intel.png"));
         else if (cpuInfo.getProcessorId().toLowerCase().contains("amd"))
             iconCpu.setImage(new Image("/resources/images/cpu/amd.png"));
@@ -229,7 +233,16 @@ public class DetailPCController implements Initializable {
 
     @FXML
     private void onMoreInfos() {
+        Message message = new Message(null, Message.ASK_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
 
+    public void updateMoreInfo(String info) {
+        areaMoreInfo.setText(info);
     }
 
     @FXML
@@ -258,4 +271,9 @@ public class DetailPCController implements Initializable {
         HomeController.dialogDetailPC.close();
     }
 
+    public void setMainAgentController(AgentController mainController) {
+        if (mainController == null) System.out.println("Main Controller is Null");
+        else System.out.println("Main Controller is not Null");
+        this.mainController = mainController;
+    }
 }

@@ -14,6 +14,7 @@ public class MobileAgent extends Agent {
 
     public static final String NAME = "MobileAgent";
     private AID stableAgent = new AID(MainAgent.NAME, AID.ISLOCALNAME);
+    private Location currentLocation;
 
     @Override
     protected void setup() {
@@ -32,7 +33,6 @@ public class MobileAgent extends Agent {
 
     private void sendBasicInformation() {
         ACLMessage message = new ACLMessage(ACLMessage.INFORM);
-        System.out.println(AllInformation.getInstance().toJson());
         message.setContent(AllInformation.getInstance().toJson());
         message.addReceiver(stableAgent);
         send(message);
@@ -40,20 +40,25 @@ public class MobileAgent extends Agent {
 
     private void handleMovingRequest(ACLMessage message) {
         try {
-            Location location = (Location) message.getContentObject();
-            System.out.println(location.toString());
-            doMove(location);
+            if (currentLocation == message.getContentObject()) {
+                sendBasicInformation();
+            } else {
+                Location location = (Location) message.getContentObject();
+                currentLocation = location;
+                doMove(location);
+            }
         } catch (UnreadableException e) {
             e.printStackTrace();
         }
     }
 
-    private void handleRawInfo() {
-        ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
+    private void handleRawInfo(ACLMessage message) {
+        ACLMessage msg = new ACLMessage(ACLMessage.AGREE);
         String moreInfo = new RawInformation().toString();
         System.out.println(moreInfo);
         msg.setContent(moreInfo);
         msg.addReceiver(stableAgent);
+        msg.setConversationId(message.getConversationId());
         send(msg);
     }
 
@@ -71,7 +76,7 @@ public class MobileAgent extends Agent {
                         handleMovingRequest(message);
                         break;
                     case ACLMessage.REQUEST:
-                        handleRawInfo();
+                        handleRawInfo(message);
                         break;
                 }
 

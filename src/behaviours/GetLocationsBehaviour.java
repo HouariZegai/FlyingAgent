@@ -33,7 +33,6 @@ public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
         } catch (Exception fe) {
             fe.printStackTrace();
         }
-        System.out.println("GetLocationBehaviour action started");
         reset(request);
     }
 
@@ -53,11 +52,8 @@ public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
     }
 
     protected void handleInform(ACLMessage inform) {
-        String content = inform.getContent();
-        System.out.println("Content is:" + content);
         try {
             Result results = (Result) myAgent.getContentManager().extractContent(inform);
-            System.out.println("From behaviour " + results.getItems().toString());
             ((MainAgent) myAgent).updateLocations(results.getItems());
         } catch (Exception e) {
             e.printStackTrace();

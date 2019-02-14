@@ -27,6 +27,7 @@ public class MainAgent extends Agent {
     public static final String NAME = "WaiterAgent";
     private static HomeController homeControllerA;
     private static DetailPCController detailPCControllerA;
+    private Location currentLocation;
 
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
     private AgentObjectBehavior myBehaviour = new AgentObjectBehavior();
@@ -76,7 +77,11 @@ public class MainAgent extends Agent {
                 refreshLocation();
                 break;
             case Message.MOVE_REQUEST:
-                askForMoving((Location) message.getParameters().get(Message.KEY_LOCATION));
+                if (currentLocation == null) {
+                    currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
+                }
+                askForMoving(currentLocation);
+
                 break;
             case Message.ASK_REQUEST:
                 askMoreInfo();
@@ -165,6 +170,7 @@ public class MainAgent extends Agent {
 
         private void handleRawData(String rawJson) {
             System.out.println(rawJson);
+            Platform.runLater(() -> detailPCControllerA.updateMoreInfo(rawJson));
             status = DONE;
         }
 
