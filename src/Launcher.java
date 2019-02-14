@@ -17,7 +17,7 @@ import java.io.IOException;
 
 public class Launcher extends Application {
 
-    private static final String MAIN_CONTAINER_HOST_IP = "192.168.43.9";
+    private static final String MAIN_CONTAINER_HOST_IP = "192.168.137.1";
     private static final int MAIN_CONTAINER_PORT = 1099;
     private static final String PLATFORM_ID = "FlyingAgents";
     private static AgentContainer mc;
@@ -58,7 +58,7 @@ public class Launcher extends Application {
 
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
-            homeController.setMainController(receiverAgent);
+            homeController.setMainAgentController(receiverAgent);
             MainAgent.setHomeController(homeController);
         } catch (IOException | StaleProxyException ioe) {
             ioe.printStackTrace();

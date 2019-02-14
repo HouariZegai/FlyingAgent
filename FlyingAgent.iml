@@ -11,5 +11,7 @@
     <orderEntry type="library" name="jfoenix-8.0.1" level="project" />
     <orderEntry type="library" name="jade" level="project" />
     <orderEntry type="library" name="fontawesomefx-commons-8.15" level="project" />
+    <orderEntry type="library" name="gson-2.6.2" level="project" />
+    <orderEntry type="library" name="json-20170516" level="project" />
   </component>
 </module>

@@ -2,7 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
-<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
+<!--<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>-->
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
@@ -166,7 +166,7 @@
                         <StackPane>
                            <children>
                               <JFXButton onAction="#onMoreInfos" styleClass="btn" text="More infos" StackPane.alignment="BOTTOM_LEFT" />
-                              <MaterialIconView fill="#333333" glyphName="FILE_DOWNLOAD" onMouseClicked="#onExport" size="30" styleClass="icon-down" text="" StackPane.alignment="CENTER_RIGHT" />
+                              <!--<MaterialIconView fill="#333333" glyphName="FILE_DOWNLOAD" onMouseClicked="#onExport" size="30" styleClass="icon-down" text="" StackPane.alignment="CENTER_RIGHT" />-->
                            </children>
                         </StackPane>
                         <TextArea fx:id="areaMoreInfo" editable="false" prefHeight="240.0" promptText="More info..." styleClass="field" />
