@@ -1,5 +1,6 @@
 package controllers;
 
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -23,8 +24,11 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import models.Message;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -59,7 +63,10 @@ public class DetailPCController implements Initializable {
 
     private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
     private AgentController mainController;
-    // More infos
+
+    /* More infos */
+    @FXML
+    private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
 
@@ -81,6 +88,7 @@ public class DetailPCController implements Initializable {
     }
 
     void updateScreen(AllInformation allInformation) {
+        spinnerMoreInfo.setVisible(false);
         initOS(allInformation.getOsInformation());
         initMemoryChart(allInformation.getMemoryInformation());
         initCPU(allInformation.getCpuInformation());
@@ -230,7 +238,8 @@ public class DetailPCController implements Initializable {
     }
 
     @FXML
-    private void onMoreInfos() {
+    private void onMoreInfo() {
+        spinnerMoreInfo.setVisible(true);
         Message message = new Message(null, Message.ASK_REQUEST);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);
@@ -240,12 +249,29 @@ public class DetailPCController implements Initializable {
     }
 
     public void updateMoreInfo(String info) {
+        spinnerMoreInfo.setVisible(false);
         areaMoreInfo.setText(info);
     }
 
     @FXML
     private void onExport() {
+        if(areaMoreInfo.getText() == null || areaMoreInfo.getText().trim().isEmpty())
+            return;
 
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File selectedFile = fileChooser.showSaveDialog(areaMoreInfo.getScene().getWindow());
+        if(selectedFile != null) {
+            try {
+                FileWriter fileWriter = new FileWriter(selectedFile);
+                fileWriter.write(areaMoreInfo.getText().trim());
+                fileWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
