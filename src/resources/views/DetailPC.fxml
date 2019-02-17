@@ -29,7 +29,7 @@
             <Insets right="10.0" top="10.0" />
          </VBox.margin>
       </StackPane>
-      <ScrollPane vvalue="1.0" VBox.vgrow="ALWAYS">
+      <ScrollPane VBox.vgrow="ALWAYS">
          <content>
             <FlowPane hgap="20.0" maxWidth="-Infinity" prefWidth="800.0" rowValignment="TOP" style="-fx-background-color: #FFF; -fx-border-color: #FFF;" vgap="20.0">
                <children>
