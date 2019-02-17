@@ -51,6 +51,7 @@ public class HomeController implements Initializable {
     private java.util.List<String> stringLocationList;
 
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         toastMsg = new JFXSnackbar(root);
@@ -98,6 +99,17 @@ public class HomeController implements Initializable {
         listLocation.depthProperty().set(1);
 
         Message message = new Message(null, Message.REFRESH_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onScanAll() {
+
+        Message message = new Message(null, Message.SCAN_ALL_REQUEST);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);
         } catch (StaleProxyException e) {

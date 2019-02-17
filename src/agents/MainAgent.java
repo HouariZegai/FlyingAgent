@@ -20,6 +20,7 @@ import javafx.application.Platform;
 import models.Message;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 
 public class MainAgent extends Agent {
@@ -32,6 +33,7 @@ public class MainAgent extends Agent {
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
     private AgentObjectBehavior myBehaviour = new AgentObjectBehavior();
     private AID mobileAgent = new AID(MobileAgent.NAME, AID.ISLOCALNAME);
+    private List availableLocations;
 
     public static void setHomeController(HomeController homeController) {
         homeControllerA = homeController;
@@ -86,7 +88,14 @@ public class MainAgent extends Agent {
             case Message.ASK_REQUEST:
                 askMoreInfo();
                 break;
+            case Message.SCAN_ALL_REQUEST:
+                askScanAll();
+                break;
         }
+    }
+
+    private void askScanAll() {
+        addBehaviour(new AskScanAllBehavior());
     }
 
     private void askMoreInfo() {
@@ -94,6 +103,7 @@ public class MainAgent extends Agent {
     }
 
     public void updateLocations(List items) {
+        availableLocations = items;
         if (homeControllerA != null) {
             Platform.runLater(() -> homeControllerA.updateLocation(items));
         }
@@ -172,6 +182,53 @@ public class MainAgent extends Agent {
             System.out.println(rawJson);
             Platform.runLater(() -> detailPCControllerA.updateMoreInfo(rawJson));
             status = DONE;
+        }
+
+        @Override
+        public boolean done() {
+            return status == DONE;
+        }
+    }
+
+    private class AskScanAllBehavior extends Behaviour {
+        private static final int ASK = 0;
+        private static final int RESPONSE = 1;
+        private static final int DONE = 2;
+        private int status = ASK;
+        private MessageTemplate template;
+
+        @Override
+        public void action() {
+            switch (status) {
+                case ASK:
+                    ACLMessage message = new ACLMessage(ACLMessage.CFP);
+                    message.setConversationId(String.valueOf(System.currentTimeMillis()));
+                    message.addReceiver(mobileAgent);
+                    try {
+                        message.setContentObject((Serializable) availableLocations);
+                        System.out.println("Adding locations successfully.");
+                    } catch (IOException e) {
+                        System.out.println("Exception in Sending data.");
+                        e.printStackTrace();
+                    }
+                    template = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
+                            MessageTemplate.MatchConversationId(message.getConversationId()));
+                    send(message);
+                    status = RESPONSE;
+                    break;
+                case RESPONSE:
+                    ACLMessage receivedMessage = receive(template);
+                    if (receivedMessage != null) {
+                        handleScanAll(receivedMessage.getContent());
+                    } else {
+                        block();
+                    }
+                    break;
+            }
+        }
+
+        private void handleScanAll(String content) {
+
         }
 
         @Override

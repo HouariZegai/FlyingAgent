@@ -47,6 +47,7 @@ public class MobileAgent extends Agent {
             doMove((Location) allLocations.get(++index));
         }
         if (index == allLocations.size() - 1) {
+            System.out.println(allLocations.toString());
             addBehaviour(movingMessagesBehaviour);
         }
     }
@@ -83,6 +84,7 @@ public class MobileAgent extends Agent {
     }
 
     private void handleVisitAll(ACLMessage message) {
+        removeBehaviour(movingMessagesBehaviour);
         status = SCAN;
         osInformation.clear();
         try {
