@@ -8,7 +8,7 @@ public class OSInformation extends Information {
     private String userName;
     private String computerName;
 
-    OSInformation() {
+    public OSInformation() {
         osName = System.getProperty("os.name");
         osVersion = System.getProperty("os.version");
         osArchitecture = System.getProperty("os.arch");
