@@ -1,7 +1,6 @@
 package agents;
 
 import information.AllInformation;
-import information.OSInformation;
 import information.RawInformation;
 import jade.core.AID;
 import jade.core.Agent;
@@ -11,7 +10,10 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MobileAgent extends Agent {
@@ -21,11 +23,13 @@ public class MobileAgent extends Agent {
     private static final int ONE = 179;
     private AID stableAgent = new AID(MainAgent.NAME, AID.ISLOCALNAME);
     private Location currentLocation;
+    private Location mainContainer;
     private int status = 0;
-    private List<OSInformation> osInformation = new ArrayList<>();
+    private List<AllInformation> allInformation = new ArrayList<>();
     private ServeMovingMessages movingMessagesBehaviour = new ServeMovingMessages();
     private jade.util.leap.List allLocations;
     private int index = 0;
+    private String currentConversationId;
 
     @Override
     protected void setup() {
@@ -42,17 +46,16 @@ public class MobileAgent extends Agent {
         if (status == ONE)
             sendBasicInformation();
         else if (status == SCAN) {
-            System.out.println("After moving, in scan part");
-            OSInformation os = new OSInformation();
-            osInformation.add(os);
+            AllInformation allInformation = new AllInformation();
+            this.allInformation.add(allInformation);
             if (index == allLocations.size() - 1) {
-                System.out.println(osInformation.toString());
+                System.out.println(this.allInformation.toString());
                 addBehaviour(movingMessagesBehaviour);
+                sendScanAllInformation();
                 status = ONE;
             } else
                 doMove((Location) allLocations.get(++index));
         }
-
     }
 
     private void sendBasicInformation() {
@@ -60,6 +63,19 @@ public class MobileAgent extends Agent {
         message.setContent(AllInformation.getInstance().toJson());
         message.addReceiver(stableAgent);
         send(message);
+    }
+
+    private void sendScanAllInformation() {
+        ACLMessage message = new ACLMessage(ACLMessage.AGREE);
+        try {
+            message.setContentObject((Serializable) allInformation);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        message.setConversationId(currentConversationId);
+        message.addReceiver(stableAgent);
+        send(message);
+        allLocations.clear();
     }
 
     private void handleMovingRequest(ACLMessage message) {
@@ -87,16 +103,15 @@ public class MobileAgent extends Agent {
     }
 
     private void handleVisitAll(ACLMessage message) {
-        System.out.println("Handle Visit all was called");
+        currentConversationId = message.getConversationId();
         removeBehaviour(movingMessagesBehaviour);
         status = SCAN;
-        osInformation.clear();
+        allInformation.clear();
+        index = 0;
         try {
             allLocations = (jade.util.leap.List) message.getContentObject();
-            System.out.println("All location was initialized, its length was " + allLocations.size());
         } catch (UnreadableException e) {
             e.printStackTrace();
-            System.out.println("All location was not initialized, expetion" );
         }
         doMove((Location) allLocations.get(index));
     }
@@ -108,7 +123,6 @@ public class MobileAgent extends Agent {
 
         @Override
         public void action() {
-            System.out.println("Action in ServeMovingMessages called");
             ACLMessage message = receive();
             if (message != null) {
                 switch (message.getPerformative()) {
@@ -122,7 +136,6 @@ public class MobileAgent extends Agent {
                         break;
                     case ACLMessage.CFP:
                         status = SCAN;
-                        System.out.println("Message was CFP");
                         handleVisitAll(message);
                         break;
                 }

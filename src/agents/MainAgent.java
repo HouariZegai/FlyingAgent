@@ -15,6 +15,7 @@ import jade.domain.FIPANames;
 import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
+import jade.lang.acl.UnreadableException;
 import jade.util.leap.List;
 import javafx.application.Platform;
 import models.Message;
@@ -32,7 +33,7 @@ public class MainAgent extends Agent {
 
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
     private AgentObjectBehavior agentObjectBehaviour = new AgentObjectBehavior();
-    private AID mobileAgent = new AID(MobileAgent.NAME, AID.ISLOCALNAME);
+
     private List availableLocations;
 
     public static void setHomeController(HomeController homeController) {
@@ -46,7 +47,6 @@ public class MainAgent extends Agent {
 
     @Override
     protected void setup() {
-
         setEnabledO2ACommunication(true, 0);
         getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
         getContentManager().registerOntology(MobilityOntology.getInstance());
@@ -106,7 +106,6 @@ public class MainAgent extends Agent {
         if (homeControllerA != null) {
             Platform.runLater(() -> homeControllerA.updateLocation(items));
         }
-        System.out.println("from receiver " + (items));
         addBehaviour(agentObjectBehaviour);
     }
 
@@ -118,20 +117,13 @@ public class MainAgent extends Agent {
         public void action() {
             ACLMessage message = receive(template);
             if (message != null) {
-                System.out.println("From Receiver" + message.getContent());
                 AllInformation all = new Gson().fromJson(message.getContent(), AllInformation.class);
-                System.out.println("all information is " + all.toString());
                 if (homeControllerA != null) {
                     Platform.runLater(() -> homeControllerA.updateDetail(all));
                 }
-                mobileAgent = message.getSender();
             } else {
                 block();
             }
-        }
-
-        private void handleMessage(String jsonResponse) {
-            System.out.println(jsonResponse);
         }
     }
 
@@ -160,7 +152,7 @@ public class MainAgent extends Agent {
                 case ASK:
                     ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
                     message.setConversationId(String.valueOf(System.currentTimeMillis()));
-                    message.addReceiver(mobileAgent);
+                    message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
                     template = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
                             MessageTemplate.MatchConversationId(message.getConversationId()));
                     send(message);
@@ -207,21 +199,17 @@ public class MainAgent extends Agent {
                         message.setContentObject((Serializable) availableLocations);
                         System.out.println("Adding locations successfully.");
                     } catch (IOException e) {
-                        System.out.println("Exception in Sending data.");
                         e.printStackTrace();
                     }
                     template = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
                             MessageTemplate.MatchConversationId(message.getConversationId()));
                     send(message);
-                    System.out.println("Message from main to mobile was sent");
                     status = RESPONSE;
                     break;
                 case RESPONSE:
                     ACLMessage receivedMessage = receive(template);
-                    addBehaviour(agentObjectBehaviour);
-                    addBehaviour(oneReceiveBehavior);
                     if (receivedMessage != null) {
-                        handleScanAll(receivedMessage.getContent());
+                        handleScanAll(receivedMessage);
                     } else {
                         block();
                     }
@@ -229,7 +217,14 @@ public class MainAgent extends Agent {
             }
         }
 
-        private void handleScanAll(String content) {
+        private void handleScanAll(ACLMessage content) {
+            System.out.println("Response From Mobile About Scan All");
+            try {
+                @SuppressWarnings("unchecked")
+                java.util.List<AllInformation> all = (java.util.List<AllInformation>) content.getContentObject();
+            } catch (UnreadableException e) {
+                e.printStackTrace();
+            }
             status = DONE;
         }
 
