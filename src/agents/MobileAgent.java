@@ -13,7 +13,6 @@ import jade.lang.acl.UnreadableException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MobileAgent extends Agent {
@@ -43,9 +42,10 @@ public class MobileAgent extends Agent {
 
     @Override
     protected void afterMove() {
-        if (status == ONE)
+        System.out.println("Agent moved");
+        if (status == ONE) {
             sendBasicInformation();
-        else if (status == SCAN) {
+        } else if (status == SCAN) {
             AllInformation allInformation = new AllInformation();
             this.allInformation.add(allInformation);
             if (index == allLocations.size() - 1) {
