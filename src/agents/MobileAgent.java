@@ -20,6 +20,7 @@ public class MobileAgent extends Agent {
     public static final String NAME = "MobileAgent";
     private static final int SCAN = 177;
     private static final int ONE = 179;
+    private static final int BACK = 7718;
     private AID stableAgent = new AID(MainAgent.NAME, AID.ISLOCALNAME);
     private Location currentLocation;
     private Location mainContainer;
@@ -32,6 +33,8 @@ public class MobileAgent extends Agent {
 
     @Override
     protected void setup() {
+        currentLocation = here();
+        mainContainer = here();
         addBehaviour(movingMessagesBehaviour);
     }
 
@@ -45,16 +48,28 @@ public class MobileAgent extends Agent {
         System.out.println("Agent moved");
         if (status == ONE) {
             sendBasicInformation();
+        } else if (status == BACK) {
+            status = ONE;
         } else if (status == SCAN) {
-            AllInformation allInformation = new AllInformation();
-            this.allInformation.add(allInformation);
-            if (index == allLocations.size() - 1) {
-                System.out.println(this.allInformation.toString());
-                addBehaviour(movingMessagesBehaviour);
-                sendScanAllInformation();
-                status = ONE;
-            } else
-                doMove((Location) allLocations.get(++index));
+            scanAllAfterMoveProcess();
+        }
+    }
+
+    private void goBack() {
+        status = BACK;
+        doMove(mainContainer);
+    }
+
+    private void scanAllAfterMoveProcess() {
+        AllInformation allInformation = new AllInformation();
+        this.allInformation.add(allInformation);
+        if (index == allLocations.size() - 1) {
+            System.out.println(this.allInformation.toString());
+            addBehaviour(movingMessagesBehaviour);
+            sendScanAllInformation();
+            status = ONE;
+        } else {
+            doMove((Location) allLocations.get(++index));
         }
     }
 
@@ -138,6 +153,9 @@ public class MobileAgent extends Agent {
                     case ACLMessage.CFP:
                         status = SCAN;
                         handleVisitAll(message);
+                    case ACLMessage.CANCEL:
+                        status = ONE;
+                        goBack();
                         break;
                 }
             } else block();
