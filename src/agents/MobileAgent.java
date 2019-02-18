@@ -80,7 +80,8 @@ public class MobileAgent extends Agent {
 
     private void handleMovingRequest(ACLMessage message) {
         try {
-            if (currentLocation == message.getContentObject()) {
+            Location newLocation = (Location) message.getContentObject();
+            if (newLocation != null && currentLocation != null && newLocation.getAddress().equals(currentLocation.getAddress())) {
                 sendBasicInformation();
             } else {
                 Location location = (Location) message.getContentObject();
