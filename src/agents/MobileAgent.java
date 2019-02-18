@@ -42,14 +42,17 @@ public class MobileAgent extends Agent {
         if (status == ONE)
             sendBasicInformation();
         else if (status == SCAN) {
+            System.out.println("After moving, in scan part");
             OSInformation os = new OSInformation();
             osInformation.add(os);
-            doMove((Location) allLocations.get(++index));
+            if (index == allLocations.size() - 1) {
+                System.out.println(osInformation.toString());
+                addBehaviour(movingMessagesBehaviour);
+                status = ONE;
+            } else
+                doMove((Location) allLocations.get(++index));
         }
-        if (index == allLocations.size() - 1) {
-            System.out.println(allLocations.toString());
-            addBehaviour(movingMessagesBehaviour);
-        }
+
     }
 
     private void sendBasicInformation() {
@@ -84,25 +87,29 @@ public class MobileAgent extends Agent {
     }
 
     private void handleVisitAll(ACLMessage message) {
+        System.out.println("Handle Visit all was called");
         removeBehaviour(movingMessagesBehaviour);
         status = SCAN;
         osInformation.clear();
         try {
             allLocations = (jade.util.leap.List) message.getContentObject();
+            System.out.println("All location was initialized, its length was " + allLocations.size());
         } catch (UnreadableException e) {
             e.printStackTrace();
+            System.out.println("All location was not initialized, expetion" );
         }
         doMove((Location) allLocations.get(index));
     }
 
     public class ServeMovingMessages extends CyclicBehaviour {
 
-        private MessageTemplate template = MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.QUERY_IF),
-                MessageTemplate.MatchPerformative(ACLMessage.REQUEST));
+        private MessageTemplate template = MessageTemplate.or(MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.QUERY_IF),
+                MessageTemplate.MatchPerformative(ACLMessage.REQUEST)), MessageTemplate.MatchPerformative(ACLMessage.CFP));
 
         @Override
         public void action() {
-            ACLMessage message = receive(template);
+            System.out.println("Action in ServeMovingMessages called");
+            ACLMessage message = receive();
             if (message != null) {
                 switch (message.getPerformative()) {
                     case ACLMessage.QUERY_IF:
@@ -115,10 +122,10 @@ public class MobileAgent extends Agent {
                         break;
                     case ACLMessage.CFP:
                         status = SCAN;
+                        System.out.println("Message was CFP");
                         handleVisitAll(message);
                         break;
                 }
-
             } else block();
         }
     }

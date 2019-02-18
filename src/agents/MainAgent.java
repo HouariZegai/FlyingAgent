@@ -31,7 +31,7 @@ public class MainAgent extends Agent {
     private Location currentLocation;
 
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
-    private AgentObjectBehavior myBehaviour = new AgentObjectBehavior();
+    private AgentObjectBehavior agentObjectBehaviour = new AgentObjectBehavior();
     private AID mobileAgent = new AID(MobileAgent.NAME, AID.ISLOCALNAME);
     private List availableLocations;
 
@@ -56,14 +56,14 @@ public class MainAgent extends Agent {
 
     private void refreshLocation() {
         removeBehaviour(oneReceiveBehavior);
-        removeBehaviour(myBehaviour);
+        removeBehaviour(agentObjectBehaviour);
         addBehaviour(new GetLocationsBehaviour(this));
     }
 
     private void askForMoving(Location location) {
         ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
-        addBehaviour(myBehaviour);
+        addBehaviour(agentObjectBehaviour);
         addBehaviour(oneReceiveBehavior);
         try {
             message.setContentObject(location);
@@ -83,7 +83,6 @@ public class MainAgent extends Agent {
                     currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
                 }
                 askForMoving(currentLocation);
-
                 break;
             case Message.ASK_REQUEST:
                 askMoreInfo();
@@ -108,7 +107,7 @@ public class MainAgent extends Agent {
             Platform.runLater(() -> homeControllerA.updateLocation(items));
         }
         System.out.println("from receiver " + (items));
-        addBehaviour(myBehaviour);
+        addBehaviour(agentObjectBehaviour);
     }
 
     private class OneReceiveBehavior extends CyclicBehaviour {
@@ -203,7 +202,7 @@ public class MainAgent extends Agent {
                 case ASK:
                     ACLMessage message = new ACLMessage(ACLMessage.CFP);
                     message.setConversationId(String.valueOf(System.currentTimeMillis()));
-                    message.addReceiver(mobileAgent);
+                    message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
                     try {
                         message.setContentObject((Serializable) availableLocations);
                         System.out.println("Adding locations successfully.");
@@ -214,10 +213,13 @@ public class MainAgent extends Agent {
                     template = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
                             MessageTemplate.MatchConversationId(message.getConversationId()));
                     send(message);
+                    System.out.println("Message from main to mobile was sent");
                     status = RESPONSE;
                     break;
                 case RESPONSE:
                     ACLMessage receivedMessage = receive(template);
+                    addBehaviour(agentObjectBehaviour);
+                    addBehaviour(oneReceiveBehavior);
                     if (receivedMessage != null) {
                         handleScanAll(receivedMessage.getContent());
                     } else {
@@ -228,7 +230,7 @@ public class MainAgent extends Agent {
         }
 
         private void handleScanAll(String content) {
-
+            status = DONE;
         }
 
         @Override
