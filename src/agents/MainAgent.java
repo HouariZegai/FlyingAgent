@@ -61,6 +61,7 @@ public class MainAgent extends Agent {
     }
 
     private void askForMoving(Location location) {
+        System.out.println("The ask For moving was called with location " + location.toString());
         ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
         addBehaviour(agentObjectBehaviour);
@@ -79,9 +80,9 @@ public class MainAgent extends Agent {
                 refreshLocation();
                 break;
             case Message.MOVE_REQUEST:
-                if (currentLocation == null) {
-                    currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
-                }
+
+                currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
+
                 askForMoving(currentLocation);
                 break;
             case Message.ASK_REQUEST:
@@ -130,9 +131,13 @@ public class MainAgent extends Agent {
     private class AgentObjectBehavior extends CyclicBehaviour {
         @Override
         public void action() {
-            Object object = myAgent.getO2AObject();
-            if (object instanceof Message) {
-                handleO2Object((Message) object);
+            if (myAgent != null) {
+                Object object = myAgent.getO2AObject();
+                if (object instanceof Message) {
+                    handleO2Object((Message) object);
+                } else {
+                    block();
+                }
             } else {
                 block();
             }
