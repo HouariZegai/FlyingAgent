@@ -1,6 +1,8 @@
 package information;
 
-public class OSInformation extends Information {
+import java.io.Serializable;
+
+public class OSInformation extends Information implements Serializable {
 
     private String osName;
     private String osVersion;

@@ -2,11 +2,12 @@ package information;
 
 import com.sun.management.OperatingSystemMXBean;
 
+import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 
 import static information.Utils.humanReadableByteCount;
 
-public class MemoryInformation extends Information {
+public class MemoryInformation extends Information implements Serializable {
 
     private long freePhysicalMemory;
     private long physicalMemorySize;

@@ -1,6 +1,8 @@
 package information;
 
-public class AllInformation extends Information {
+import java.io.Serializable;
+
+public class AllInformation extends Information implements Serializable {
 
     private static AllInformation sInstance;
     private NetworkInformation networkInformation;

@@ -1,8 +1,10 @@
 package information;
 
+import java.io.Serializable;
+
 import static information.Utils.humanReadableByteCount;
 
-public class Disk extends Information {
+public class Disk extends Information implements Serializable {
 
     private String name;
     private long totalSpace;

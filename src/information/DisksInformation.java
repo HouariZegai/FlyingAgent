@@ -1,10 +1,11 @@
 package information;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DisksInformation extends Information {
+public class DisksInformation extends Information implements Serializable {
 
     private List<Disk> disks;
 

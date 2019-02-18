@@ -1,6 +1,8 @@
 package information;
 
-public class Network {
+import java.io.Serializable;
+
+public class Network implements Serializable {
 
     private String ipAddress;
     private String macAddress;
