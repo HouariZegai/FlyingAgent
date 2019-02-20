@@ -45,12 +45,13 @@ public class MobileAgent extends Agent {
 
     @Override
     protected void afterMove() {
-        System.out.println("Agent moved");
+        System.out.println("Agent moved and status = " +status);
         if (status == ONE) {
             sendBasicInformation();
         } else if (status == BACK) {
             status = ONE;
         } else if (status == SCAN) {
+            System.out.println(" Scan Process established.");
             scanAllAfterMoveProcess();
         }
     }
@@ -126,6 +127,7 @@ public class MobileAgent extends Agent {
         index = 0;
         try {
             allLocations = (jade.util.leap.List) message.getContentObject();
+            System.out.println("location of length = " + allLocations.size());
         } catch (UnreadableException e) {
             e.printStackTrace();
         }
@@ -152,7 +154,9 @@ public class MobileAgent extends Agent {
                         break;
                     case ACLMessage.CFP:
                         status = SCAN;
+                        System.out.println("Scan status.");
                         handleVisitAll(message);
+                        break;
                     case ACLMessage.CANCEL:
                         status = ONE;
                         goBack();
