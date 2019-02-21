@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #FFF;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+   <children>
+      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" spacing="110.0">
+         <children>
+            <Label styleClass="title" text="SELECT TYPE OF SCAN" />
+            <HBox spacing="150.0">
+               <children>
+                  <StackPane prefHeight="249.0" prefWidth="261.0" onMouseClicked="#onScanAll" styleClass="cards">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="184.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/main/scan-all.png" />
+                                 </image>
+                              </ImageView>
+                              <Label styleClass="cards-title" text="SCAN ALL PCs" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="249.0" prefWidth="261.0" onMouseClicked="#onScanEach" styleClass="cards">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="5.0">
+                           <children>
+                              <ImageView fitHeight="184.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/main/scan-all.png" />
+                                 </image>
+                              </ImageView>
+                              <Label styleClass="cards-title" text="SCAN EACH PC" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </StackPane>
+               </children>
+            </HBox>
+         </children>
+         <StackPane.margin>
+            <Insets top="60.0" />
+         </StackPane.margin>
+      </VBox>
+   </children>
+</StackPane>

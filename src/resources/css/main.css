@@ -1,0 +1,31 @@
+* {
+    -fx-font-family: Tahoma;
+}
+
+/* #6bbc76 , #65617d, blue: #3DA6AC */
+.title {
+    -fx-font-size: 30px;
+    -fx-text-fill: #3DA6AC
+}
+
+.cards {
+    -fx-padding: 10;
+    -fx-background-color: #FFF;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 0);
+}
+
+.cards:hover {
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 20, 0, 0, 0);
+    -fx-cursor: hand;
+}
+
+.cards:pressed {
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+}
+
+.cards-title {
+    -fx-font-size: 22px;
+    -fx-text-fill: #E7322F
+}
