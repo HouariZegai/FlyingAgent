@@ -1,7 +1,7 @@
 package agents;
 
 import behaviours.GetLocationsBehaviour;
-import controllers.HomeController;
+import controllers.ScanEachController;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;

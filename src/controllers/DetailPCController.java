@@ -278,7 +278,7 @@ public class DetailPCController implements Initializable {
 
     @FXML
     private void onClose() {
-        HomeController.dialogDetailPC.close();
+        ScanEachController.dialogDetailPC.close();
     }
 
     public void setMainAgentController(AgentController mainController) {

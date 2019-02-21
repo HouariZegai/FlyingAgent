@@ -1,6 +1,6 @@
 import agents.MainAgent;
 import agents.MobileAgent;
-import controllers.HomeController;
+import controllers.ScanEachController;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;
@@ -31,11 +31,11 @@ public class Launcher extends Application {
     public void start(Stage stage) {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/Home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/resources/views/ScanEach.fxml"));
             Parent root = loader.load();
             stage.setScene(new Scene(root));
 
-            HomeController homeController = loader.getController();
+            ScanEachController homeController = loader.getController();
 
             // Get a hold on JADE runtime
             Runtime rt = Runtime.instance();

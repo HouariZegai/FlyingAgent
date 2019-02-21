@@ -3,7 +3,7 @@ package agents;
 import behaviours.GetLocationsBehaviour;
 import com.google.gson.Gson;
 import controllers.DetailPCController;
-import controllers.HomeController;
+import controllers.ScanEachController;
 import information.AllInformation;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
@@ -25,7 +25,7 @@ import java.io.IOException;
 public class MainAgent extends Agent {
 
     public static final String NAME = "WaiterAgent";
-    private static HomeController homeControllerA;
+    private static ScanEachController homeControllerA;
     private static DetailPCController detailPCControllerA;
     private Location currentLocation;
 
@@ -33,7 +33,7 @@ public class MainAgent extends Agent {
     private AgentObjectBehavior myBehaviour = new AgentObjectBehavior();
     private AID mobileAgent = new AID(MobileAgent.NAME, AID.ISLOCALNAME);
 
-    public static void setHomeController(HomeController homeController) {
+    public static void setHomeController(ScanEachController homeController) {
         homeControllerA = homeController;
     }
 

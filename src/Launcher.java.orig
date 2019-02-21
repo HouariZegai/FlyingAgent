@@ -1,6 +1,6 @@
 import agents.MainAgent;
 import agents.MobileAgent;
-import controllers.HomeController;
+import controllers.ScanEachController;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.core.Runtime;

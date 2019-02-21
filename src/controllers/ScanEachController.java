@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class HomeController implements Initializable {
+public class ScanEachController implements Initializable {
 
     public static JFXDialog dialogDetailPC;
     @FXML
