@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
-<?import de.jensd.fx.glyphs.materialicons.MaterialIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
@@ -172,7 +171,7 @@
                                     <JFXSpinner fx:id="spinnerMoreInfo" prefHeight="35.0" prefWidth="35.0" visible="false" />
                                  </children>
                               </HBox>
-                              <MaterialIconView fill="#333333" glyphName="FILE_DOWNLOAD" onMouseClicked="#onExport" size="30" styleClass="icon-down" text="" StackPane.alignment="CENTER_RIGHT" />
+
 
                            </children>
                         </StackPane>

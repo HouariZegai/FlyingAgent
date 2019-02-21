@@ -3,8 +3,9 @@ package information;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 
-public class RawInformation {
+public class RawInformation  implements Serializable {
 
     private String rawString;
 

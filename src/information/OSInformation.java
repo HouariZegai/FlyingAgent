@@ -1,6 +1,8 @@
 package information;
 
-public class OSInformation extends Information {
+import java.io.Serializable;
+
+public class OSInformation extends Information implements Serializable {
 
     private String osName;
     private String osVersion;
@@ -8,7 +10,7 @@ public class OSInformation extends Information {
     private String userName;
     private String computerName;
 
-    OSInformation() {
+    public OSInformation() {
         osName = System.getProperty("os.name");
         osVersion = System.getProperty("os.version");
         osArchitecture = System.getProperty("os.arch");

@@ -2,7 +2,9 @@ package information;
 
 import com.google.gson.Gson;
 
-public class CPUInformation extends Information {
+import java.io.Serializable;
+
+public class CPUInformation extends Information implements Serializable {
 
     private String processorId;
     private String processorArchitecture;

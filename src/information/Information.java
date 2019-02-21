@@ -2,7 +2,9 @@ package information;
 
 import com.google.gson.Gson;
 
-class Information {
+import java.io.Serializable;
+
+class Information implements Serializable {
 
     public final String toJson() {
         return new Gson().toJson(this);

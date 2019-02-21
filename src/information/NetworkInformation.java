@@ -1,5 +1,6 @@
 package information;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -8,7 +9,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class NetworkInformation extends Information {
+public class NetworkInformation extends Information implements Serializable {
 
     private final static String IPV4_REGEX = "(([0-1]?[0-9]{1,2}\\.)|(2[0-4][0-9]\\.)|(25[0-5]\\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))";
     private List<Network> networkList;
