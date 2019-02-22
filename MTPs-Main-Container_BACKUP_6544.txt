@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-http://DESKTOP-KMPRPE2:7778/acc
-=======
-http://DESKTOP-PLTHTAH.mshome.net:7778/acc
->>>>>>> 8bfc30fc06276bc4be7b21d3c641d02ede329dd3

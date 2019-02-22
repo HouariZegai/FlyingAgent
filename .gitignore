@@ -1,5 +1,7 @@
-out/
 .idea/
+out/
+*.iml
 *.json
-.orig
- APDescription.txt
+*.orig
+APDescription.txt
+MTPs-Main-Container*

@@ -1,5 +1,0 @@
-<<<<<<< HEAD
-( ap-description  :name "FlyingAgents" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://DESKTOP-KMPRPE2:7778/acc))))
-=======
-( ap-description  :name "FlyingAgents" :ap-services (set ( ap-service  :name fipa.mts.mtp.http.std :type fipa.mts.mtp.http.std :addresses (sequence http://DESKTOP-PLTHTAH.mshome.net:7778/acc))))
->>>>>>> 8bfc30fc06276bc4be7b21d3c641d02ede329dd3
