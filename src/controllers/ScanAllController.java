@@ -1,14 +1,10 @@
 package controllers;
 
-import com.jfoenix.controls.JFXSpinner;
-import com.jfoenix.controls.JFXTreeTableColumn;
-import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.RecursiveTreeItem;
+import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controllers.table_models.NetworkTable;
 import information.*;
 import jade.wrapper.AgentController;
-import jade.wrapper.StaleProxyException;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,18 +20,20 @@ import javafx.scene.control.TreeTableColumn;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
-import models.Message;
+import javafx.scene.layout.StackPane;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class DetailPCController implements Initializable {
+public class ScanAllController implements Initializable {
+
+    private AgentController mainController;
+
+    @FXML
+    private JFXListView<StackPane> listLocation;
 
     /* OS information */
     @FXML
@@ -53,22 +51,23 @@ public class DetailPCController implements Initializable {
     @FXML
     private PieChart pieMemory;
 
-    // Network information
+    /* Network information */
     @FXML
     private JFXTreeTableView<NetworkTable> tableNetwork;
+
+    private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
 
     // Disks information
     @FXML
     private HBox boxContainerDisks;
-
-    private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
-    private AgentController mainController;
 
     /* More infos */
     @FXML
     private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
+
+    List<AllInformation> allInformationList;
 
     public static Double humanReadableByteCountTwo(long bytes) {
         int unit = 1024;
@@ -80,8 +79,16 @@ public class DetailPCController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-        /* Init network info (table) */
-        initNetworkTable();
+        initNetworkTable(); // Init network info (table)
+
+        listLocation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            listLocation.setExpanded(true);
+            listLocation.depthProperty().set(3);
+            // change detail pc showing
+            int selectedIndex = listLocation.getSelectionModel().getSelectedIndex();
+            if(selectedIndex > 0)
+                updateScreen(allInformationList.get(selectedIndex));
+        });
     }
 
     void updateScreen(AllInformation allInformation) {
@@ -236,51 +243,9 @@ public class DetailPCController implements Initializable {
         }
     }
 
-    @FXML
-    private void onMoreInfo() {
-        spinnerMoreInfo.setVisible(true);
-        Message message = new Message(null, Message.ASK_REQUEST);
-        try {
-            mainController.putO2AObject(message, AgentController.ASYNC);
-        } catch (StaleProxyException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void updateMoreInfo(String info) {
-        spinnerMoreInfo.setVisible(false);
-        areaMoreInfo.setText(info);
-    }
-
-    @FXML
-    private void onExport() {
-        if(areaMoreInfo.getText() == null || areaMoreInfo.getText().trim().isEmpty())
-            return;
-
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text files (*.txt)", "*.txt");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        File selectedFile = fileChooser.showSaveDialog(areaMoreInfo.getScene().getWindow());
-        if(selectedFile != null) {
-            try {
-                FileWriter fileWriter = new FileWriter(selectedFile);
-                fileWriter.write(areaMoreInfo.getText().trim());
-                fileWriter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
-    private void onClose() {
-        ScanEachController.dialogDetailPC.close();
-    }
 
     public void setMainAgentController(AgentController mainController) {
-        if (mainController == null) System.out.println("Main Controller is Null");
-        else System.out.println("Main Controller is not Null");
-        this.mainController = mainController;
+
     }
+
 }

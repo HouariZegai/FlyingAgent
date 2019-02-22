@@ -1,34 +1,102 @@
 package controllers;
 
+import agents.MainAgent;
+import agents.MobileAgent;
+import jade.core.Profile;
+import jade.core.ProfileImpl;
+import jade.core.Runtime;
+import jade.wrapper.AgentContainer;
+import jade.wrapper.AgentController;
+import jade.wrapper.StaleProxyException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import models.Message;
+import utils.Constants;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainController {
+public class MainController implements Initializable {
 
-    @FXML
-    private void onScanAll(MouseEvent e) {
+    private static AgentContainer mc;
+
+    private Parent scanEachView, scanAllView;
+
+    private AgentController mainController;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         try {
-            Parent scanAllView = FXMLLoader.load(getClass().getResource("/resources/views/ScanEach.fxml"));
-            ((Stage) ((Node) e.getSource()).getScene().getWindow()).setScene(new Scene(scanAllView));
+            FXMLLoader scanEachLoader = new FXMLLoader(getClass().getResource("/resources/views/ScanEach.fxml"));
+            scanEachView = scanEachLoader.load();
+            initAgent(scanEachLoader);
+
+            FXMLLoader scanAllLoader = new FXMLLoader(getClass().getResource("/resources/views/ScanAll.fxml"));
+            scanAllLoader = scanEachLoader.load();
+            initAgent(scanAllLoader);
+
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
     }
 
     @FXML
-    private void onScanEach(MouseEvent e) {
+    private void onScanAll(MouseEvent event) {
+        Message message = new Message(null, Message.SCAN_ALL_REQUEST);
         try {
-            Parent scanEachView = FXMLLoader.load(getClass().getResource("/resources/views/ScanEach.fxml"));
-            ((Stage) ((Node) e.getSource()).getScene().getWindow()).setScene(new Scene(scanEachView));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanAllView));
+    }
+
+    @FXML
+    private void onScanEach(MouseEvent event) {
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanEachView));
+    }
+
+    private void initAgent(FXMLLoader loader) {
+        // Get a hold on JADE runtime
+        Runtime rt = Runtime.instance();
+
+        // Exit the JVM when there are no more containers around
+        rt.setCloseVM(true);
+
+        // Launch a complete platform on the 8888 port
+        // create a default Profile
+        Profile pMain = new ProfileImpl(Constants.MAIN_CONTAINER_HOST_IP, Constants.MAIN_CONTAINER_PORT, Constants.PLATFORM_ID);
+        mc = rt.createMainContainer(pMain);
+
+        try {
+            AgentController receiverAgent = mc.createNewAgent(MainAgent.NAME, MainAgent.class.getName(), new Object[]{});
+            receiverAgent.start();
+
+            AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
+            //rma.start();
+
+            AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
+            mobileAgent.start();
+            if(loader.getController() instanceof ScanEachController) {
+                ScanEachController scanEachController = (ScanEachController) loader.getController();
+                scanEachController.setMainAgentController(receiverAgent);
+                MainAgent.setScanEachController(scanEachController);
+            }
+            else if(loader.getController() instanceof ScanAllController) {
+                ScanAllController scanAllController = (ScanAllController) loader.getController();
+                scanAllController.setMainAgentController(receiverAgent);
+                MainAgent.setScanAllController(scanAllController);
+            }
+        } catch(StaleProxyException spe) {
+            spe.printStackTrace();
         }
     }
 }

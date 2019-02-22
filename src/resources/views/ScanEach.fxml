@@ -32,7 +32,6 @@
                <children>
                   <Label styleClass="sub-title" text="Available containers" StackPane.alignment="CENTER_LEFT" />
                   <JFXButton onAction="#onRefresh" styleClass="btn" text="Refresh" StackPane.alignment="CENTER_RIGHT" />
-                  <JFXButton onAction="#onScanAll" styleClass="btn" text="Scan All" StackPane.alignment="CENTER" />
                </children>
 
             </StackPane>

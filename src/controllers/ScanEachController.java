@@ -13,28 +13,25 @@ import jade.wrapper.StaleProxyException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import models.Message;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ScanEachController implements Initializable {
 
-    public static JFXDialog dialogDetailPC;
     @FXML
     private StackPane root;
+
     private AgentController mainController;
 
     @FXML
@@ -43,14 +40,14 @@ public class ScanEachController implements Initializable {
     @FXML
     private JFXSpinner spinnerDetails;
 
+    public static JFXDialog dialogDetailPC;
+
     private JFXSnackbar toastMsg;
 
     private DetailPCController detailPCController;
     private List locationsJade;
 
     private java.util.List<String> stringLocationList;
-
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -99,27 +96,6 @@ public class ScanEachController implements Initializable {
         listLocation.depthProperty().set(1);
 
         Message message = new Message(null, Message.REFRESH_REQUEST);
-        try {
-            mainController.putO2AObject(message, AgentController.ASYNC);
-        } catch (StaleProxyException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void onScanAll() {
-
-        Message message = new Message(null, Message.SCAN_ALL_REQUEST);
-        try {
-            mainController.putO2AObject(message, AgentController.ASYNC);
-        } catch (StaleProxyException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void onAsk() {
-        Message message = new Message(null, Message.ASK_REQUEST);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);
         } catch (StaleProxyException e) {

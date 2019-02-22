@@ -3,6 +3,7 @@ package agents;
 import behaviours.GetLocationsBehaviour;
 import com.google.gson.Gson;
 import controllers.DetailPCController;
+import controllers.ScanAllController;
 import controllers.ScanEachController;
 import information.AllInformation;
 import jade.content.lang.sl.SLCodec;
@@ -27,8 +28,10 @@ import java.io.Serializable;
 public class MainAgent extends Agent {
 
     public static final String NAME = "WaiterAgent";
-    private static ScanEachController homeControllerA;
+    private static ScanAllController scanAllController;
+    private static ScanEachController scanEachController;
     private static DetailPCController detailPCControllerA;
+
     private Location currentLocation;
 
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
@@ -36,8 +39,12 @@ public class MainAgent extends Agent {
 
     private List availableLocations;
 
-    public static void setHomeController(ScanEachController homeController) {
-        homeControllerA = homeController;
+    public static void setScanAllController(ScanAllController scanAllController) {
+        MainAgent.scanAllController = scanAllController;
+    }
+
+    public static void setScanEachController(ScanEachController scanEachController) {
+        MainAgent.scanEachController = scanEachController;
     }
 
     public static void setDetailController(DetailPCController detailPCController) {
@@ -104,8 +111,8 @@ public class MainAgent extends Agent {
 
     public void updateLocations(List items) {
         availableLocations = items;
-        if (homeControllerA != null) {
-            Platform.runLater(() -> homeControllerA.updateLocation(items));
+        if (scanEachController != null) {
+            Platform.runLater(() -> scanEachController.updateLocation(items));
         }
         addBehaviour(agentObjectBehaviour);
     }
@@ -119,8 +126,8 @@ public class MainAgent extends Agent {
             ACLMessage message = receive(template);
             if (message != null) {
                 AllInformation all = new Gson().fromJson(message.getContent(), AllInformation.class);
-                if (homeControllerA != null) {
-                    Platform.runLater(() -> homeControllerA.updateDetail(all));
+                if (scanEachController != null) {
+                    Platform.runLater(() -> scanEachController.updateDetail(all));
                 }
             } else {
                 block();
