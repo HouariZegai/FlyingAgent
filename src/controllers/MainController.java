@@ -39,7 +39,7 @@ public class MainController implements Initializable {
             initAgent(scanEachLoader);
 
             FXMLLoader scanAllLoader = new FXMLLoader(getClass().getResource("/resources/views/ScanAll.fxml"));
-            scanAllLoader = scanEachLoader.load();
+            scanAllView = scanAllLoader.load();
             initAgent(scanAllLoader);
 
         } catch (IOException ioe) {
@@ -79,23 +79,22 @@ public class MainController implements Initializable {
         try {
             AgentController receiverAgent = mc.createNewAgent(MainAgent.NAME, MainAgent.class.getName(), new Object[]{});
             receiverAgent.start();
-
+            mainController = receiverAgent;
             AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
             //rma.start();
 
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
-            if(loader.getController() instanceof ScanEachController) {
-                ScanEachController scanEachController = (ScanEachController) loader.getController();
+            if (loader.getController() instanceof ScanEachController) {
+                ScanEachController scanEachController = loader.getController();
                 scanEachController.setMainAgentController(receiverAgent);
                 MainAgent.setScanEachController(scanEachController);
-            }
-            else if(loader.getController() instanceof ScanAllController) {
-                ScanAllController scanAllController = (ScanAllController) loader.getController();
+            } else if (loader.getController() instanceof ScanAllController) {
+                ScanAllController scanAllController = loader.getController();
                 scanAllController.setMainAgentController(receiverAgent);
                 MainAgent.setScanAllController(scanAllController);
             }
-        } catch(StaleProxyException spe) {
+        } catch (StaleProxyException spe) {
             spe.printStackTrace();
         }
     }
