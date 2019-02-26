@@ -1,5 +1,6 @@
 package behaviours;
 
+// import classes
 import agents.MainAgent;
 import jade.content.onto.basic.Action;
 import jade.content.onto.basic.Result;
@@ -14,7 +15,7 @@ public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
 
     public GetLocationsBehaviour(MainAgent a) {
 
-        // call the constructor of FipaRequestInitiatorBehaviour
+        // Call the constructor of FipaRequestInitiatorBehaviour
         super(a, new ACLMessage(ACLMessage.REQUEST));
 
         ACLMessage request = (ACLMessage) getDataStore().get(REQUEST_KEY);
@@ -37,15 +38,15 @@ public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
     }
 
     protected void handleNotUnderstood(ACLMessage reply) {
-        System.out.println(myAgent.getLocalName() + " handleNotUnderstood : " + reply.toString());
+        System.out.println(myAgent.getLocalName() + " handleNotUnderstood: " + reply.toString());
     }
 
     protected void handleRefuse(ACLMessage reply) {
-        System.out.println(myAgent.getLocalName() + " handleRefuse : " + reply.toString());
+        System.out.println(myAgent.getLocalName() + " handleRefuse: " + reply.toString());
     }
 
     protected void handleFailure(ACLMessage reply) {
-        System.out.println(myAgent.getLocalName() + " handleFailure : " + reply.toString());
+        System.out.println(myAgent.getLocalName() + " handleFailure: " + reply.toString());
     }
 
     protected void handleAgree(ACLMessage reply) {
