@@ -98,7 +98,7 @@ public class ScanAllController implements Initializable {
             listLocation.depthProperty().set(3);
             // change detail pc showing
             int selectedIndex = listLocation.getSelectionModel().getSelectedIndex();
-            if (selectedIndex > 0)
+            if (selectedIndex >= 0)
                 updateScreen(allInformationList.get(selectedIndex));
         });
     }
