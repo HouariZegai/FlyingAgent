@@ -5,3 +5,4 @@ out/
 *.orig
 APDescription.txt
 MTPs-Main-Container*
+*.pma

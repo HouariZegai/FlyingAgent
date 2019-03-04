@@ -93,9 +93,9 @@ public class DetailPCController implements Initializable {
         initBoxesDisk(allInformation.getDisksInformation());
     }
 
-    /* End OS Info */
+    /* End OS info */
 
-    /* Start CPU Info */
+    /* Start CPU info */
 
     private void initOS(OSInformation osInfo) {
         if (osInfo.getOsName().toLowerCase().contains("windows"))

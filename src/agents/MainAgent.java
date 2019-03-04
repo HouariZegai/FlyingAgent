@@ -1,5 +1,6 @@
 package agents;
 
+// import classes
 import behaviours.GetLocationsBehaviour;
 import com.google.gson.Gson;
 import controllers.DetailPCController;
@@ -68,7 +69,7 @@ public class MainAgent extends Agent {
     }
 
     private void askForMoving(Location location) {
-        System.out.println("The ask For moving was called with location " + location.toString());
+        System.out.println("The ask For moving was called with location: " + location.toString());
         ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
         message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
         addBehaviour(agentObjectBehaviour);

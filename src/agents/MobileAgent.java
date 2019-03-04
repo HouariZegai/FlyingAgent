@@ -45,7 +45,7 @@ public class MobileAgent extends Agent {
 
     @Override
     protected void afterMove() {
-        System.out.println("Agent moved and status = " +status);
+        System.out.println("Agent moved and status = " + status);
         if (status == ONE) {
             sendBasicInformation();
         } else if (status == BACK) {
