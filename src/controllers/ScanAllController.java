@@ -30,44 +30,35 @@ import java.util.ResourceBundle;
 
 public class ScanAllController implements Initializable {
 
+    List<AllInformation> allInformationList;
     private AgentController mainController;
-
     @FXML
     private JFXListView<StackPane> listLocation;
-
     /* OS information */
     @FXML
     private Label lblOSName, lblOSVersion, lblOSArchi, lblOSUsername, lblOSComputerName;
     @FXML
     private ImageView iconOs;
-
     /* CPU information */
     @FXML
     private Label lblCPUId, lblCPUArchi, lblCPUNumCores;
     @FXML
     private ImageView iconCpu;
-
     /* Memory information */
     @FXML
     private PieChart pieMemory;
-
     /* Network information */
     @FXML
     private JFXTreeTableView<NetworkTable> tableNetwork;
-
     private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
-
     // Disks information
     @FXML
     private HBox boxContainerDisks;
-
     /* More infos */
     @FXML
     private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
-
-    List<AllInformation> allInformationList;
 
     public static Double humanReadableByteCountTwo(long bytes) {
         int unit = 1024;
@@ -86,12 +77,12 @@ public class ScanAllController implements Initializable {
             listLocation.depthProperty().set(3);
             // change detail pc showing
             int selectedIndex = listLocation.getSelectionModel().getSelectedIndex();
-            if(selectedIndex > 0)
+            if (selectedIndex > 0)
                 updateScreen(allInformationList.get(selectedIndex));
         });
     }
 
-    void updateScreen(AllInformation allInformation) {
+    private void updateScreen(AllInformation allInformation) {
         spinnerMoreInfo.setVisible(false);
         initOS(allInformation.getOsInformation());
         initMemoryChart(allInformation.getMemoryInformation());
@@ -204,7 +195,7 @@ public class ScanAllController implements Initializable {
         List<Disk> disks = disksInformation.getDisks();
         if (disks != null) {
             for (Disk disk : disks) {
-                if(disk.getTotalSpace() != 0L)
+                if (disk.getTotalSpace() != 0L)
                     addDiskBox(disk);
             }
         }

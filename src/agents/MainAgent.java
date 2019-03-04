@@ -46,12 +46,10 @@ public class MainAgent extends Agent {
 
     public static void setScanEachController(ScanEachController scanEachController) {
         MainAgent.scanEachController = scanEachController;
-        System.out.println("The scanEachController Controller initilized");
     }
 
     public static void setDetailController(DetailPCController detailPCController) {
         detailPCControllerA = detailPCController;
-        System.out.println("The Controller initilized");
     }
 
     @Override
@@ -89,9 +87,7 @@ public class MainAgent extends Agent {
                 refreshLocation();
                 break;
             case Message.MOVE_REQUEST:
-
                 currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
-
                 askForMoving(currentLocation);
                 break;
             case Message.ASK_REQUEST:
@@ -237,6 +233,7 @@ public class MainAgent extends Agent {
             try {
                 @SuppressWarnings("unchecked")
                 java.util.List<AllInformation> all = (java.util.List<AllInformation>) content.getContentObject();
+
             } catch (UnreadableException e) {
                 e.printStackTrace();
             }

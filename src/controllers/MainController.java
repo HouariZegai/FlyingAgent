@@ -47,25 +47,24 @@ public class MainController implements Initializable {
 
     @FXML
     private void onScanAll(MouseEvent event) {
-        Message message = new Message(null, Message.SCAN_ALL_REQUEST);
-        try {
-            mainController.putO2AObject(message, AgentController.ASYNC);
-        } catch (StaleProxyException e) {
-            e.printStackTrace();
-        }
-
+        sendMessage(Message.REFRESH_REQUEST);
+        sendMessage(Message.SCAN_ALL_REQUEST);
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanAllView));
     }
 
     @FXML
     private void onScanEach(MouseEvent event) {
-        Message message = new Message(null, Message.REFRESH_REQUEST);
+        sendMessage(Message.REFRESH_REQUEST);
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanEachView));
+    }
+
+    private void sendMessage(int refreshRequest) {
+        Message message = new Message(null, refreshRequest);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);
         } catch (StaleProxyException e) {
             e.printStackTrace();
         }
-        ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanEachView));
     }
 
     private void initAgent(FXMLLoader scanEachLoader, FXMLLoader loader) {

@@ -45,7 +45,7 @@ public class MobileAgent extends Agent {
 
     @Override
     protected void afterMove() {
-        System.out.println("Agent moved and status = " +status);
+        System.out.println("Agent moved and status = " + status);
         if (status == ONE) {
             sendBasicInformation();
         } else if (status == BACK) {
@@ -131,7 +131,10 @@ public class MobileAgent extends Agent {
         } catch (UnreadableException e) {
             e.printStackTrace();
         }
-        doMove((Location) allLocations.get(index));
+        if (allLocations.size() > 1)
+            doMove((Location) allLocations.get(index));
+        else
+            System.out.println("Can't Visit Because One Station is Alive only.");
     }
 
     public class ServeMovingMessages extends CyclicBehaviour {
