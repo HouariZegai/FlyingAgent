@@ -41,10 +41,12 @@ public class MainAgent extends Agent {
 
     public static void setScanAllController(ScanAllController scanAllController) {
         MainAgent.scanAllController = scanAllController;
+        System.out.println("The scanAllController initilized");
     }
 
     public static void setScanEachController(ScanEachController scanEachController) {
         MainAgent.scanEachController = scanEachController;
+        System.out.println("The scanEachController Controller initilized");
     }
 
     public static void setDetailController(DetailPCController detailPCController) {
@@ -111,9 +113,10 @@ public class MainAgent extends Agent {
 
     public void updateLocations(List items) {
         availableLocations = items;
+        System.out.println("Update Location called");
         if (scanEachController != null) {
             Platform.runLater(() -> scanEachController.updateLocation(items));
-        }
+        }else System.out.println("ScanEach is null");
         addBehaviour(agentObjectBehaviour);
     }
 

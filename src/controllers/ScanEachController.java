@@ -94,7 +94,7 @@ public class ScanEachController implements Initializable {
         listLocation.getSelectionModel().clearSelection();
         listLocation.setExpanded(false);
         listLocation.depthProperty().set(1);
-
+        System.out.println("On Refresh Called");
         Message message = new Message(null, Message.REFRESH_REQUEST);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);

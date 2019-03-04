@@ -36,11 +36,9 @@ public class MainController implements Initializable {
         try {
             FXMLLoader scanEachLoader = new FXMLLoader(getClass().getResource("/resources/views/ScanEach.fxml"));
             scanEachView = scanEachLoader.load();
-            initAgent(scanEachLoader);
-
             FXMLLoader scanAllLoader = new FXMLLoader(getClass().getResource("/resources/views/ScanAll.fxml"));
             scanAllView = scanAllLoader.load();
-            initAgent(scanAllLoader);
+            initAgent(scanEachLoader, scanAllLoader);
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -61,10 +59,16 @@ public class MainController implements Initializable {
 
     @FXML
     private void onScanEach(MouseEvent event) {
+        Message message = new Message(null, Message.REFRESH_REQUEST);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanEachView));
     }
 
-    private void initAgent(FXMLLoader loader) {
+    private void initAgent(FXMLLoader scanEachLoader, FXMLLoader loader) {
         // Get a hold on JADE runtime
         Runtime rt = Runtime.instance();
 
@@ -82,14 +86,14 @@ public class MainController implements Initializable {
             mainController = receiverAgent;
             AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
             //rma.start();
-
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
-            if (loader.getController() instanceof ScanEachController) {
-                ScanEachController scanEachController = loader.getController();
+            if (scanEachLoader.getController() instanceof ScanEachController) {
+                ScanEachController scanEachController = scanEachLoader.getController();
                 scanEachController.setMainAgentController(receiverAgent);
                 MainAgent.setScanEachController(scanEachController);
-            } else if (loader.getController() instanceof ScanAllController) {
+            }
+            if (loader.getController() instanceof ScanAllController) {
                 ScanAllController scanAllController = loader.getController();
                 scanAllController.setMainAgentController(receiverAgent);
                 MainAgent.setScanAllController(scanAllController);
