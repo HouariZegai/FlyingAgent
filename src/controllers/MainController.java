@@ -36,11 +36,9 @@ public class MainController implements Initializable {
         try {
             FXMLLoader scanEachLoader = new FXMLLoader(getClass().getResource("/resources/views/ScanEach.fxml"));
             scanEachView = scanEachLoader.load();
-            initAgent(scanEachLoader);
-
             FXMLLoader scanAllLoader = new FXMLLoader(getClass().getResource("/resources/views/ScanAll.fxml"));
-            scanAllLoader = scanEachLoader.load();
-            initAgent(scanAllLoader);
+            scanAllView = scanAllLoader.load();
+            initAgent(scanEachLoader, scanAllLoader);
 
         } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -49,22 +47,27 @@ public class MainController implements Initializable {
 
     @FXML
     private void onScanAll(MouseEvent event) {
-        Message message = new Message(null, Message.SCAN_ALL_REQUEST);
-        try {
-            mainController.putO2AObject(message, AgentController.ASYNC);
-        } catch (StaleProxyException e) {
-            e.printStackTrace();
-        }
-
+        sendMessage(Message.REFRESH_REQUEST);
+        sendMessage(Message.SCAN_ALL_REQUEST);
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanAllView));
     }
 
     @FXML
     private void onScanEach(MouseEvent event) {
+        sendMessage(Message.REFRESH_REQUEST);
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).setScene(new Scene(scanEachView));
     }
 
-    private void initAgent(FXMLLoader loader) {
+    private void sendMessage(int refreshRequest) {
+        Message message = new Message(null, refreshRequest);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initAgent(FXMLLoader scanEachLoader, FXMLLoader loader) {
         // Get a hold on JADE runtime
         Runtime rt = Runtime.instance();
 
@@ -79,23 +82,22 @@ public class MainController implements Initializable {
         try {
             AgentController receiverAgent = mc.createNewAgent(MainAgent.NAME, MainAgent.class.getName(), new Object[]{});
             receiverAgent.start();
-
+            mainController = receiverAgent;
             AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
             //rma.start();
-
             AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
-            if(loader.getController() instanceof ScanEachController) {
-                ScanEachController scanEachController = (ScanEachController) loader.getController();
+            if (scanEachLoader.getController() instanceof ScanEachController) {
+                ScanEachController scanEachController = scanEachLoader.getController();
                 scanEachController.setMainAgentController(receiverAgent);
                 MainAgent.setScanEachController(scanEachController);
             }
-            else if(loader.getController() instanceof ScanAllController) {
-                ScanAllController scanAllController = (ScanAllController) loader.getController();
+            if (loader.getController() instanceof ScanAllController) {
+                ScanAllController scanAllController = loader.getController();
                 scanAllController.setMainAgentController(receiverAgent);
                 MainAgent.setScanAllController(scanAllController);
             }
-        } catch(StaleProxyException spe) {
+        } catch (StaleProxyException spe) {
             spe.printStackTrace();
         }
     }

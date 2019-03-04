@@ -42,6 +42,7 @@ public class MainAgent extends Agent {
 
     public static void setScanAllController(ScanAllController scanAllController) {
         MainAgent.scanAllController = scanAllController;
+        System.out.println("The scanAllController initilized");
     }
 
     public static void setScanEachController(ScanEachController scanEachController) {
@@ -50,7 +51,6 @@ public class MainAgent extends Agent {
 
     public static void setDetailController(DetailPCController detailPCController) {
         detailPCControllerA = detailPCController;
-        System.out.println("The Controller initilized");
     }
 
     @Override
@@ -88,9 +88,7 @@ public class MainAgent extends Agent {
                 refreshLocation();
                 break;
             case Message.MOVE_REQUEST:
-
                 currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
-
                 askForMoving(currentLocation);
                 break;
             case Message.ASK_REQUEST:
@@ -112,9 +110,10 @@ public class MainAgent extends Agent {
 
     public void updateLocations(List items) {
         availableLocations = items;
+        System.out.println("Update Location called");
         if (scanEachController != null) {
             Platform.runLater(() -> scanEachController.updateLocation(items));
-        }
+        } else System.out.println("ScanEach is null");
         addBehaviour(agentObjectBehaviour);
     }
 
@@ -232,9 +231,11 @@ public class MainAgent extends Agent {
 
         private void handleScanAll(ACLMessage content) {
             System.out.println("Response From Mobile About Scan All");
+            scanAllController.updateLocation(availableLocations);
             try {
                 @SuppressWarnings("unchecked")
                 java.util.List<AllInformation> all = (java.util.List<AllInformation>) content.getContentObject();
+                scanAllController.updateInformations(all);
             } catch (UnreadableException e) {
                 e.printStackTrace();
             }

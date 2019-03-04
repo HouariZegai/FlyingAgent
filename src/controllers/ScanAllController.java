@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controllers.table_models.NetworkTable;
 import information.*;
+import jade.util.leap.Iterator;
 import jade.wrapper.AgentController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -11,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
@@ -30,44 +32,36 @@ import java.util.ResourceBundle;
 
 public class ScanAllController implements Initializable {
 
+    List<AllInformation> allInformationList;
     private AgentController mainController;
-
     @FXML
     private JFXListView<StackPane> listLocation;
-
     /* OS information */
     @FXML
     private Label lblOSName, lblOSVersion, lblOSArchi, lblOSUsername, lblOSComputerName;
     @FXML
     private ImageView iconOs;
-
     /* CPU information */
     @FXML
     private Label lblCPUId, lblCPUArchi, lblCPUNumCores;
     @FXML
     private ImageView iconCpu;
-
     /* Memory information */
     @FXML
     private PieChart pieMemory;
-
     /* Network information */
     @FXML
     private JFXTreeTableView<NetworkTable> tableNetwork;
-
     private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
-
     // Disks information
     @FXML
     private HBox boxContainerDisks;
-
     /* More infos */
     @FXML
     private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
-
-    List<AllInformation> allInformationList;
+    private jade.util.leap.List locationsJade;
 
     public static Double humanReadableByteCountTwo(long bytes) {
         int unit = 1024;
@@ -75,6 +69,24 @@ public class ScanAllController implements Initializable {
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         String pre = "kMGTPE".charAt(exp - 1) + "";
         return Double.valueOf(new DecimalFormat("##.##").format(bytes / Math.pow(unit, exp)));
+    }
+
+    public void updateLocation(jade.util.leap.List locations) {
+        this.locationsJade = locations;
+        Iterator ite = locationsJade.iterator();
+
+        listLocation.getItems().clear();
+        while (ite.hasNext()) {
+            StackPane stackPane = new StackPane();
+
+            Label lbl = new Label(ite.next().toString());
+            ImageView pcIcon = new ImageView(new Image("/resources/images/pc.png"));
+            stackPane.getChildren().addAll(lbl, pcIcon);
+            stackPane.setAlignment(lbl, Pos.CENTER_LEFT);
+            stackPane.setAlignment(pcIcon, Pos.CENTER_RIGHT);
+            listLocation.getItems().add(stackPane);
+        }
+
     }
 
     @Override
@@ -86,13 +98,12 @@ public class ScanAllController implements Initializable {
             listLocation.depthProperty().set(3);
             // change detail pc showing
             int selectedIndex = listLocation.getSelectionModel().getSelectedIndex();
-            if(selectedIndex > 0)
+            if (selectedIndex >= 0)
                 updateScreen(allInformationList.get(selectedIndex));
         });
     }
 
-    void updateScreen(AllInformation allInformation) {
-        spinnerMoreInfo.setVisible(false);
+    private void updateScreen(AllInformation allInformation) {
         initOS(allInformation.getOsInformation());
         initMemoryChart(allInformation.getMemoryInformation());
         initCPU(allInformation.getCpuInformation());
@@ -204,7 +215,7 @@ public class ScanAllController implements Initializable {
         List<Disk> disks = disksInformation.getDisks();
         if (disks != null) {
             for (Disk disk : disks) {
-                if(disk.getTotalSpace() != 0L)
+                if (disk.getTotalSpace() != 0L)
                     addDiskBox(disk);
             }
         }
@@ -248,4 +259,7 @@ public class ScanAllController implements Initializable {
 
     }
 
+    public void updateInformations(List<AllInformation> all) {
+        this.allInformationList = all;
+    }
 }
