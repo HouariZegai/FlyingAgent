@@ -4,6 +4,7 @@ import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controllers.table_models.NetworkTable;
 import information.*;
+import jade.util.leap.Iterator;
 import jade.wrapper.AgentController;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -11,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
@@ -59,6 +61,7 @@ public class ScanAllController implements Initializable {
     private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
+    private jade.util.leap.List locationsJade;
 
     public static Double humanReadableByteCountTwo(long bytes) {
         int unit = 1024;
@@ -66,6 +69,24 @@ public class ScanAllController implements Initializable {
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         String pre = "kMGTPE".charAt(exp - 1) + "";
         return Double.valueOf(new DecimalFormat("##.##").format(bytes / Math.pow(unit, exp)));
+    }
+
+    public void updateLocation(jade.util.leap.List locations) {
+        this.locationsJade = locations;
+        Iterator ite = locationsJade.iterator();
+
+        listLocation.getItems().clear();
+        while (ite.hasNext()) {
+            StackPane stackPane = new StackPane();
+
+            Label lbl = new Label(ite.next().toString());
+            ImageView pcIcon = new ImageView(new Image("/resources/images/pc.png"));
+            stackPane.getChildren().addAll(lbl, pcIcon);
+            stackPane.setAlignment(lbl, Pos.CENTER_LEFT);
+            stackPane.setAlignment(pcIcon, Pos.CENTER_RIGHT);
+            listLocation.getItems().add(stackPane);
+        }
+
     }
 
     @Override
@@ -83,7 +104,6 @@ public class ScanAllController implements Initializable {
     }
 
     private void updateScreen(AllInformation allInformation) {
-        spinnerMoreInfo.setVisible(false);
         initOS(allInformation.getOsInformation());
         initMemoryChart(allInformation.getMemoryInformation());
         initCPU(allInformation.getCpuInformation());
@@ -239,4 +259,7 @@ public class ScanAllController implements Initializable {
 
     }
 
+    public void updateInformations(List<AllInformation> all) {
+        this.allInformationList = all;
+    }
 }

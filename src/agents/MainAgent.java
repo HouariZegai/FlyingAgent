@@ -112,7 +112,7 @@ public class MainAgent extends Agent {
         System.out.println("Update Location called");
         if (scanEachController != null) {
             Platform.runLater(() -> scanEachController.updateLocation(items));
-        }else System.out.println("ScanEach is null");
+        } else System.out.println("ScanEach is null");
         addBehaviour(agentObjectBehaviour);
     }
 
@@ -230,10 +230,11 @@ public class MainAgent extends Agent {
 
         private void handleScanAll(ACLMessage content) {
             System.out.println("Response From Mobile About Scan All");
+            scanAllController.updateLocation(availableLocations);
             try {
                 @SuppressWarnings("unchecked")
                 java.util.List<AllInformation> all = (java.util.List<AllInformation>) content.getContentObject();
-
+                scanAllController.updateInformations(all);
             } catch (UnreadableException e) {
                 e.printStackTrace();
             }
