@@ -1,3 +1,5 @@
+package main;
+
 import information.AllInformation;
 
 public class Main {

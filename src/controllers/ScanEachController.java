@@ -14,11 +14,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import main.Launcher;
 import models.Message;
 
 import java.io.IOException;
@@ -49,6 +52,8 @@ public class ScanEachController implements Initializable {
 
     private java.util.List<String> stringLocationList;
 
+    private Parent mainView;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         toastMsg = new JFXSnackbar(root);
@@ -69,6 +74,12 @@ public class ScanEachController implements Initializable {
             listLocation.setExpanded(true);
             listLocation.depthProperty().set(3);
         });
+        // Load main.Main View
+        try {
+            mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     public void updateLocation(List locations) {
@@ -131,5 +142,11 @@ public class ScanEachController implements Initializable {
         detailPCController.updateScreen(all);
         spinnerDetails.setVisible(false);
         dialogDetailPC.show();
+    }
+
+    @FXML // back to main (back to select scan type)
+    private void onBack() {
+        Launcher.stage.setScene(new Scene(mainView));
+        Launcher.centerOnScreen();
     }
 }

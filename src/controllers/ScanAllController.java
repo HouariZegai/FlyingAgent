@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -23,17 +24,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import main.Launcher;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class ScanAllController implements Initializable {
 
     List<AllInformation> allInformationList;
-    private AgentController mainController;
+
     @FXML
     private JFXListView<StackPane> listLocation;
     /* OS information */
@@ -61,15 +62,10 @@ public class ScanAllController implements Initializable {
     private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
+
     private jade.util.leap.List locationsJade;
 
-    public static Double humanReadableByteCountTwo(long bytes) {
-        int unit = 1024;
-        if (bytes < unit) return (double) bytes;
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = "kMGTPE".charAt(exp - 1) + "";
-        return Double.valueOf(new DecimalFormat("##.##").format(bytes / Math.pow(unit, exp)));
-    }
+    private Parent mainView;
 
     public void updateLocation(jade.util.leap.List locations) {
         this.locationsJade = locations;
@@ -92,7 +88,6 @@ public class ScanAllController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resources) {
         initNetworkTable(); // Init network info (table)
-
         listLocation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             listLocation.setExpanded(true);
             listLocation.depthProperty().set(3);
@@ -101,6 +96,12 @@ public class ScanAllController implements Initializable {
             if (selectedIndex >= 0)
                 updateScreen(allInformationList.get(selectedIndex));
         });
+        // Load main.Main View
+        try {
+            mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
     private void updateScreen(AllInformation allInformation) {
@@ -254,12 +255,16 @@ public class ScanAllController implements Initializable {
         }
     }
 
-
     public void setMainAgentController(AgentController mainController) {
-
     }
 
     public void updateInformations(List<AllInformation> all) {
         this.allInformationList = all;
+    }
+
+    @FXML // back to main (back to select scan type)
+    private void onBack() {
+        Launcher.stage.setScene(new Scene(mainView));
+        Launcher.centerOnScreen();
     }
 }
