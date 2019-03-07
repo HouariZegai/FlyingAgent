@@ -33,7 +33,7 @@
                         <Label styleClass="title" text="Flying Agents in All PCs" />
                     </children>
                 </HBox>
-                <JFXButton fx:id="onBack" contentDisplay="RIGHT" prefWidth="104.0" style="-fx-pref-width: 100;" styleClass="btn" text="Back" StackPane.alignment="TOP_RIGHT">
+                <JFXButton onAction="#onBack" contentDisplay="RIGHT" prefWidth="104.0" style="-fx-pref-width: 100;" styleClass="btn" text="Back" StackPane.alignment="TOP_RIGHT">
                     <graphic>
                         <FontAwesomeIconView fill="#eeeeee" glyphName="SIGN_OUT" size="25" styleClass="btn" />
                     </graphic>

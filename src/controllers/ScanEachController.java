@@ -74,12 +74,6 @@ public class ScanEachController implements Initializable {
             listLocation.setExpanded(true);
             listLocation.depthProperty().set(3);
         });
-        // Load main.Main View
-        try {
-            mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
     }
 
     public void updateLocation(List locations) {
@@ -146,6 +140,12 @@ public class ScanEachController implements Initializable {
 
     @FXML // back to main (back to select scan type)
     private void onBack() {
+        // Load main.Main View
+        try {
+            mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
         Launcher.stage.setScene(new Scene(mainView));
         Launcher.centerOnScreen();
     }

@@ -31,7 +31,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -69,14 +68,6 @@ public class DetailPCController implements Initializable {
     private JFXSpinner spinnerMoreInfo;
     @FXML
     private TextArea areaMoreInfo;
-
-    public static Double humanReadableByteCountTwo(long bytes) {
-        int unit = 1024;
-        if (bytes < unit) return (double) bytes;
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = "kMGTPE".charAt(exp - 1) + "";
-        return Double.valueOf(new DecimalFormat("##.##").format(bytes / Math.pow(unit, exp)));
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {

@@ -96,12 +96,6 @@ public class ScanAllController implements Initializable {
             if (selectedIndex >= 0)
                 updateScreen(allInformationList.get(selectedIndex));
         });
-        // Load main.Main View
-        try {
-            mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
-        } catch(IOException ioe) {
-            ioe.printStackTrace();
-        }
     }
 
     private void updateScreen(AllInformation allInformation) {
@@ -264,6 +258,12 @@ public class ScanAllController implements Initializable {
 
     @FXML // back to main (back to select scan type)
     private void onBack() {
+        // Load main.Main View
+        try {
+            mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
+        }
         Launcher.stage.setScene(new Scene(mainView));
         Launcher.centerOnScreen();
     }
