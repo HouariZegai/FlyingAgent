@@ -88,7 +88,6 @@ public class ScanAllController implements Initializable {
             stackPane.setAlignment(pcIcon, Pos.CENTER_RIGHT);
             listLocation.getItems().add(stackPane);
         }
-
     }
 
     @Override
@@ -259,11 +258,11 @@ public class ScanAllController implements Initializable {
     }
 
     public void updateInformations(List<AllInformation> all) {
-        detailPane.setVisible(true);
-        loadingPB.setVisible(false);
         this.allInformationList = all;
         Platform.runLater(() -> {
             listLocation.getSelectionModel().selectFirst();
+            loadingPB.setVisible(false);
+            detailPane.setVisible(true);
         });
 
         //updateScreen(allInformationList.get(0));

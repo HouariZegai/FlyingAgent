@@ -12,6 +12,7 @@ public class Message {
     public static final int REFRESH_REQUEST = 213123;
     public static final int ASK_REQUEST = 2113;
     public static final int SCAN_ALL_REQUEST = 22421;
+    public static final int GO_BACK = 121;
     public static final String KEY_LOCATION = "KEYLOCATION";
     private Map<String, Object> parameters;
     private int requestType;

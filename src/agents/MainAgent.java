@@ -1,6 +1,7 @@
 package agents;
 
 // import classes
+
 import behaviours.GetLocationsBehaviour;
 import com.google.gson.Gson;
 import controllers.DetailPCController;
@@ -97,11 +98,18 @@ public class MainAgent extends Agent {
             case Message.SCAN_ALL_REQUEST:
                 askScanAll();
                 break;
+            case Message.GO_BACK:
+                askGoBack();
+                break;
         }
     }
 
     private void askScanAll() {
         addBehaviour(new AskScanAllBehavior());
+    }
+
+    private void askGoBack() {
+        addBehaviour(new AskGoBackBehavior());
     }
 
     private void askMoreInfo() {
@@ -239,6 +247,49 @@ public class MainAgent extends Agent {
             } catch (UnreadableException e) {
                 e.printStackTrace();
             }
+            status = DONE;
+        }
+
+        @Override
+        public boolean done() {
+            return status == DONE;
+        }
+    }
+
+    private class AskGoBackBehavior extends Behaviour {
+        private static final int ASK = 0;
+        private static final int RESPONSE = 1;
+        private static final int DONE = 2;
+        private int status = ASK;
+        private MessageTemplate template;
+
+        @Override
+        public void action() {
+            switch (status) {
+                case ASK:
+                    ACLMessage message = new ACLMessage(ACLMessage.CANCEL);
+                    message.setConversationId(String.valueOf(System.currentTimeMillis()));
+                    message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+                    template = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
+                            MessageTemplate.MatchConversationId(message.getConversationId()));
+                    send(message);
+                    status = RESPONSE;
+                    break;
+                case RESPONSE:
+                    ACLMessage receivedMessage = receive(template);
+                    if (receivedMessage != null) {
+                        handleAfterMoving(receivedMessage);
+                    } else {
+                        block();
+                    }
+                    break;
+            }
+        }
+
+        private void handleAfterMoving(ACLMessage content) {
+            System.out.println("Back to main container");
+            scanAllController.updateLocation(availableLocations);
+            Platform.runLater(() -> scanEachController.back());
             status = DONE;
         }
 

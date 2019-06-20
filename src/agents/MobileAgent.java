@@ -49,6 +49,7 @@ public class MobileAgent extends Agent {
         if (status == ONE) {
             sendBasicInformation();
         } else if (status == BACK) {
+            sendACKForBack();
             status = ONE;
         } else if (status == SCAN) {
             System.out.println(" Scan Process established.");
@@ -56,8 +57,16 @@ public class MobileAgent extends Agent {
         }
     }
 
-    private void goBack() {
+    private void sendACKForBack() {
+        ACLMessage msg = new ACLMessage(ACLMessage.AGREE);
+        msg.addReceiver(stableAgent);
+        msg.setConversationId(currentConversationId);
+        send(msg);
+    }
+
+    private void goBack(ACLMessage message) {
         status = BACK;
+        currentConversationId = message.getConversationId();
         doMove(mainContainer);
     }
 
@@ -162,7 +171,7 @@ public class MobileAgent extends Agent {
                         break;
                     case ACLMessage.CANCEL:
                         status = ONE;
-                        goBack();
+                        goBack(message);
                         break;
                 }
             } else block();

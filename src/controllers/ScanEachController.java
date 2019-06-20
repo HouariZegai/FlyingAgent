@@ -43,7 +43,7 @@ public class ScanEachController implements Initializable {
     @FXML
     private JFXSpinner spinnerDetails;
 
-    public static JFXDialog dialogDetailPC;
+    static JFXDialog dialogDetailPC;
 
     private JFXSnackbar toastMsg;
 
@@ -67,9 +67,7 @@ public class ScanEachController implements Initializable {
         }
         detailPCController = detailsLoader.getController();
         MainAgent.setDetailController(detailPCController);
-        dialogDetailPC.setOnDialogClosed(e -> {
-            listLocation.getSelectionModel().clearSelection();
-        });
+        dialogDetailPC.setOnDialogClosed(e -> listLocation.getSelectionModel().clearSelection());
         listLocation.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             listLocation.setExpanded(true);
             listLocation.depthProperty().set(3);
@@ -141,9 +139,18 @@ public class ScanEachController implements Initializable {
     @FXML // back to main (back to select scan type)
     private void onBack() {
         // Load main.Main View
+        Message message = new Message(null, Message.GO_BACK);
+        try {
+            mainController.putO2AObject(message, AgentController.ASYNC);
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void back() {
         try {
             mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
-        } catch(IOException ioe) {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
         Launcher.stage.setScene(new Scene(mainView));
