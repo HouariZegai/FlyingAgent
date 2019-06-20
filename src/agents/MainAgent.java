@@ -59,7 +59,6 @@ public class MainAgent extends Agent {
         setEnabledO2ACommunication(true, 0);
         getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
         getContentManager().registerOntology(MobilityOntology.getInstance());
-
         addBehaviour(new GetLocationsBehaviour(this));
     }
 
@@ -72,7 +71,7 @@ public class MainAgent extends Agent {
     private void askForMoving(Location location) {
         System.out.println("The ask For moving was called with location: " + location.toString());
         ACLMessage message = new ACLMessage(ACLMessage.QUERY_IF);
-        message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+        message.addReceiver(new AID(MobileAgent.NAME, AID.ISLOCALNAME));
         addBehaviour(agentObjectBehaviour);
         addBehaviour(oneReceiveBehavior);
         try {
@@ -172,7 +171,7 @@ public class MainAgent extends Agent {
                 case ASK:
                     ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
                     message.setConversationId(String.valueOf(System.currentTimeMillis()));
-                    message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+                    message.addReceiver(new AID(MobileAgent.NAME, AID.ISLOCALNAME));
                     template = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
                             MessageTemplate.MatchConversationId(message.getConversationId()));
                     send(message);
@@ -214,7 +213,7 @@ public class MainAgent extends Agent {
                 case ASK:
                     ACLMessage message = new ACLMessage(ACLMessage.CFP);
                     message.setConversationId(String.valueOf(System.currentTimeMillis()));
-                    message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+                    message.addReceiver(new AID(MobileAgent.NAME, AID.ISLOCALNAME));
                     try {
                         message.setContentObject((Serializable) availableLocations);
                         System.out.println("Adding locations successfully.");
@@ -269,7 +268,7 @@ public class MainAgent extends Agent {
                 case ASK:
                     ACLMessage message = new ACLMessage(ACLMessage.CANCEL);
                     message.setConversationId(String.valueOf(System.currentTimeMillis()));
-                    message.addReceiver(new AID("Service-Agent", AID.ISLOCALNAME));
+                    message.addReceiver(new AID(MobileAgent.NAME, AID.ISLOCALNAME));
                     template = MessageTemplate.and(MessageTemplate.MatchPerformative(ACLMessage.AGREE),
                             MessageTemplate.MatchConversationId(message.getConversationId()));
                     send(message);

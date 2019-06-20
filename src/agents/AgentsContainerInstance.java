@@ -48,7 +48,7 @@ public class AgentsContainerInstance {
             mainController = receiverAgent;
             AgentController rma = mc.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
             //rma.start();
-            AgentController mobileAgent = mc.createNewAgent("Service-Agent", MobileAgent.class.getName(), new Object[]{});
+            AgentController mobileAgent = mc.createNewAgent(MobileAgent.NAME, MobileAgent.class.getName(), new Object[]{});
             mobileAgent.start();
 
             ScanEachController scanEachController = scanEachLoader.getController();

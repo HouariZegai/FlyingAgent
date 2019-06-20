@@ -49,10 +49,11 @@ public class MobileAgent extends Agent {
         if (status == ONE) {
             sendBasicInformation();
         } else if (status == BACK) {
+            currentLocation = here();
             sendACKForBack();
             status = ONE;
         } else if (status == SCAN) {
-            System.out.println(" Scan Process established.");
+            System.out.println("Scan Process established.");
             scanAllAfterMoveProcess();
         }
     }
@@ -66,11 +67,15 @@ public class MobileAgent extends Agent {
 
     private void goBack(ACLMessage message) {
         status = BACK;
+        System.out.println("Go back called in method");
         currentConversationId = message.getConversationId();
-        if (currentLocation == mainContainer)
+        if (currentLocation.getAddress().equals(mainContainer.getAddress())) {
+            System.out.println("Go back called cuurent equal main " + currentLocation.getAddress());
             sendACKForBack();
-        else
+        } else {
+            System.out.println("Go back called cuurent equal not main " + currentLocation.getAddress());
             doMove(mainContainer);
+        }
     }
 
     private void scanAllAfterMoveProcess() {
@@ -145,8 +150,9 @@ public class MobileAgent extends Agent {
         }
         if (allLocations.size() > 1)
             doMove((Location) allLocations.get(index));
-        else
-            System.out.println("Can't Visit Because One Station is Alive only.");
+        else {
+            scanAllAfterMoveProcess();
+        }
     }
 
     public class ServeMovingMessages extends CyclicBehaviour {
@@ -174,6 +180,7 @@ public class MobileAgent extends Agent {
                         break;
                     case ACLMessage.CANCEL:
                         status = ONE;
+                        System.out.println("Go back called");
                         goBack(message);
                         break;
                 }
