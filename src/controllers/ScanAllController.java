@@ -6,6 +6,7 @@ import controllers.table_models.NetworkTable;
 import information.*;
 import jade.util.leap.Iterator;
 import jade.wrapper.AgentController;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import main.Launcher;
 
 import java.io.IOException;
@@ -33,8 +35,12 @@ import java.util.ResourceBundle;
 
 public class ScanAllController implements Initializable {
 
+    @FXML
+    public JFXSpinner loadingPB;
     List<AllInformation> allInformationList;
 
+    @FXML
+    public VBox detailPane;
     @FXML
     private JFXListView<StackPane> listLocation;
     /* OS information */
@@ -253,7 +259,14 @@ public class ScanAllController implements Initializable {
     }
 
     public void updateInformations(List<AllInformation> all) {
+        detailPane.setVisible(true);
+        loadingPB.setVisible(false);
         this.allInformationList = all;
+        Platform.runLater(() -> {
+            listLocation.getSelectionModel().selectFirst();
+        });
+
+        //updateScreen(allInformationList.get(0));
     }
 
     @FXML // back to main (back to select scan type)
@@ -261,7 +274,7 @@ public class ScanAllController implements Initializable {
         // Load main.Main View
         try {
             mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
-        } catch(IOException ioe) {
+        } catch (IOException ioe) {
             ioe.printStackTrace();
         }
         Launcher.stage.setScene(new Scene(mainView));
