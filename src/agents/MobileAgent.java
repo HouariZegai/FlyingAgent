@@ -67,7 +67,10 @@ public class MobileAgent extends Agent {
     private void goBack(ACLMessage message) {
         status = BACK;
         currentConversationId = message.getConversationId();
-        doMove(mainContainer);
+        if (currentLocation == mainContainer)
+            sendACKForBack();
+        else
+            doMove(mainContainer);
     }
 
     private void scanAllAfterMoveProcess() {
@@ -106,7 +109,7 @@ public class MobileAgent extends Agent {
     private void handleMovingRequest(ACLMessage message) {
         try {
             Location newLocation = (Location) message.getContentObject();
-            if (newLocation != null && currentLocation != null && newLocation.getAddress().equals(currentLocation.getAddress())) {
+            if (newLocation != null && newLocation.getAddress().equals(mainContainer.getAddress())) {
                 sendBasicInformation();
             } else {
                 Location location = (Location) message.getContentObject();

@@ -136,9 +136,8 @@ public class ScanEachController implements Initializable {
         dialogDetailPC.show();
     }
 
-    @FXML // back to main (back to select scan type)
+    @FXML
     private void onBack() {
-        // Load main.Main View
         Message message = new Message(null, Message.GO_BACK);
         try {
             mainController.putO2AObject(message, AgentController.ASYNC);
