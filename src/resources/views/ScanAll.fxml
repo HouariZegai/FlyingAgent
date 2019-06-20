@@ -54,7 +54,7 @@
     <center>
         <StackPane BorderPane.alignment="CENTER">
             <children>
-                <JFXSpinner fx:id="loadingPB" prefHeight="35.0" prefWidth="35.0"/>
+                <JFXSpinner fx:id="loadingPB" prefHeight="35.0" prefWidth="35.0" maxWidth="35.0" maxHeight="35.0"/>
                 <VBox visible="false" fx:id="detailPane" prefHeight="600.0" prefWidth="900.0" stylesheets="@../css/detail-pc.css">
                     <children>
                         <StackPane>
