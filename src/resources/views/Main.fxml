@@ -1,54 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 
-<StackPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #FFF;" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
+<HBox alignment="CENTER" spacing="20.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainController">
    <children>
-      <VBox alignment="TOP_CENTER" maxWidth="-Infinity" spacing="110.0">
+      <VBox alignment="CENTER" maxWidth="-Infinity" spacing="70.0">
          <children>
-            <Label styleClass="title" text="SELECT TYPE OF SCAN" />
-            <HBox spacing="150.0">
+            <VBox spacing="20.0">
                <children>
-                  <StackPane prefHeight="249.0" prefWidth="261.0" onMouseClicked="#onScanAll" styleClass="cards">
-                     <children>
-                        <VBox alignment="TOP_CENTER" spacing="5.0">
-                           <children>
-                              <ImageView fitHeight="184.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/main/scan-all.png" />
-                                 </image>
-                              </ImageView>
-                              <Label styleClass="cards-title" text="SCAN ALL PCs" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </StackPane>
-                  <StackPane prefHeight="249.0" prefWidth="261.0" onMouseClicked="#onScanEach" styleClass="cards">
-                     <children>
-                        <VBox alignment="TOP_CENTER" spacing="5.0">
-                           <children>
-                              <ImageView fitHeight="184.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/main/scan-all.png" />
-                                 </image>
-                              </ImageView>
-                              <Label styleClass="cards-title" text="SCAN EACH PC" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </StackPane>
+                  <Label styleClass="title" text="Flying Agent" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txt-desc" text="Develop a desktop application that use agents to get all the information about the PC's neighboring it." wrappingWidth="393.337890625" />
+               </children>
+            </VBox>
+            <HBox spacing="20.0">
+               <children>
+                  <JFXButton onAction="#onScanAll" styleClass="btn" text="SCAN ALL PCs" />
+                  <JFXButton onAction="#onScanEach" styleClass="btn" text="SCAN Each PCs" />
                </children>
             </HBox>
          </children>
-         <StackPane.margin>
-            <Insets top="60.0" />
-         </StackPane.margin>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin>
+         <padding>
+            <Insets bottom="100.0" left="20.0" />
+         </padding>
       </VBox>
+      <ImageView fitHeight="575.0" fitWidth="533.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/main/18908.png" />
+         </image>
+      </ImageView>
    </children>
-</StackPane>
+   <padding>
+      <Insets bottom="90.0" left="20.0" top="100.0" />
+   </padding>
+</HBox>
