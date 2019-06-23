@@ -36,7 +36,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void onScanAll(MouseEvent event) {
+    private void onScanAll() {
         sendMessage(Message.REFRESH_REQUEST);
         sendMessage(Message.SCAN_ALL_REQUEST);
         Launcher.stage.setScene(new Scene(scanAllView));
@@ -44,7 +44,7 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    private void onScanEach(MouseEvent event) {
+    private void onScanEach() {
         sendMessage(Message.REFRESH_REQUEST);
         Launcher.stage.setScene(new Scene(scanEachView));
         Launcher.centerOnScreen();
