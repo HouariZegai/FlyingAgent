@@ -1,4 +1,4 @@
-package information;
+package models.information;
 
 public final class Utils {
 

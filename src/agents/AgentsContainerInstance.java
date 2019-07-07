@@ -11,6 +11,11 @@ import jade.wrapper.StaleProxyException;
 import javafx.fxml.FXMLLoader;
 import utils.Constants;
 
+
+/**
+ * This is a Singleton Class that is responsible for creation
+ * of the agents and hold reference to them.
+ */
 public class AgentsContainerInstance {
 
     private static AgentController mainController;

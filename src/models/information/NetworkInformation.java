@@ -1,4 +1,4 @@
-package information;
+package models.information;
 
 import java.io.Serializable;
 import java.net.InetAddress;

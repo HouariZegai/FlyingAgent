@@ -1,6 +1,4 @@
-package information;
-
-import com.google.gson.Gson;
+package models.information;
 
 import java.io.Serializable;
 

@@ -1,8 +1,8 @@
-package information;
+package models.information;
 
 import java.io.Serializable;
 
-import static information.Utils.humanReadableByteCount;
+import static models.information.Utils.humanReadableByteCount;
 
 public class Disk extends Information implements Serializable {
 

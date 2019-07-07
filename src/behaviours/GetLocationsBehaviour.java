@@ -1,6 +1,5 @@
 package behaviours;
 
-// import classes
 import agents.MainAgent;
 import jade.content.onto.basic.Action;
 import jade.content.onto.basic.Result;
@@ -10,7 +9,10 @@ import jade.domain.mobility.MobilityOntology;
 import jade.lang.acl.ACLMessage;
 import jade.proto.SimpleAchieveREInitiator;
 
-
+/**
+ * behaviour to get the location attached with
+ * the main container.
+ */
 public class GetLocationsBehaviour extends SimpleAchieveREInitiator {
 
     public GetLocationsBehaviour(MainAgent a) {

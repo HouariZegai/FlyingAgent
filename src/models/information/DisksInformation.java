@@ -1,4 +1,4 @@
-package information;
+package models.information;
 
 import java.io.File;
 import java.io.Serializable;

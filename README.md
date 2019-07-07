@@ -10,7 +10,7 @@ Say that we have a mobile agent that moves on a platform distributed on 3 machin
 We will use extensively the Jade Platform which allows us to create agents, make platforms, and run them on different machines and various platform, here is a link to the official jade [website](http://jade.tilab.com/).
 
 ## What we will be doing 🔌
-Alongside recovering mac address of each machine, we will develop a desktop application that use agents to get all the information about the PC's neighboring it, like CPU, operating system and basics information.
+Alongside recovering mac address of each machine, we will develop a desktop application that use agents to get all the models.information about the PC's neighboring it, like CPU, operating system and basics models.information.
 
 ## Contributing
 If you want to contribute to this project and make it better with new ideas, your help is very welcome. for this moment pull request are not allowed, just the issues section will be allowed until the project is done.

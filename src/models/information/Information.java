@@ -1,4 +1,4 @@
-package information;
+package models.information;
 
 import com.google.gson.Gson;
 

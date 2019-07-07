@@ -16,7 +16,7 @@
             <VBox spacing="20.0">
                <children>
                   <Label styleClass="title" text="Flying Agent" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txt-desc" text="Develop a desktop application that use agents to get all the information about the PC's neighboring it." wrappingWidth="393.337890625" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txt-desc" text="Develop a desktop application that use agents to get all the models.information about the PC's neighboring it." wrappingWidth="393.337890625" />
                </children>
             </VBox>
             <HBox spacing="20.0">

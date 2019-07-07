@@ -5,7 +5,7 @@ import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSpinner;
-import information.AllInformation;
+import models.information.AllInformation;
 import jade.util.leap.Iterator;
 import jade.util.leap.List;
 import jade.wrapper.AgentController;

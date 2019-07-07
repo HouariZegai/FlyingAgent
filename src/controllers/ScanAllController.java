@@ -3,7 +3,7 @@ package controllers;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controllers.table_models.NetworkTable;
-import information.*;
+import models.information.*;
 import jade.util.leap.Iterator;
 import jade.wrapper.AgentController;
 import javafx.application.Platform;
@@ -43,24 +43,24 @@ public class ScanAllController implements Initializable {
     public VBox detailPane;
     @FXML
     private JFXListView<StackPane> listLocation;
-    /* OS information */
+    /* OS models.information */
     @FXML
     private Label lblOSName, lblOSVersion, lblOSArchi, lblOSUsername, lblOSComputerName;
     @FXML
     private ImageView iconOs;
-    /* CPU information */
+    /* CPU models.information */
     @FXML
     private Label lblCPUId, lblCPUArchi, lblCPUNumCores;
     @FXML
     private ImageView iconCpu;
-    /* Memory information */
+    /* Memory models.information */
     @FXML
     private PieChart pieMemory;
-    /* Network information */
+    /* Network models.information */
     @FXML
     private JFXTreeTableView<NetworkTable> tableNetwork;
     private JFXTreeTableColumn<NetworkTable, String> colName, colIP, colMAC;
-    // Disks information
+    // Disks models.information
     @FXML
     private HBox boxContainerDisks;
     /* More infos */
@@ -268,9 +268,8 @@ public class ScanAllController implements Initializable {
         //updateScreen(allInformationList.get(0));
     }
 
-    @FXML // back to main (back to select scan type)
+    @FXML
     private void onBack() {
-        // Load main.Main View
         try {
             mainView = FXMLLoader.load(getClass().getResource("/resources/views/Main.fxml"));
         } catch (IOException ioe) {

@@ -6,7 +6,7 @@ import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import controllers.table_models.NetworkTable;
-import information.*;
+import models.information.*;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
 import javafx.beans.binding.Bindings;
@@ -36,27 +36,27 @@ import java.util.ResourceBundle;
 
 public class DetailPCController implements Initializable {
 
-    /* OS information */
+    /* OS models.information */
     @FXML
     private Label lblOSName, lblOSVersion, lblOSArchi, lblOSUsername, lblOSComputerName;
     @FXML
     private ImageView iconOs;
 
-    /* CPU information */
+    /* CPU models.information */
     @FXML
     private Label lblCPUId, lblCPUArchi, lblCPUNumCores;
     @FXML
     private ImageView iconCpu;
 
-    /* Memory information */
+    /* Memory models.information */
     @FXML
     private PieChart pieMemory;
 
-    // Network information
+    // Network models.information
     @FXML
     private JFXTreeTableView<NetworkTable> tableNetwork;
 
-    // Disks information
+    // Disks models.information
     @FXML
     private HBox boxContainerDisks;
 

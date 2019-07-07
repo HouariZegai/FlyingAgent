@@ -1,11 +1,11 @@
-package information;
+package models.information;
 
 import com.sun.management.OperatingSystemMXBean;
 
 import java.io.Serializable;
 import java.lang.management.ManagementFactory;
 
-import static information.Utils.humanReadableByteCount;
+import static models.information.Utils.humanReadableByteCount;
 
 public class MemoryInformation extends Information implements Serializable {
 

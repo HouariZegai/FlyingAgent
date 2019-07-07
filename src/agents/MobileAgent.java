@@ -1,13 +1,12 @@
 package agents;
 
-import information.AllInformation;
-import information.RawInformation;
+import models.information.AllInformation;
+import models.information.RawInformation;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.Location;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
@@ -15,12 +14,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Agent responsible for moving between Containers and
+ * get back some information.
+ */
 public class MobileAgent extends Agent {
 
-    public static final String NAME = "MobileAgent";
-    private static final int SCAN = 177;
-    private static final int ONE = 179;
-    private static final int BACK = 7718;
+    static final String NAME = "MobileAgent";
+    private static final int SCAN_ALL = 177;
+    private static final int SCAN_ONE = 179;
+    private static final int GO_BACK = 7718;
     private AID stableAgent = new AID(MainAgent.NAME, AID.ISLOCALNAME);
     private Location currentLocation;
     private Location mainContainer;
@@ -46,18 +50,19 @@ public class MobileAgent extends Agent {
     @Override
     protected void afterMove() {
         System.out.println("Agent moved and status = " + status);
-        if (status == ONE) {
+        if (status == SCAN_ONE) {
             sendBasicInformation();
-        } else if (status == BACK) {
+        } else if (status == GO_BACK) {
             currentLocation = here();
             sendACKForBack();
-            status = ONE;
-        } else if (status == SCAN) {
+            status = SCAN_ONE;
+        } else if (status == SCAN_ALL) {
             System.out.println("Scan Process established.");
             scanAllAfterMoveProcess();
         }
     }
 
+    // tell the main agent that i'm backed
     private void sendACKForBack() {
         ACLMessage msg = new ACLMessage(ACLMessage.AGREE);
         msg.addReceiver(stableAgent);
@@ -65,19 +70,21 @@ public class MobileAgent extends Agent {
         send(msg);
     }
 
+    // process need to be done in order to go back.
     private void goBack(ACLMessage message) {
-        status = BACK;
+        status = GO_BACK;
         System.out.println("Go back called in method");
         currentConversationId = message.getConversationId();
         if (currentLocation.getAddress().equals(mainContainer.getAddress())) {
-            System.out.println("Go back called cuurent equal main " + currentLocation.getAddress());
+            System.out.println("Go back called current equal main " + currentLocation.getAddress());
             sendACKForBack();
         } else {
-            System.out.println("Go back called cuurent equal not main " + currentLocation.getAddress());
+            System.out.println("Go back called current equal not main " + currentLocation.getAddress());
             doMove(mainContainer);
         }
     }
 
+    // scan all process
     private void scanAllAfterMoveProcess() {
         AllInformation allInformation = new AllInformation();
         this.allInformation.add(allInformation);
@@ -85,7 +92,7 @@ public class MobileAgent extends Agent {
             System.out.println(this.allInformation.toString());
             addBehaviour(movingMessagesBehaviour);
             sendScanAllInformation();
-            status = ONE;
+            status = SCAN_ONE;
         } else {
             doMove((Location) allLocations.get(++index));
         }
@@ -139,7 +146,7 @@ public class MobileAgent extends Agent {
     private void handleVisitAll(ACLMessage message) {
         currentConversationId = message.getConversationId();
         removeBehaviour(movingMessagesBehaviour);
-        status = SCAN;
+        status = SCAN_ALL;
         allInformation.clear();
         index = 0;
         try {
@@ -155,10 +162,11 @@ public class MobileAgent extends Agent {
         }
     }
 
+    /**
+     * behaviour for receiving message and serve them based
+     * on their request.
+     */
     public class ServeMovingMessages extends CyclicBehaviour {
-
-        private MessageTemplate template = MessageTemplate.or(MessageTemplate.or(MessageTemplate.MatchPerformative(ACLMessage.QUERY_IF),
-                MessageTemplate.MatchPerformative(ACLMessage.REQUEST)), MessageTemplate.MatchPerformative(ACLMessage.CFP));
 
         @Override
         public void action() {
@@ -166,20 +174,20 @@ public class MobileAgent extends Agent {
             if (message != null) {
                 switch (message.getPerformative()) {
                     case ACLMessage.QUERY_IF:
-                        status = ONE;
+                        status = SCAN_ONE;
                         handleMovingRequest(message);
                         break;
                     case ACLMessage.REQUEST:
-                        status = ONE;
+                        status = SCAN_ONE;
                         handleRawInfo(message);
                         break;
                     case ACLMessage.CFP:
-                        status = SCAN;
+                        status = SCAN_ALL;
                         System.out.println("Scan status.");
                         handleVisitAll(message);
                         break;
                     case ACLMessage.CANCEL:
-                        status = ONE;
+                        status = SCAN_ONE;
                         System.out.println("Go back called");
                         goBack(message);
                         break;

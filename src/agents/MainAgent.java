@@ -1,13 +1,11 @@
 package agents;
 
-// import classes
-
 import behaviours.GetLocationsBehaviour;
 import com.google.gson.Gson;
 import controllers.DetailPCController;
 import controllers.ScanAllController;
 import controllers.ScanEachController;
-import information.AllInformation;
+import models.information.AllInformation;
 import jade.content.lang.sl.SLCodec;
 import jade.core.AID;
 import jade.core.Agent;
@@ -27,26 +25,30 @@ import java.io.IOException;
 import java.io.Serializable;
 
 
+/**
+ * Agent responsible for being the intermediary between
+ * the GUI and the mobile agent, it does take the action
+ * from the GUI and ask the mobile agent to do some work
+ * in order to complete a functionality.
+ */
 public class MainAgent extends Agent {
 
-    public static final String NAME = "WaiterAgent";
+    static final String NAME = "WaiterAgent";
     private static ScanAllController scanAllController;
     private static ScanEachController scanEachController;
     private static DetailPCController detailPCControllerA;
-
-    private Location currentLocation;
 
     private OneReceiveBehavior oneReceiveBehavior = new OneReceiveBehavior();
     private AgentObjectBehavior agentObjectBehaviour = new AgentObjectBehavior();
 
     private List availableLocations;
 
-    public static void setScanAllController(ScanAllController scanAllController) {
+    static void setScanAllController(ScanAllController scanAllController) {
         MainAgent.scanAllController = scanAllController;
         System.out.println("The scanAllController initilized");
     }
 
-    public static void setScanEachController(ScanEachController scanEachController) {
+    static void setScanEachController(ScanEachController scanEachController) {
         MainAgent.scanEachController = scanEachController;
     }
 
@@ -56,6 +58,7 @@ public class MainAgent extends Agent {
 
     @Override
     protected void setup() {
+        // enabling the object to agent communication.
         setEnabledO2ACommunication(true, 0);
         getContentManager().registerLanguage(new SLCodec(), FIPANames.ContentLanguage.FIPA_SL0);
         getContentManager().registerOntology(MobilityOntology.getInstance());
@@ -82,13 +85,14 @@ public class MainAgent extends Agent {
         send(message);
     }
 
+    // handle the message from the GUI.
     private void handleO2Object(Message message) {
         switch (message.getRequestType()) {
             case Message.REFRESH_REQUEST:
                 refreshLocation();
                 break;
             case Message.MOVE_REQUEST:
-                currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
+                Location currentLocation = (Location) message.getParameters().get(Message.KEY_LOCATION);
                 askForMoving(currentLocation);
                 break;
             case Message.ASK_REQUEST:
@@ -115,6 +119,7 @@ public class MainAgent extends Agent {
         addBehaviour(new AskMoreBehavior());
     }
 
+    // ask to update the location on the GUI
     public void updateLocations(List items) {
         availableLocations = items;
         System.out.println("Update Location called");
@@ -124,6 +129,10 @@ public class MainAgent extends Agent {
         addBehaviour(agentObjectBehaviour);
     }
 
+    /**
+     * behaviour to receive the message from the Mobile Agent
+     * and display them on the UI.
+     */
     private class OneReceiveBehavior extends CyclicBehaviour {
 
         MessageTemplate template = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
@@ -142,6 +151,9 @@ public class MainAgent extends Agent {
         }
     }
 
+    /**
+     * Behaviour for getting the message passed for Object Agent Communication.
+     */
     private class AgentObjectBehavior extends CyclicBehaviour {
         @Override
         public void action() {
@@ -158,6 +170,9 @@ public class MainAgent extends Agent {
         }
     }
 
+    /**
+     * behaviour to ask the mobile agent for extra information.
+     */
     private class AskMoreBehavior extends Behaviour {
         private static final int ASK = 0;
         private static final int RESPONSE = 1;
@@ -200,6 +215,9 @@ public class MainAgent extends Agent {
         }
     }
 
+    /**
+     * behaviour to ask the mobile agent to scan all the PC's in the network.
+     */
     private class AskScanAllBehavior extends Behaviour {
         private static final int ASK = 0;
         private static final int RESPONSE = 1;
@@ -255,6 +273,9 @@ public class MainAgent extends Agent {
         }
     }
 
+    /**
+     * behaviour to tell the mobile agent to get back to the main container.
+     */
     private class AskGoBackBehavior extends Behaviour {
         private static final int ASK = 0;
         private static final int RESPONSE = 1;
@@ -277,7 +298,7 @@ public class MainAgent extends Agent {
                 case RESPONSE:
                     ACLMessage receivedMessage = receive(template);
                     if (receivedMessage != null) {
-                        handleAfterMoving(receivedMessage);
+                        handleAfterMoving();
                     } else {
                         block();
                     }
@@ -285,7 +306,7 @@ public class MainAgent extends Agent {
             }
         }
 
-        private void handleAfterMoving(ACLMessage content) {
+        private void handleAfterMoving() {
             System.out.println("Back to main container");
             scanAllController.updateLocation(availableLocations);
             Platform.runLater(() -> scanEachController.back());
