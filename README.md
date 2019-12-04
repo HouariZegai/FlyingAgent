@@ -12,6 +12,21 @@ Alongside recovering mac address of each machine, we develop a desktop applicati
 ### Requirments ✅
 We use extensively the Jade Platform which allows us to create agents, make platforms, and run them on different machines and various platform, here is a link to the official jade [website](http://jade.tilab.com/).
 
+### Screenshots
+| Select type of scan |
+|:-------------:|
+| ![screenshots](screenshots/1.PNG) |
+| Scan each PC (Available Containers) |
+| ![screenshots](screenshots/2.PNG) |
+| Scan all PCs |
+| ![screenshots](screenshots/3.PNG) |
+| Scan all PCs (Disks details) |
+| ![screenshots](screenshots/4.PNG) |
+| Details of selected PC |
+| ![screenshots](screenshots/5.PNG) |
+| More details of selected PC |
+| ![screenshots](screenshots/6.PNG) |
+
 ### Used Technology
 * JavaFX.
 
